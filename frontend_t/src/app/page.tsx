@@ -1,27 +1,40 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Header from '@/components/Header'
-import Hero from '@/components/Hero'
-import FeaturedCourses from '@/components/FeaturedCourses'
-import Categories from '@/components/Categories'
-import Stats from '@/components/Stats'
 import Footer from '@/components/Footer'
+import Hero from '@/components/Hero'
+import FeaturedCourses from '@/components/sections/FeaturedCourses'
+import PopularVsNew from '@/components/sections/PopularVsNew'
+import LearningPaths from '@/components/sections/LearningPaths'
+import {
+  learningPaths,
+  getFeaturedCourses,
+  getPopularCourses,
+  getNewCourses
+} from '@/data/mockData'
 
-export default function Home() {
+export default function HomePage() {
+  const featuredCourses = getFeaturedCourses().slice(0, 3)
+  const popularCourses = getPopularCourses().slice(0, 3)
+  const newCourses = getNewCourses().slice(0, 3)
+  const featuredPaths = learningPaths.slice(0, 3)
+
   return (
-    <motion.main
-      className="min-h-screen bg-dark-950"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-    >
+    <div className="min-h-screen bg-gray-950">
       <Header />
+
       <Hero />
-      <FeaturedCourses />
-      <Categories />
-      <Stats />
+
+      <FeaturedCourses courses={featuredCourses} />
+
+      <PopularVsNew
+        popularCourses={popularCourses}
+        newCourses={newCourses}
+      />
+
+      <LearningPaths paths={featuredPaths} />
+
       <Footer />
-    </motion.main>
+    </div>
   )
 }
