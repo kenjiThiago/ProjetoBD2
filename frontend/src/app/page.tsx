@@ -2,10 +2,10 @@
 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import Hero from '@/components/Hero'
-import FeaturedCourses from '@/components/sections/FeaturedCourses'
-import PopularVsNew from '@/components/sections/PopularVsNew'
-import LearningPaths from '@/components/sections/LearningPaths'
+import Hero from '@/app/components/Hero'
+import FeaturedCourses from '@/app/components/FeaturedCourses'
+import PopularVsNew from '@/app/components/PopularVsNew'
+import LearningPaths from '@/app/components/LearningPaths'
 import {
   learningPaths,
   getFeaturedCourses,

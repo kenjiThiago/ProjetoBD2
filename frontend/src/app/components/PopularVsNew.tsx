@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { TrendingUp, Zap, BookOpen } from 'lucide-react'
-import CourseCard from '@/components/CourseCard'
+import CourseCard from '@/components/cards/CourseCard'
 import type { Course } from '@/data/mockData'
 
 interface PopularVsNewProps {

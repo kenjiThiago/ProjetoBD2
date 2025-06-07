@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import CourseCard from '@/components/CourseCard'
+import CourseCard from '@/components/cards/CourseCard'
 import type { Course } from '@/data/mockData'
 
 interface FeaturedCoursesProps {
