@@ -18,7 +18,7 @@ export default function CursosPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const coursesPerPage = 9
+  const coursesPerPage = 6
 
   // URL search params
   const searchParams = useSearchParams()

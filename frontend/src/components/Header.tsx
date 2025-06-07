@@ -67,24 +67,6 @@ export default function Header() {
       description: "Cursos em andamento e concluídos"
     },
     {
-      label: "Conquistas",
-      href: "/dashboard?tab=achievements",
-      icon: Award,
-      description: "Suas medalhas e certificados"
-    },
-    {
-      label: "Trilhas",
-      href: "/dashboard?tab=paths",
-      icon: BarChart3,
-      description: "Suas trilhas de aprendizado"
-    },
-    {
-      label: "Lista de Desejos",
-      href: "/wishlist",
-      icon: Heart,
-      description: "Cursos salvos para depois"
-    },
-    {
       label: "Configurações",
       href: "/settings",
       icon: Settings,
@@ -313,7 +295,6 @@ export default function Header() {
             <div className="flex items-center space-x-12">
               {[
                 { name: 'Cursos', href: '/cursos' },
-                { name: 'Trilhas', href: '/trilhas' },
                 { name: 'Empresas', href: '/empresas' }
               ].map((item, index) => (
                 <Link key={item.name} href={item.href}>
@@ -487,7 +468,6 @@ export default function Header() {
                 {/* Navigation Links */}
                 {[
                   { name: 'Cursos', href: '/cursos' },
-                  { name: 'Trilhas', href: '/trilhas' },
                   { name: 'Empresas', href: '/empresas' }
                 ].map((item, index) => (
                   <Link key={item.name} href={item.href}>

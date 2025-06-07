@@ -83,10 +83,13 @@ export default function Stats() {
         const progress = Math.min((currentTime - startTime) / duration, 1)
 
         const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-        setCount(Math.floor(easeOutQuart * number))
 
         if (progress < 1) {
           animationFrame = requestAnimationFrame(animate)
+          setCount(Math.floor(easeOutQuart * number))
+        }
+        else {
+          setCount(number)
         }
       }
 

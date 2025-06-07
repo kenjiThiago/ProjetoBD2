@@ -167,30 +167,6 @@ export default function Hero() {
               </motion.button>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              className="grid grid-cols-3 gap-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-            >
-              {[
-                { icon: Users, number: '50K+', label: 'Devs Ativos' },
-                { icon: BookOpen, number: '500+', label: 'Aulas' },
-                { icon: Award, number: '4.9', label: 'Avaliação' }
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <stat.icon className="w-6 h-6 text-orange-400 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-white">{stat.number}</div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
           </motion.div>
 
           <motion.div
