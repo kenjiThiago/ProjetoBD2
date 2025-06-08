@@ -14,7 +14,7 @@ export default function CompanyTabs({
   totalJobs
 }: CompanyTabsProps) {
   return (
-    <section className="bg-gray-900/50 border-b border-gray-800/50 sticky top-16 z-40 backdrop-blur-lg">
+    <section className="bg-gray-900/50 border-b border-gray-800/50 sticky top-14 z-40 backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center py-4">
           <div className="bg-gray-800/50 rounded-lg p-1 flex">

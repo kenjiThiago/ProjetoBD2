@@ -6,11 +6,11 @@ export function useCompanyFilters() {
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>(companies)
   const [filteredJobs, setFilteredJobs] = useState<Job[]>(jobs)
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedIndustry, setSelectedIndustry] = useState("Todas")
-  const [selectedSize, setSelectedSize] = useState("Todos")
-  const [selectedLocation, setSelectedLocation] = useState("Todas")
-  const [selectedJobType, setSelectedJobType] = useState("Todos")
-  const [selectedJobLevel, setSelectedJobLevel] = useState("Todos")
+  const [selectedIndustry, setSelectedIndustry] = useState("Setores")
+  const [selectedSize, setSelectedSize] = useState("Porte")
+  const [selectedLocation, setSelectedLocation] = useState("Localização")
+  const [selectedJobType, setSelectedJobType] = useState("Modalidade")
+  const [selectedJobLevel, setSelectedJobLevel] = useState("Nível")
   const [activeTab, setActiveTab] = useState<'companies' | 'jobs'>('companies')
 
   // Filter companies
@@ -26,15 +26,15 @@ export function useCompanyFilters() {
         )
       }
 
-      if (selectedIndustry !== "Todas") {
+      if (selectedIndustry !== "Setores") {
         filtered = filtered.filter(company => company.industry === selectedIndustry)
       }
 
-      if (selectedSize !== "Todos") {
+      if (selectedSize !== "Porte") {
         filtered = filtered.filter(company => company.size.includes(selectedSize.split(' ')[0]))
       }
 
-      if (selectedLocation !== "Todas") {
+      if (selectedLocation !== "Localização") {
         filtered = filtered.filter(company => company.location === selectedLocation)
       }
 
@@ -56,15 +56,15 @@ export function useCompanyFilters() {
         )
       }
 
-      if (selectedJobType !== "Todos") {
+      if (selectedJobType !== "Modalidade") {
         filtered = filtered.filter(job => job.type === selectedJobType)
       }
 
-      if (selectedJobLevel !== "Todos") {
+      if (selectedJobLevel !== "Nível") {
         filtered = filtered.filter(job => job.level === selectedJobLevel)
       }
 
-      if (selectedLocation !== "Todas") {
+      if (selectedLocation !== "Localização") {
         filtered = filtered.filter(job => job.location === selectedLocation)
       }
 
@@ -74,11 +74,11 @@ export function useCompanyFilters() {
 
   const clearAllFilters = () => {
     setSearchTerm("")
-    setSelectedIndustry("Todas")
-    setSelectedSize("Todos")
-    setSelectedLocation("Todas")
-    setSelectedJobType("Todos")
-    setSelectedJobLevel("Todos")
+    setSelectedIndustry("Setores")
+    setSelectedSize("Porte")
+    setSelectedLocation("Localização")
+    setSelectedJobType("Modalidade")
+    setSelectedJobLevel("Nível")
   }
 
   return {

@@ -133,7 +133,7 @@ export default function EmpresasPage() {
     <div className="min-h-screen bg-gray-950">
       <Header />
 
-      <main className="pt-8">
+      <main>
         {/* Hero Section */}
         <CompaniesHero
           searchTerm={searchTerm}

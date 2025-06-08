@@ -15,11 +15,11 @@ interface CompanyFilterBarProps {
   filteredCount: number
 }
 
-const industries = ["Todas", "Tecnologia", "Data Science", "Cloud Computing", "FinTech", "Gaming", "Venture Capital"]
-const companySizes = ["Todos", "Pequena (10-50)", "Média (100-500)", "Grande (500+)"]
-const locations = ["Todas", "São Paulo, SP", "Rio de Janeiro, RJ", "Florianópolis, SC", "Belo Horizonte, MG", "Curitiba, PR"]
-const jobTypes = ["Todos", "Remoto", "Presencial", "Híbrido"]
-const jobLevels = ["Todos", "Estágio", "Júnior", "Pleno", "Sênior"]
+const industries = ["Setores", "Tecnologia", "Data Science", "Cloud Computing", "FinTech", "Gaming", "Venture Capital"]
+const companySizes = ["Porte", "Pequena (10-50)", "Média (100-500)", "Grande (500+)"]
+const locations = ["Localização", "São Paulo, SP", "Rio de Janeiro, RJ", "Florianópolis, SC", "Belo Horizonte, MG", "Curitiba, PR"]
+const jobTypes = ["Modalidade", "Remoto", "Presencial", "Híbrido"]
+const jobLevels = ["Nível", "Estágio", "Júnior", "Pleno", "Sênior"]
 
 export default function CompanyFilterBar({
   activeTab,
@@ -33,7 +33,7 @@ export default function CompanyFilterBar({
   filteredCount
 }: CompanyFilterBarProps) {
   return (
-    <section className="bg-gray-900/50 border-b border-gray-800/50 sticky top-32 z-30 backdrop-blur-lg">
+    <section className="bg-gray-900/50 border-b border-gray-800/50 sticky top-36 z-30 backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           {/* Filters Row */}
