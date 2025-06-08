@@ -56,7 +56,7 @@ export default function FilterBar({
                     detail: e.target.value
                   }))
                 }}
-                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>{category}</option>
@@ -70,7 +70,7 @@ export default function FilterBar({
                     detail: e.target.value
                   }))
                 }}
-                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
               >
                 {levels.map(level => (
                   <option key={level} value={level}>{level}</option>
@@ -84,7 +84,7 @@ export default function FilterBar({
                     detail: e.target.value
                   }))
                 }}
-                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
               >
                 {durations.map(duration => (
                   <option key={duration} value={duration}>{duration}</option>
@@ -96,7 +96,7 @@ export default function FilterBar({
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('clearFilters'))
                 }}
-                className="text-violet-400 hover:text-violet-300 text-sm flex items-center space-x-1"
+                className="text-orange-400 hover:text-orange-300 text-sm flex items-center space-x-1"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -116,7 +116,7 @@ export default function FilterBar({
                     detail: e.target.value
                   }))
                 }}
-                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
               >
                 {sortOptions.map(option => (
                   <option key={option} value={option}>{option}</option>
@@ -131,7 +131,7 @@ export default function FilterBar({
             {/* View Mode Toggle */}
             <div className="flex items-center bg-gray-800 rounded-lg p-1">
               <motion.button
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-violet-500 text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'text-gray-400 hover:text-white'}`}
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('viewModeChange', {
                     detail: 'grid'
@@ -143,7 +143,7 @@ export default function FilterBar({
                 <Grid3X3 className="w-4 h-4" />
               </motion.button>
               <motion.button
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-violet-500 text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded ${viewMode === 'list' ? 'bg-orange-500 text-white' : 'text-gray-400 hover:text-white'}`}
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('viewModeChange', {
                     detail: 'list'
@@ -176,7 +176,7 @@ export default function FilterBar({
                       detail: e.target.value
                     }))
                   }}
-                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>{category}</option>
@@ -190,7 +190,7 @@ export default function FilterBar({
                       detail: e.target.value
                     }))
                   }}
-                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
                 >
                   {levels.map(level => (
                     <option key={level} value={level}>{level}</option>
@@ -204,7 +204,7 @@ export default function FilterBar({
                       detail: e.target.value
                     }))
                   }}
-                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
+                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
                 >
                   {durations.map(duration => (
                     <option key={duration} value={duration}>{duration}</option>
