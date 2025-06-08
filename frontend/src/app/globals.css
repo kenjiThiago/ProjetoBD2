@@ -39,7 +39,7 @@
   }
 
   .btn-secondary-mobile {
-    @apply bg-gradient-to-r from-violet-700 to-violet-600 hover:from-violet-800 hover:to-violet-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25;
+    @apply bg-gradient-to-r from-orange-700 to-orange-600 hover:from-violet-800 hover:to-violet-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25;
   }
 
   .card {

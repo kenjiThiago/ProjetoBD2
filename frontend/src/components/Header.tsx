@@ -50,7 +50,6 @@ export default function Header() {
     name: "kenjiThiago",
     avatar: "KT",
     level: "Desenvolvedor Intermediário",
-    unreadNotifications: 3
   }
 
   // Menu items do usuário
@@ -331,16 +330,6 @@ export default function Header() {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-6">
-            {/* Notifications - Removido hover scale */}
-            <button className="p-2 text-gray-400 hover:text-white transition-colors relative">
-              <Bell className="w-5 h-5" />
-              {user.unreadNotifications > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs text-white font-bold animate-pulse">
-                  {user.unreadNotifications}
-                </span>
-              )}
-            </button>
-
             {/* User Menu - Simplificado */}
             <div className="relative user-menu-container">
               <button
