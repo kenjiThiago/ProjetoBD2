@@ -1,12 +1,13 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import {
-  Clock,
   Play,
-  CheckCircle,
+  Clock,
   Star,
-  Download,
+  CheckCircle,
   Eye,
+  Download,
 } from 'lucide-react'
 import { Course } from '@/data/mockData'
 
@@ -25,7 +26,11 @@ export default function CourseCard({ course }: CourseCardProps) {
   }
 
   return (
-    <div className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+    <motion.div
+      className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.2 }}
+    >
       <div className="h-40 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
         <Play className="w-12 h-12 text-white opacity-80 group-hover:opacity-100 transition-opacity" />
         {course.progress === 100 && (
@@ -115,6 +120,6 @@ export default function CourseCard({ course }: CourseCardProps) {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

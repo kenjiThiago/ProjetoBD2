@@ -31,6 +31,34 @@ export default function DashboardCourseFilters({
     selectedLevel !== "Níveis" ||
     selectedStatus !== "Status"
 
+  const handleSearchChange = (value: string) => {
+    window.dispatchEvent(new CustomEvent('dashboardSearchChange', {
+      detail: value
+    }))
+  }
+
+  const handleCategoryChange = (value: string) => {
+    window.dispatchEvent(new CustomEvent('dashboardCategoryChange', {
+      detail: value
+    }))
+  }
+
+  const handleLevelChange = (value: string) => {
+    window.dispatchEvent(new CustomEvent('dashboardLevelChange', {
+      detail: value
+    }))
+  }
+
+  const handleStatusChange = (value: string) => {
+    window.dispatchEvent(new CustomEvent('dashboardStatusChange', {
+      detail: value
+    }))
+  }
+
+  const handleClearFilters = () => {
+    window.dispatchEvent(new CustomEvent('dashboardClearFilters'))
+  }
+
   return (
     <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 mb-6">
       {/* Search Bar */}
@@ -43,19 +71,11 @@ export default function DashboardCourseFilters({
           placeholder="Buscar por título, instrutor ou tecnologia..."
           className="block w-full pl-10 pr-3 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           value={searchTerm}
-          onChange={(e) => {
-            window.dispatchEvent(new CustomEvent('dashboardCourseSearchChange', {
-              detail: e.target.value
-            }))
-          }}
+          onChange={(e) => handleSearchChange(e.target.value)}
         />
         {searchTerm && (
           <button
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('dashboardCourseSearchChange', {
-                detail: ""
-              }))
-            }}
+            onClick={() => handleSearchChange("")}
             className="absolute inset-y-0 right-0 pr-3 flex items-center"
           >
             <X className="h-5 w-5 text-gray-400 hover:text-white" />
@@ -68,11 +88,7 @@ export default function DashboardCourseFilters({
         <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedCategory}
-            onChange={(e) => {
-              window.dispatchEvent(new CustomEvent('dashboardCourseCategoryChange', {
-                detail: e.target.value
-              }))
-            }}
+            onChange={(e) => handleCategoryChange(e.target.value)}
             className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-purple-500"
           >
             {categories.map(category => (
@@ -82,11 +98,7 @@ export default function DashboardCourseFilters({
 
           <select
             value={selectedLevel}
-            onChange={(e) => {
-              window.dispatchEvent(new CustomEvent('dashboardCourseLevelChange', {
-                detail: e.target.value
-              }))
-            }}
+            onChange={(e) => handleLevelChange(e.target.value)}
             className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-purple-500"
           >
             {levels.map(level => (
@@ -96,11 +108,7 @@ export default function DashboardCourseFilters({
 
           <select
             value={selectedStatus}
-            onChange={(e) => {
-              window.dispatchEvent(new CustomEvent('dashboardCourseStatusChange', {
-                detail: e.target.value
-              }))
-            }}
+            onChange={(e) => handleStatusChange(e.target.value)}
             className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-purple-500"
           >
             {statuses.map(status => (
@@ -110,9 +118,7 @@ export default function DashboardCourseFilters({
 
           {hasActiveFilters && (
             <motion.button
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent('dashboardCourseClearFilters'))
-              }}
+              onClick={handleClearFilters}
               className="text-purple-400 hover:text-purple-300 text-sm flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-gray-700/50 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

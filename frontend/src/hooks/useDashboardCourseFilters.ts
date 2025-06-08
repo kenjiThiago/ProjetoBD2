@@ -1,15 +1,20 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Course } from '@/data/mockData'
 
 interface UseDashboardCourseFiltersProps {
   courses: Course[]
+  itemsPerPage?: number
 }
 
-export function useDashboardCourseFilters({ courses }: UseDashboardCourseFiltersProps) {
+export function useDashboardCourseFilters({
+  courses,
+  itemsPerPage = 3
+}: UseDashboardCourseFiltersProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("Categorias")
   const [selectedLevel, setSelectedLevel] = useState("Níveis")
   const [selectedStatus, setSelectedStatus] = useState("Status")
+  const [currentPage, setCurrentPage] = useState(1)
 
   // Filter courses based on all criteria
   const filteredCourses = useMemo(() => {
@@ -51,11 +56,41 @@ export function useDashboardCourseFilters({ courses }: UseDashboardCourseFilters
     return filtered
   }, [courses, searchTerm, selectedCategory, selectedLevel, selectedStatus])
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedCourses = filteredCourses.slice(startIndex, endIndex)
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, selectedCategory, selectedLevel, selectedStatus])
+
   const clearAllFilters = () => {
     setSearchTerm("")
     setSelectedCategory("Categorias")
     setSelectedLevel("Níveis")
     setSelectedStatus("Status")
+    setCurrentPage(1)
+  }
+
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
   }
 
   return {
@@ -63,11 +98,19 @@ export function useDashboardCourseFilters({ courses }: UseDashboardCourseFilters
     selectedCategory,
     selectedLevel,
     selectedStatus,
+    currentPage,
+    totalPages,
     filteredCourses,
+    paginatedCourses,
+    totalItems: filteredCourses.length,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
     setSelectedStatus,
-    clearAllFilters
+    setCurrentPage,
+    clearAllFilters,
+    goToPage,
+    goToNextPage,
+    goToPreviousPage
   }
 }

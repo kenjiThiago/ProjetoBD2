@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import CourseCard from '@/app/dashboard/components/CourseCard'
-import DashboardCourseFilters from '@/app/dashboard/components/DashboardCourseFilters'
+import { useEffect } from 'react'
+import CourseCard from '@/components/cards/DashboardCourseCard'
+import DashboardCourseFilters from '@/components/filters/DashboardCourseFilters'
+import DashboardPagination from '@/components/pagination/DashboardPagination'
 import { useDashboardCourseFilters } from '@/hooks/useDashboardCourseFilters'
 import { Course } from '@/data/mockData'
 import {
@@ -26,15 +27,19 @@ export default function DashboardCourses({
     selectedCategory,
     selectedLevel,
     selectedStatus,
-    filteredCourses,
+    currentPage,
+    totalPages,
+    paginatedCourses,
+    totalItems,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
     setSelectedStatus,
-    clearAllFilters
-  } = useDashboardCourseFilters({ courses })
+    clearAllFilters,
+    goToPage
+  } = useDashboardCourseFilters({ courses, itemsPerPage: 6 })
 
-  // Event listeners para comunicação entre componentes
+  // Event listeners for dashboard events
   useEffect(() => {
     const handleSearchChange = (e: CustomEvent) => {
       setSearchTerm(e.detail)
@@ -56,22 +61,28 @@ export default function DashboardCourses({
       clearAllFilters()
     }
 
+    const handlePageChange = (e: CustomEvent) => {
+      goToPage(e.detail)
+    }
+
     // Add event listeners
-    window.addEventListener('dashboardCourseSearchChange', handleSearchChange as EventListener)
-    window.addEventListener('dashboardCourseCategoryChange', handleCategoryChange as EventListener)
-    window.addEventListener('dashboardCourseLevelChange', handleLevelChange as EventListener)
-    window.addEventListener('dashboardCourseStatusChange', handleStatusChange as EventListener)
-    window.addEventListener('dashboardCourseClearFilters', handleClearFilters)
+    window.addEventListener('dashboardSearchChange', handleSearchChange as EventListener)
+    window.addEventListener('dashboardCategoryChange', handleCategoryChange as EventListener)
+    window.addEventListener('dashboardLevelChange', handleLevelChange as EventListener)
+    window.addEventListener('dashboardStatusChange', handleStatusChange as EventListener)
+    window.addEventListener('dashboardClearFilters', handleClearFilters)
+    window.addEventListener('dashboardPageChange', handlePageChange as EventListener)
 
     // Cleanup
     return () => {
-      window.removeEventListener('dashboardCourseSearchChange', handleSearchChange as EventListener)
-      window.removeEventListener('dashboardCourseCategoryChange', handleCategoryChange as EventListener)
-      window.removeEventListener('dashboardCourseLevelChange', handleLevelChange as EventListener)
-      window.removeEventListener('dashboardCourseStatusChange', handleStatusChange as EventListener)
-      window.removeEventListener('dashboardCourseClearFilters', handleClearFilters)
+      window.removeEventListener('dashboardSearchChange', handleSearchChange as EventListener)
+      window.removeEventListener('dashboardCategoryChange', handleCategoryChange as EventListener)
+      window.removeEventListener('dashboardLevelChange', handleLevelChange as EventListener)
+      window.removeEventListener('dashboardStatusChange', handleStatusChange as EventListener)
+      window.removeEventListener('dashboardClearFilters', handleClearFilters)
+      window.removeEventListener('dashboardPageChange', handlePageChange as EventListener)
     }
-  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedStatus, clearAllFilters])
+  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedStatus, clearAllFilters, goToPage])
 
   return (
     <motion.div
@@ -102,25 +113,35 @@ export default function DashboardCourses({
         selectedCategory={selectedCategory}
         selectedLevel={selectedLevel}
         selectedStatus={selectedStatus}
-        filteredCount={filteredCourses.length}
+        filteredCount={totalItems}
       />
 
       {/* Courses Grid */}
-      {filteredCourses.length > 0 ? (
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          key={`courses-${searchTerm}-${selectedCategory}-${selectedLevel}-${selectedStatus}`}
-        >
-          {filteredCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              course={course}
-            />
-          ))}
-        </motion.div>
+      {paginatedCourses.length > 0 ? (
+        <>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            key={`courses-${currentPage}-${searchTerm}-${selectedCategory}-${selectedLevel}-${selectedStatus}`}
+          >
+            {paginatedCourses.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+              />
+            ))}
+          </motion.div>
+
+          {/* Pagination */}
+          <DashboardPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={3}
+          />
+        </>
       ) : (
         <motion.div
           className="text-center py-16"
@@ -142,9 +163,7 @@ export default function DashboardCourses({
             {(searchTerm || selectedCategory !== "Categorias" || selectedLevel !== "Níveis" || selectedStatus !== "Status") && (
               <button
                 className="btn-secondary px-6 py-3"
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent('dashboardCourseClearFilters'))
-                }}
+                onClick={clearAllFilters}
               >
                 Limpar Filtros
               </button>
