@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   Play,
   Star,
@@ -24,7 +23,6 @@ interface CourseCardProps {
 
 export default function CourseCard({
   course,
-  variants,
   size = 'medium',
   showActions = true,
   layout = 'grid'
@@ -63,11 +61,7 @@ export default function CourseCard({
 
   if (layout === 'list') {
     return (
-      <motion.div
-        variants={variants}
-        className="card-glow card p-6 group cursor-pointer"
-        whileHover={{ y: -2 }}
-      >
+      <div className="card-glow card p-6 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
         <div className="flex space-x-4 items-center">
           <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
             <Play className="w-8 h-8 text-white" />
@@ -96,35 +90,23 @@ export default function CourseCard({
           {showActions && (
             <div className="pt-2">
               <div className="flex gap-2 justify-between flex-1">
-                <motion.button
-                  className="btn-secondary p-2"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
+                <button className="btn-secondary p-2">
                   <Heart className="w-4 h-4" />
-                </motion.button>
-                <motion.button
-                  className="btn-primary px-4 py-2 flex items-center space-x-1"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                </button>
+                <button className="btn-primary px-4 py-2 flex items-center space-x-1">
                   <ArrowRight className="w-4 h-4" />
                   <span>Acessar</span>
-                </motion.button>
+                </button>
               </div>
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
     )
   }
 
   return (
-    <motion.div
-      variants={variants}
-      className={`card-glow card ${classes.container} group cursor-pointer relative overflow-hidden`}
-      whileHover={{ y: -8 }}
-    >
+    <div className={`card-glow card ${classes.container} group cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
       {/* Badges */}
       <div className="flex items-center gap-2 mb-4">
         {course.isPopular && (
@@ -147,7 +129,7 @@ export default function CourseCard({
         )}
       </div>
 
-      {/* Thumbnail */}
+      {/* Thumbnail - Simplificado */}
       <div className={`${classes.thumbnail} bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center`}>
         <Play className={`${classes.icon} text-white opacity-80 group-hover:opacity-100 transition-opacity`} />
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
@@ -199,25 +181,17 @@ export default function CourseCard({
         {showActions && (
           <div className="pt-2">
             <div className="flex gap-2 justify-between flex-1">
-              <motion.button
-                className="btn-secondary p-2"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
+              <button className="btn-secondary p-2">
                 <Heart className="w-4 h-4" />
-              </motion.button>
-              <motion.button
-                className="btn-primary px-4 py-2 flex items-center space-x-1"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              </button>
+              <button className="btn-primary px-4 py-2 flex items-center space-x-1">
                 <ArrowRight className="w-4 h-4" />
                 <span>Acessar</span>
-              </motion.button>
+              </button>
             </div>
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   )
 }

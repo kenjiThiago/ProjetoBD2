@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   MapPin,
   Users,
@@ -43,11 +42,7 @@ interface CompanyCardProps {
 export default function CompanyCard({ company, viewMode, variants }: CompanyCardProps) {
   if (viewMode === 'list') {
     return (
-      <motion.div
-        variants={variants}
-        className="card-glow card p-6 group cursor-pointer relative overflow-hidden"
-        whileHover={{ y: -2 }}
-      >
+      <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Logo */}
           <div className="lg:w-24 h-24 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center">
@@ -133,39 +128,27 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
                 </div>
               </div>
 
-              {/* CTA */}
+              {/* CTA - Simplified */}
               <div className="flex gap-2">
-                <motion.button
-                  className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <button className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1">
                   <Eye className="w-4 h-4" />
                   <span>Ver Perfil</span>
-                </motion.button>
-                <motion.button
-                  className="btn-primary px-4 py-2 text-sm flex items-center space-x-1"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                </button>
+                <button className="btn-primary px-4 py-2 text-sm flex items-center space-x-1">
                   <Briefcase className="w-4 h-4" />
                   <span>Ver Vagas</span>
-                </motion.button>
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     )
   }
 
-  // Grid View
+  // Grid View - Simplified
   return (
-    <motion.div
-      variants={variants}
-      className="card-glow card p-6 group cursor-pointer relative overflow-hidden"
-      whileHover={{ y: -5 }}
-    >
+    <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300">
       {/* Logo */}
       <div className="h-24 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
         <span className="text-2xl font-bold text-white">{company.logo}</span>
@@ -230,25 +213,17 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
         </div>
       </div>
 
-      {/* CTA */}
+      {/* CTA - Simplified */}
       <div className="flex gap-2">
-        <motion.button
-          className="btn-secondary flex-1 py-2 text-sm flex items-center justify-center space-x-1"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <button className="btn-secondary flex-1 py-2 text-sm flex items-center justify-center space-x-1">
           <Eye className="w-4 h-4" />
           <span>Ver Perfil</span>
-        </motion.button>
-        <motion.button
-          className="btn-primary flex-1 py-2 text-sm flex items-center justify-center space-x-1"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        </button>
+        <button className="btn-primary flex-1 py-2 text-sm flex items-center justify-center space-x-1">
           <Briefcase className="w-4 h-4" />
           <span>Vagas</span>
-        </motion.button>
+        </button>
       </div>
-    </motion.div>
+    </div>
   )
 }

@@ -6,182 +6,111 @@ import { useEffect, useState } from 'react'
 
 export default function Hero() {
   const [isClient, setIsClient] = useState(false)
-  const [codeElements, setCodeElements] = useState<Array<{code: string, style: any}>>([])
-  const [binaryElements, setBinaryElements] = useState<Array<{value: string, style: any}>>([])
 
   useEffect(() => {
     setIsClient(true)
-
-    // Generate code elements only on client
-    const codes = ['<>', '{}', '( )', '[ ]', '</ >', 'fn()', '=>']
-    const generatedCodeElements = codes.map((code, _) => ({
-      code,
-      style: {
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-      }
-    }))
-    setCodeElements(generatedCodeElements)
-
-    // Generate binary elements only on client
-    const generatedBinaryElements = Array.from({ length: 100 }, (_, i) => ({
-      value: Math.random() > 0.5 ? '01' : '10',
-      style: {}
-    }))
-    setBinaryElements(generatedBinaryElements)
   }, [])
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-950">
-      {/* Animated Background */}
+      {/* Simplified Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950"></div>
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl animate-pulse-slow animation-delay-1000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
 
-        {/* Code Matrix Background - Only render on client */}
+        {/* Simplified background pattern - Only render on client, no animations */}
         {isClient && (
           <div className="absolute inset-0 opacity-5">
             <div className="grid grid-cols-20 gap-4 h-full">
-              {binaryElements.map((element, i) => (
-                <motion.div
+              {Array.from({ length: 50 }, (_, i) => (
+                <div
                   key={i}
-                  className="text-green-400 text-xs font-mono"
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{
-                    duration: Math.random() * 3 + 1,
-                    repeat: Infinity,
-                    delay: Math.random() * 2,
-                  }}
+                  className="text-green-400 text-xs font-mono opacity-30"
                 >
-                  {element.value}
-                </motion.div>
+                  {Math.random() > 0.5 ? '01' : '10'}
+                </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Floating Code Elements - Only render on client */}
+        {/* Static floating code elements - no animations */}
         {isClient && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <div className="absolute inset-0 opacity-10">
-              {codeElements.map((element, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute text-orange-400 font-mono text-lg font-bold"
-                  style={element.style}
-                  animate={{
-                    y: [-20, 20, -20],
-                    opacity: [0.3, 0.8, 0.3],
-                  }}
-                  transition={{
-                    duration: Math.random() * 4 + 3,
-                    repeat: Infinity,
-                    delay: Math.random() * 2,
-                  }}
-                >
-                  {element.code}
-                </motion.div>
-              ))}
-            </div>
+          <div className="absolute inset-0 opacity-10">
+            {['<>', '{}', '( )', '[ ]', '</ >', 'fn()', '=>'].map((code, i) => (
+              <div
+                key={i}
+                className="absolute text-orange-400 font-mono text-lg font-bold opacity-40"
+                style={{
+                  left: `${20 + (i * 12)}%`,
+                  top: `${10 + (i * 10)}%`,
+                }}
+              >
+                {code}
+              </div>
+            ))}
           </div>
         )}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content - Mantida animação de entrada */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex items-center space-x-2 mb-6"
-            >
+            {/* Rating Section - Simplificado */}
+            <div className="flex items-center space-x-2 mb-6">
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                 ))}
               </div>
               <span className="text-gray-400">Escolhido por 50.000+ desenvolvedores</span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
+            {/* Main Heading - Removida animação complexa do gradient */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
               Domine a
-              <motion.span
-                className="gradient-text block pb-2"
-                animate={{
-                  backgroundPosition: ['0% 0%', '100% 100%', '0% 0%']
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
+              <span className="gradient-text block pb-2">
                 programação
-              </motion.span>
+              </span>
               do zero ao avançado
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              className="text-xl text-gray-300 mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
+            {/* Description */}
+            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
               Aprenda as tecnologias mais demandadas do mercado com
               <span className="font-semibold text-orange-400"> projetos práticos</span> e
               mentoria especializada. Construa sua carreira na programação.
-            </motion.p>
+            </p>
 
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-            >
-              <motion.button
-                className="btn-primary text-lg px-8 py-4 flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+            {/* Buttons - Removidas animações hover complexas */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <button className="btn-primary text-lg px-8 py-4 flex items-center space-x-2">
                 <Play className="w-5 h-5" />
                 <span>Começar a Programar</span>
-              </motion.button>
-              <motion.button
-                className="glass border-2 border-white/20 text-white hover:bg-white/10 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              </button>
+              <button className="glass border-2 border-white/20 text-white hover:bg-white/10 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center space-x-2">
                 <Code2 className="w-5 h-5" />
                 <span>Ver Roadmaps</span>
-              </motion.button>
-            </motion.div>
-
+              </button>
+            </div>
           </motion.div>
 
+          {/* Right Content - Animação de entrada simplificada */}
           <motion.div
             className="relative"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="relative">
-              {/* Main Card - Code Editor Mockup */}
-              <motion.div
-                className="card-glow card p-1 transform rotate-3 hover:rotate-0 transition-transform duration-500 bg-gray-900"
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
+              {/* Main Card - Code Editor Mockup - Removidas animações complexas */}
+              <div className="card-glow card p-1 transform rotate-3 hover:rotate-0 transition-transform duration-500 bg-gray-900">
                 {/* Editor Header */}
                 <div className="bg-gray-800 rounded-t-lg p-3 flex items-center space-x-2">
                   <div className="flex space-x-2">
@@ -209,50 +138,27 @@ export default function Hero() {
                     <div className="text-white">{`}`}</div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Floating Elements */}
-              <motion.div
-                className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white"
-                animate={{ y: [-10, 10, -10] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
+              {/* Floating Elements - Simplificados e estáticos */}
+              <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white">
                 <Zap className="w-6 h-6" />
-              </motion.div>
+              </div>
 
-              <motion.div
-                className="absolute -bottom-4 -left-4 w-16 h-16 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center"
-                animate={{
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                   <Code2 className="w-4 h-4 text-white" />
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Language Icons */}
-              <motion.div
-                className="absolute top-1/2 -left-8 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-bold text-sm"
-                animate={{ x: [-5, 5, -5] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
+              {/* Language Icons - Removidas animações */}
+              <div className="absolute top-1/2 -left-8 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-bold text-sm">
                 JS
-              </motion.div>
+              </div>
 
-              <motion.div
-                className="absolute top-1/4 -right-8 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-                animate={{ x: [5, -5, 5] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-              >
+              <div className="absolute top-1/4 -right-8 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                 TS
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>

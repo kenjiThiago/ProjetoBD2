@@ -14,6 +14,7 @@ export default function CoursesHero({
 }: CoursesHeroProps) {
   return (
     <section className="bg-gradient-to-br from-gray-900 via-blue-950/20 to-gray-900 py-16 relative overflow-hidden">
+      {/* Simplified background - removed animations */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -33,7 +34,7 @@ export default function CoursesHero({
             Descubra mais de {totalCourses} cursos das tecnologias mais demandadas do mercado
           </p>
 
-          {/* Search Bar */}
+          {/* Search Bar - Simplified clear button */}
           <div className="max-w-2xl mx-auto relative">
             <div className="relative flex items-center">
               <Search className="absolute left-4 w-5 h-5 text-gray-400 pointer-events-none" />
@@ -46,10 +47,10 @@ export default function CoursesHero({
                     detail: e.target.value
                   }))
                 }}
-                className="w-full pl-12 pr-12 py-4 bg-gray-800/50 border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-200"
+                className="w-full pl-12 pr-12 py-4 bg-gray-800/50 border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 text-lg transition-colors duration-200"
               />
 
-              {/* Clear button */}
+              {/* Clear button - Simplified animation */}
               <AnimatePresence>
                 {searchTerm && (
                   <motion.button
@@ -59,19 +60,10 @@ export default function CoursesHero({
                       }))
                     }}
                     className="absolute right-4 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white transition-colors rounded hover:bg-gray-700/30"
-                    initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    whileHover={{
-                      scale: 1.15,
-                      rotate: 90,
-                      transition: { duration: 0.2 }
-                    }}
-                    whileTap={{
-                      scale: 0.85,
-                      transition: { duration: 0.1 }
-                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
                   >
                     <X className="w-4 h-4" />
                   </motion.button>

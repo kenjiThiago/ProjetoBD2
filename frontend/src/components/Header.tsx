@@ -53,7 +53,7 @@ export default function Header() {
     unreadNotifications: 3
   }
 
-  // Menu items do usuário - CORRIGIDO PARA USAR SEARCHPARAMS
+  // Menu items do usuário
   const userMenuItems = [
     {
       label: "Meu Dashboard",
@@ -131,7 +131,6 @@ export default function Header() {
     }
   }
 
-
   const handleSearch = (term: string) => {
     if (!term.trim()) return
 
@@ -195,25 +194,17 @@ export default function Header() {
           ? 'bg-gray-900/80 backdrop-blur-lg border-b border-gray-700/50 shadow-lg'
           : 'bg-transparent'
       }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* Logo - Animação mais natural e simples */}
           <Link href="/">
-            <motion.div
-              className="flex items-center space-x-3 cursor-pointer"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <motion.div
-                className="relative"
-                whileHover={{ rotate: 5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="relative w-10 h-10 overflow-hidden rounded-full">
+            <div className="flex items-center space-x-3 cursor-pointer group">
+              <div className="relative">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/logo-codify.png"
                     alt="Codify Logo"
@@ -222,29 +213,19 @@ export default function Header() {
                     className="object-cover rounded-full"
                     priority
                   />
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
-                    animate={{
-                      translateX: ['-100%', '100%']
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                      ease: "linear"
-                    }}
-                  />
+                  {/* Shine effect mais sutil */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                 </div>
-              </motion.div>
+              </div>
               <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-white">
+                <h1 className="text-2xl font-bold text-white transition-colors duration-300 group-hover:text-orange-300">
                   <span className="gradient-text">Codify</span>
                 </h1>
               </div>
-            </motion.div>
+            </div>
           </Link>
 
-          {/* Search Bar - Desktop */}
+          {/* Search Bar - Desktop - Simplificado */}
           <div className="hidden md:flex flex-1 max-w-md mx-8 relative search-container">
             <form onSubmit={handleSubmit} className="w-full">
               <div className="relative flex items-center">
@@ -256,29 +237,20 @@ export default function Header() {
                   onChange={handleInputChange}
                   onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
                   onKeyDown={handleKeyDown}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-colors duration-200"
                 />
 
-                {/* Clear button */}
+                {/* Clear button - Animação simplificada */}
                 <AnimatePresence>
                   {localSearchTerm && (
                     <motion.button
                       type="button"
                       onClick={clearSearch}
                       className="absolute right-3 w-4 h-4 flex items-center justify-center text-gray-400 hover:text-white transition-colors rounded hover:bg-gray-700/30"
-                      initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
-                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      whileHover={{
-                        scale: 1.1,
-                        rotate: 90,
-                        transition: { duration: 0.2 }
-                      }}
-                      whileTap={{
-                        scale: 0.9,
-                        transition: { duration: 0.1 }
-                      }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
                     >
                       <X className="w-3.5 h-3.5" />
                     </motion.button>
@@ -287,14 +259,14 @@ export default function Header() {
               </div>
             </form>
 
-            {/* Search Suggestions */}
+            {/* Search Suggestions - Animação simplificada */}
             <AnimatePresence>
               {showSearchSuggestions && filteredSuggestions.length > 0 && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  transition={{ duration: 0.15 }}
                   className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50"
                 >
                   {filteredSuggestions.map((suggestion, index) => (
@@ -330,32 +302,28 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation - Removida animação individual dos itens */}
           <nav className="hidden lg:block mr-12">
             <div className="flex items-center space-x-12">
               {[
                 { name: 'Cursos', href: '/cursos' },
                 { name: 'Empresas', href: '/empresas' }
-              ].map((item, index) => (
+              ].map((item) => (
                 <Link key={item.name} href={item.href}>
-                  <motion.div
+                  <div
                     className={`px-3 py-2 text-sm font-medium transition-colors duration-200 relative group cursor-pointer ${
                       pathname === item.href
                         ? 'text-orange-400'
                         : 'text-gray-300 hover:text-orange-400'
                     }`}
-                    whileHover={{ y: -2 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
                   >
                     {item.name}
-                    <motion.div
+                    <div
                       className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transform transition-transform duration-200 ${
                         pathname === item.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                       }`}
                     />
-                  </motion.div>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -363,27 +331,21 @@ export default function Header() {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-6">
-            {/* Notifications */}
-            <motion.button
-              className="p-2 text-gray-400 hover:text-white transition-colors relative"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
+            {/* Notifications - Removido hover scale */}
+            <button className="p-2 text-gray-400 hover:text-white transition-colors relative">
               <Bell className="w-5 h-5" />
               {user.unreadNotifications > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs text-white font-bold animate-pulse">
                   {user.unreadNotifications}
                 </span>
               )}
-            </motion.button>
+            </button>
 
-            {/* User Menu */}
+            {/* User Menu - Simplificado */}
             <div className="relative user-menu-container">
-              <motion.button
+              <button
                 className="flex items-center space-x-3 cursor-pointer group"
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-white">{user.avatar}</span>
@@ -393,16 +355,16 @@ export default function Header() {
                   <div className="text-gray-500 text-xs">{user.level}</div>
                 </div>
                 <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-white transition-all duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
-              </motion.button>
+              </button>
 
-              {/* User Dropdown Menu */}
+              {/* User Dropdown Menu - Animação simplificada */}
               <AnimatePresence>
                 {showUserMenu && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    transition={{ duration: 0.15 }}
                     className="absolute right-0 top-full mt-2 w-80 bg-gray-800 border border-gray-700 rounded-xl shadow-xl overflow-hidden z-50"
                   >
                     {/* User Info Header */}
@@ -418,43 +380,38 @@ export default function Header() {
                       </div>
                     </div>
 
-                    {/* Menu Items */}
+                    {/* Menu Items - Removida animação de stagger */}
                     <div className="py-2">
-                      {userMenuItems.map((item, index) => {
+                      {userMenuItems.map((item) => {
                         const Icon = item.icon
                         return (
-                          <motion.button
+                          <button
                             key={item.href}
                             onClick={() => handleUserMenuClick(item.href)}
                             className="w-full text-left px-4 py-3 text-gray-300 hover:bg-gray-700/50 hover:text-white transition-all duration-150 flex items-center space-x-3"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                            whileHover={{ x: 5 }}
                           >
                             <Icon className="w-5 h-5 text-gray-400" />
                             <div>
                               <div className="font-medium">{item.label}</div>
                               <div className="text-xs text-gray-500">{item.description}</div>
                             </div>
-                          </motion.button>
+                          </button>
                         )
                       })}
                     </div>
 
                     {/* Logout */}
                     <div className="border-t border-gray-700 py-2">
-                      <motion.button
+                      <button
                         onClick={handleLogout}
                         className="w-full text-left px-4 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-150 flex items-center space-x-3"
-                        whileHover={{ x: 5 }}
                       >
                         <LogOut className="w-5 h-5" />
                         <div>
                           <div className="font-medium">Sair</div>
                           <div className="text-xs text-gray-500">Fazer logout da conta</div>
                         </div>
-                      </motion.button>
+                      </button>
                     </div>
                   </motion.div>
                 )}
@@ -463,67 +420,63 @@ export default function Header() {
           </div>
 
           {/* Mobile menu button */}
-          <motion.button
+          <button
             className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            whileTap={{ scale: 0.9 }}
           >
             <AnimatePresence mode="wait">
               {isMenuOpen ? (
                 <motion.div
                   key="close"
-                  initial={{ rotate: -180, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 180, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                 >
                   <X className="w-6 h-6" />
                 </motion.div>
               ) : (
                 <motion.div
                   key="menu"
-                  initial={{ rotate: 180, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -180, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                 >
                   <Menu className="w-6 h-6" />
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.button>
+          </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu - Animação simplificada */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }}
               className="md:hidden border-t border-gray-700/50 mt-2"
             >
               <div className="px-2 pt-4 pb-3 space-y-1 bg-gray-900/50 rounded-lg mt-2">
-                {/* Navigation Links */}
+                {/* Navigation Links - Removida animação de stagger */}
                 {[
                   { name: 'Cursos', href: '/cursos' },
                   { name: 'Empresas', href: '/empresas' }
-                ].map((item, index) => (
+                ].map((item) => (
                   <Link key={item.name} href={item.href}>
-                    <motion.div
+                    <div
                       className={`block px-3 py-2 text-base font-medium transition-colors cursor-pointer ${
                         pathname === item.href
                           ? 'text-orange-400'
                           : 'text-gray-300 hover:text-orange-400'
                       }`}
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: index * 0.1 }}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {item.name}
-                    </motion.div>
+                    </div>
                   </Link>
                 ))}
 
@@ -539,42 +492,36 @@ export default function Header() {
                     </div>
                   </div>
 
-                  {userMenuItems.map((item, index) => {
+                  {userMenuItems.map((item) => {
                     const Icon = item.icon
                     return (
-                      <motion.button
+                      <button
                         key={item.href}
                         onClick={() => {
                           handleUserMenuClick(item.href)
                           setIsMenuOpen(false)
                         }}
                         className="w-full text-left px-3 py-2 text-gray-300 hover:text-orange-400 transition-colors flex items-center space-x-2"
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: (index + 3) * 0.1 }}
                       >
                         <Icon className="w-4 h-4" />
                         <span>{item.label}</span>
-                      </motion.button>
+                      </button>
                     )
                   })}
 
-                  <motion.button
+                  <button
                     onClick={() => {
                       handleLogout()
                       setIsMenuOpen(false)
                     }}
                     className="w-full text-left px-3 py-2 text-red-400 hover:text-red-300 transition-colors flex items-center space-x-2 mt-2 pt-4 border-t border-gray-700/50"
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: (userMenuItems.length + 3) * 0.1 }}
                   >
                     <LogOut className="w-4 h-4" />
                     <span>Sair</span>
-                  </motion.button>
+                  </button>
                 </div>
 
-                {/* Mobile Search */}
+                {/* Mobile Search - Simplificado */}
                 <div className="pt-4 border-t border-gray-700/50">
                   <div className="px-3 py-2">
                     <form onSubmit={(e) => {
@@ -596,19 +543,10 @@ export default function Header() {
                               type="button"
                               onClick={clearSearch}
                               className="absolute right-3 w-4 h-4 flex items-center justify-center text-gray-400 hover:text-white transition-colors rounded hover:bg-gray-700/30"
-                              initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
-                              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                              exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
-                              transition={{ duration: 0.2, ease: "easeOut" }}
-                              whileHover={{
-                                scale: 1.1,
-                                rotate: 90,
-                                transition: { duration: 0.2 }
-                              }}
-                              whileTap={{
-                                scale: 0.9,
-                                transition: { duration: 0.1 }
-                              }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.15 }}
                             >
                               <X className="w-3.5 h-3.5" />
                             </motion.button>

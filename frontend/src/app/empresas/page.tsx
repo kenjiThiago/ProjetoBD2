@@ -129,26 +129,6 @@ export default function EmpresasPage() {
   const currentPageItems = currentItems.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(currentItems.length / itemsPerPage)
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 }
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gray-950">
       <Header />
@@ -181,7 +161,7 @@ export default function EmpresasPage() {
           filteredCount={currentItems.length}
         />
 
-        {/* Content */}
+        {/* Content - Simplified animations */}
         <section className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {currentItems.length > 0 ? (
@@ -192,9 +172,9 @@ export default function EmpresasPage() {
                       ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                       : "space-y-6"
                     }
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
                     key={`companies-${currentPage}-${viewMode}`}
                   >
                     {currentPageItems.map((company) => (
@@ -202,23 +182,21 @@ export default function EmpresasPage() {
                         key={company.id}
                         company={company as any}
                         viewMode={viewMode}
-                        variants={cardVariants}
                       />
                     ))}
                   </motion.div>
                 ) : (
                   <motion.div
                     className="space-y-6"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
                     key={`jobs-${currentPage}`}
                   >
                     {currentPageItems.map((job) => (
                       <JobCard
                         key={job.id}
                         job={job as any}
-                        variants={cardVariants}
                       />
                     ))}
                   </motion.div>

@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   Building2,
   MapPin,
@@ -64,11 +63,7 @@ export default function JobCard({ job, variants }: JobCardProps) {
   const daysAgo = Math.floor((new Date().getTime() - new Date(job.postedAt).getTime()) / (1000 * 3600 * 24))
 
   return (
-    <motion.div
-      variants={variants}
-      className="card-glow card p-6 group cursor-pointer relative overflow-hidden"
-      whileHover={{ y: -2 }}
-    >
+    <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Company Logo */}
         <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center">
@@ -151,34 +146,22 @@ export default function JobCard({ job, variants }: JobCardProps) {
               </div>
             </div>
 
-            {/* CTA */}
+            {/* CTA - Simplified */}
             <div className="flex flex-col gap-2 lg:items-end">
               <div className="flex gap-2">
-                <motion.button
-                  className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <button className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1">
                   <Heart className="w-4 h-4" />
                   <span>Salvar</span>
-                </motion.button>
-                <motion.button
-                  className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                </button>
+                <button className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1">
                   <Share2 className="w-4 h-4" />
                   <span>Compartilhar</span>
-                </motion.button>
+                </button>
               </div>
-              <motion.button
-                className="btn-primary px-6 py-3 flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <button className="btn-primary px-6 py-3 flex items-center space-x-2">
                 <ExternalLink className="w-4 h-4" />
                 <span>Candidatar-se</span>
-              </motion.button>
+              </button>
               <div className="text-xs text-gray-400 text-right">
                 Prazo: {new Date(job.deadline).toLocaleDateString('pt-BR')}
               </div>
@@ -186,6 +169,6 @@ export default function JobCard({ job, variants }: JobCardProps) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

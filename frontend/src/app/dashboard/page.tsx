@@ -88,31 +88,12 @@ export default function DashboardPage() {
     }
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 }
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gray-950">
       <Header />
 
       <main className="pt-8 pb-16">
-        {/* Hero/Welcome Section */}
+        {/* Hero/Welcome Section - Simplified */}
         <section className="bg-gradient-to-br from-gray-900 via-purple-950/20 to-gray-900 py-12 relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -140,63 +121,48 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Quick Stats */}
+                {/* Quick Stats - Simplified */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                  <motion.div
-                    className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50"
-                    variants={cardVariants}
-                  >
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
                     <div className="flex items-center space-x-2 mb-2">
                       <Flame className="w-5 h-5 text-orange-400" />
                       <span className="text-sm text-gray-400">Sequência</span>
                     </div>
                     <div className="text-2xl font-bold text-white">{studyStreak}</div>
                     <div className="text-xs text-gray-400">dias consecutivos</div>
-                  </motion.div>
+                  </div>
 
-                  <motion.div
-                    className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50"
-                    variants={cardVariants}
-                  >
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
                     <div className="flex items-center space-x-2 mb-2">
                       <Star className="w-5 h-5 text-yellow-400" />
                       <span className="text-sm text-gray-400">Pontos</span>
                     </div>
                     <div className="text-2xl font-bold text-white">{totalPoints.toLocaleString()}</div>
                     <div className="text-xs text-gray-400">total acumulado</div>
-                  </motion.div>
+                  </div>
 
-                  <motion.div
-                    className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50"
-                    variants={cardVariants}
-                  >
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
                     <div className="flex items-center space-x-2 mb-2">
                       <BookOpen className="w-5 h-5 text-blue-400" />
                       <span className="text-sm text-gray-400">Cursos</span>
                     </div>
                     <div className="text-2xl font-bold text-white">{user.completedCourses}</div>
                     <div className="text-xs text-gray-400">concluídos</div>
-                  </motion.div>
+                  </div>
 
-                  <motion.div
-                    className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50"
-                    variants={cardVariants}
-                  >
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
                     <div className="flex items-center space-x-2 mb-2">
                       <Award className="w-5 h-5 text-purple-400" />
                       <span className="text-sm text-gray-400">Certificados</span>
                     </div>
                     <div className="text-2xl font-bold text-white">{user.certificates}</div>
                     <div className="text-xs text-gray-400">conquistados</div>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
 
-              {/* Weekly Goal Progress */}
-              <motion.div
-                className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 lg:w-80"
-                variants={cardVariants}
-              >
+              {/* Weekly Goal Progress - Simplified */}
+              <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 lg:w-80">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-white">Meta Semanal</h3>
                   <Target className="w-5 h-5 text-green-400" />
@@ -224,20 +190,16 @@ export default function DashboardPage() {
                     Faltam <span className="text-white font-semibold">{weeklyGoal.target - weeklyGoal.completed}h</span> para completar sua meta!
                   </div>
 
-                  <motion.button
-                    className="w-full btn-primary py-2 text-sm"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
+                  <button className="w-full btn-primary py-2 text-sm">
                     Continuar Estudos
-                  </motion.button>
+                  </button>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Navigation Tabs */}
+        {/* Navigation Tabs - Simplified */}
         <section className="bg-gray-900/50 border-b border-gray-800/50 sticky top-16 z-40 backdrop-blur-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center py-4">
@@ -248,7 +210,7 @@ export default function DashboardPage() {
                 ].map((tab) => {
                   const Icon = tab.icon
                   return (
-                    <motion.button
+                    <button
                       key={tab.id}
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
                         activeTab === tab.id
@@ -256,12 +218,10 @@ export default function DashboardPage() {
                           : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
                       }`}
                       onClick={() => setActiveTab(tab.id as any)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
                       <Icon className="w-4 h-4" />
                       <span className="hidden sm:block">{tab.label}</span>
-                    </motion.button>
+                    </button>
                   )
                 })}
               </div>
@@ -289,11 +249,9 @@ export default function DashboardPage() {
                     {coursesInProgress.length > 0 ? (
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {coursesInProgress.slice(0, 4).map((course) => (
-                          <motion.div
+                          <div
                             key={course.id}
-                            className="card-glow card p-6 group cursor-pointer"
-                            variants={cardVariants}
-                            whileHover={{ y: -5 }}
+                            className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
                           >
                             <div className="flex items-start space-x-4">
                               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -321,39 +279,29 @@ export default function DashboardPage() {
                                   />
                                 </div>
 
-                                <motion.button
-                                  className="btn-primary text-sm px-4 py-2 flex items-center space-x-2"
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                >
+                                <button className="btn-primary text-sm px-4 py-2 flex items-center space-x-2">
                                   <Play className="w-4 h-4" />
                                   <span>Continuar</span>
-                                </motion.button>
+                                </button>
                               </div>
                             </div>
-                          </motion.div>
+                          </div>
                         ))}
                       </div>
                     ) : (
-                      <motion.div
-                        className="text-center py-12 bg-gray-800/30 rounded-xl border border-gray-700/50"
-                        variants={cardVariants}
-                      >
+                      <div className="text-center py-12 bg-gray-800/30 rounded-xl border border-gray-700/50">
                         <BookOpen className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                         <h3 className="text-lg font-semibold text-white mb-2">Nenhum curso em andamento</h3>
                         <p className="text-gray-400 mb-4">Comece um novo curso para aparecer aqui</p>
-                        <motion.button
+                        <button
                           className="btn-primary px-6 py-2"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           onClick={() => window.location.href = '/cursos'}
                         >
                           Explorar Cursos
-                        </motion.button>
-                      </motion.div>
+                        </button>
+                      </div>
                     )}
                   </div>
-
                 </motion.div>
               )}
 
@@ -384,16 +332,14 @@ export default function DashboardPage() {
 
                   <motion.div
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
                   >
                     {filteredCourses.map((course) => (
-                      <motion.div
+                      <div
                         key={course.id}
-                        className="card-glow card p-6 group cursor-pointer"
-                        variants={cardVariants}
-                        whileHover={{ y: -5 }}
+                        className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
                       >
                         <div className="h-40 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
                           <Play className="w-12 h-12 text-white opacity-80 group-hover:opacity-100 transition-opacity" />
@@ -465,38 +411,26 @@ export default function DashboardPage() {
                           <div className="flex gap-2">
                             {course.progress === 100 ? (
                               <>
-                                <motion.button
-                                  className="flex-1 btn-secondary py-2 text-sm flex items-center justify-center space-x-1"
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                >
+                                <button className="flex-1 btn-secondary py-2 text-sm flex items-center justify-center space-x-1">
                                   <Eye className="w-4 h-4" />
                                   <span>Revisar</span>
-                                </motion.button>
+                                </button>
                                 {course.certificate && (
-                                  <motion.button
-                                    className="flex-1 btn-primary py-2 text-sm flex items-center justify-center space-x-1"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                  >
+                                  <button className="flex-1 btn-primary py-2 text-sm flex items-center justify-center space-x-1">
                                     <Download className="w-4 h-4" />
                                     <span>Certificado</span>
-                                  </motion.button>
+                                  </button>
                                 )}
                               </>
                             ) : (
-                              <motion.button
-                                className="w-full btn-primary py-2 text-sm flex items-center justify-center space-x-1"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                              >
+                              <button className="w-full btn-primary py-2 text-sm flex items-center justify-center space-x-1">
                                 <Play className="w-4 h-4" />
                                 <span>{course.progress && course.progress > 0 ? 'Continuar' : 'Iniciar'}</span>
-                              </motion.button>
+                              </button>
                             )}
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </motion.div>
 
@@ -514,14 +448,12 @@ export default function DashboardPage() {
                       <p className="text-gray-400 mb-6">
                         Não há cursos nesta categoria ainda
                       </p>
-                      <motion.button
+                      <button
                         className="btn-primary px-6 py-3"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                         onClick={() => window.location.href = '/cursos'}
                       >
                         Explorar Cursos
-                      </motion.button>
+                      </button>
                     </motion.div>
                   )}
                 </motion.div>

@@ -125,31 +125,11 @@ export default function CursosPage() {
   const currentCourses = filteredCourses.slice(indexOfFirstCourse, indexOfLastCourse)
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage)
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 }
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gray-950">
       <Header />
 
-      <main className="pt-8">
+      <main>
         {/* Hero Section */}
         <CoursesHero
           searchTerm={searchTerm}
@@ -167,7 +147,7 @@ export default function CursosPage() {
           filteredCount={filteredCourses.length}
         />
 
-        {/* Content */}
+        {/* Content - Simplified animation */}
         <section className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredCourses.length > 0 ? (
@@ -177,9 +157,9 @@ export default function CursosPage() {
                     ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                     : "space-y-6"
                   }
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
                   key={`${viewMode}-${currentPage}`}
                 >
                   {currentCourses.map((course) => (
@@ -187,7 +167,6 @@ export default function CursosPage() {
                       key={course.id}
                       course={course}
                       layout={viewMode}
-                      variants={cardVariants}
                     />
                   ))}
                 </motion.div>
