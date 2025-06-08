@@ -8,7 +8,7 @@ interface UseDashboardCourseFiltersProps {
 
 export function useDashboardCourseFilters({
   courses,
-  itemsPerPage = 3
+  itemsPerPage = 6
 }: UseDashboardCourseFiltersProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("Categorias")

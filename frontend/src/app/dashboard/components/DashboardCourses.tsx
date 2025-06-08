@@ -37,7 +37,7 @@ export default function DashboardCourses({
     setSelectedStatus,
     clearAllFilters,
     goToPage
-  } = useDashboardCourseFilters({ courses, itemsPerPage: 6 })
+  } = useDashboardCourseFilters({ courses, itemsPerPage: 3 })
 
   // Event listeners for dashboard events
   useEffect(() => {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Search, Bell, ChevronDown, Settings, LogOut, BarChart3, BookOpen } from 'lucide-react'
+import { Menu, X, Search, ChevronDown, Settings, LogOut, BarChart3, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
@@ -236,7 +236,7 @@ export default function Header() {
                   onChange={handleInputChange}
                   onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
                   onKeyDown={handleKeyDown}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-colors duration-200"
+                  className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-colors duration-200"
                 />
 
                 {/* Clear button - Animação simplificada */}
@@ -524,7 +524,7 @@ export default function Header() {
                           placeholder="Buscar cursos..."
                           value={localSearchTerm}
                           onChange={handleInputChange}
-                          className="w-full pl-10 pr-10 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400"
+                          className="w-full pl-10 pr-10 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400"
                         />
                         <AnimatePresence>
                           {localSearchTerm && (

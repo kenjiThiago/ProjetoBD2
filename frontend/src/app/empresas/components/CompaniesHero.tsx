@@ -55,7 +55,7 @@ export default function CompaniesHero({
                     detail: e.target.value
                   }))
                 }}
-                className="w-full pl-12 pr-12 py-4 bg-gray-800/50 border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 text-lg transition-colors duration-200"
+                className="w-full pl-12 pr-12 py-4 bg-gray-800/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 text-lg transition-colors duration-200"
               />
 
               {/* Clear button - Simplified */}
