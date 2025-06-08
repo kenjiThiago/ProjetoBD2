@@ -4,10 +4,9 @@ import type { Course } from '@/data/mockData'
 
 export function useCourseFilters(initialSearchTerm: string = '') {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
-  const [selectedCategory, setSelectedCategory] = useState("Todas")
-  const [selectedLevel, setSelectedLevel] = useState("Todos")
-  const [selectedDuration, setSelectedDuration] = useState("Todas")
-  const [selectedPrice, setSelectedPrice] = useState("Todos")
+  const [selectedCategory, setSelectedCategory] = useState("Categoria")
+  const [selectedLevel, setSelectedLevel] = useState("Nível")
+  const [selectedDuration, setSelectedDuration] = useState("Duração")
   const [sortBy, setSortBy] = useState("Mais Relevantes")
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
 
@@ -27,17 +26,17 @@ export function useCourseFilters(initialSearchTerm: string = '') {
     }
 
     // Filtro de categoria
-    if (selectedCategory !== "Todas") {
+    if (selectedCategory !== "Categoria") {
       filtered = filtered.filter(course => course.category === selectedCategory)
     }
 
     // Filtro de nível
-    if (selectedLevel !== "Todos") {
+    if (selectedLevel !== "Nível") {
       filtered = filtered.filter(course => course.level === selectedLevel)
     }
 
     // Filtro de duração
-    if (selectedDuration !== "Todas") {
+    if (selectedDuration !== "Duração") {
       filtered = filtered.filter(course => {
         const duration = parseInt(course.duration.split('h')[0])
         switch (selectedDuration) {
@@ -45,19 +44,6 @@ export function useCourseFilters(initialSearchTerm: string = '') {
           case "10-20h": return duration > 10 && duration <= 20
           case "20-30h": return duration > 20 && duration <= 30
           case "30h+": return duration > 30
-          default: return true
-        }
-      })
-    }
-
-    // Filtro de preço
-    if (selectedPrice !== "Todos") {
-      filtered = filtered.filter(course => {
-        switch (selectedPrice) {
-          case "Gratuito": return course.price === 0
-          case "R$ 0-200": return course.price >= 0 && course.price <= 200
-          case "R$ 200-400": return course.price > 200 && course.price <= 400
-          case "R$ 400+": return course.price > 400
           default: return true
         }
       })
@@ -74,12 +60,6 @@ export function useCourseFilters(initialSearchTerm: string = '') {
       case "Mais Recentes":
         filtered.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())
         break
-      case "Menor Preço":
-        filtered.sort((a, b) => a.price - b.price)
-        break
-      case "Maior Preço":
-        filtered.sort((a, b) => b.price - a.price)
-        break
       default:
         // Mais Relevantes - prioriza populares, bestsellers e novos
         filtered.sort((a, b) => {
@@ -90,14 +70,13 @@ export function useCourseFilters(initialSearchTerm: string = '') {
     }
 
     setFilteredCourses(filtered)
-  }, [searchTerm, selectedCategory, selectedLevel, selectedDuration, selectedPrice, sortBy])
+  }, [searchTerm, selectedCategory, selectedLevel, selectedDuration, sortBy])
 
   const clearAllFilters = () => {
     setSearchTerm("")
-    setSelectedCategory("Todas")
-    setSelectedLevel("Todos")
-    setSelectedDuration("Todas")
-    setSelectedPrice("Todos")
+    setSelectedCategory("Categoria")
+    setSelectedLevel("Nível")
+    setSelectedDuration("Duração")
     setSortBy("Mais Relevantes")
   }
 
@@ -107,13 +86,11 @@ export function useCourseFilters(initialSearchTerm: string = '') {
     selectedCategory,
     selectedLevel,
     selectedDuration,
-    selectedPrice,
     sortBy,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
     setSelectedDuration,
-    setSelectedPrice,
     setSortBy,
     clearAllFilters
   }

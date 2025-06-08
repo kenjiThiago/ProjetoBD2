@@ -32,13 +32,11 @@ export default function CursosPage() {
     selectedCategory,
     selectedLevel,
     selectedDuration,
-    selectedPrice,
     sortBy,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
     setSelectedDuration,
-    setSelectedPrice,
     setSortBy,
     clearAllFilters
   } = useCourseFilters(urlSearchTerm || globalSearchTerm || '')
@@ -75,10 +73,6 @@ export default function CursosPage() {
       setSelectedDuration(e.detail)
     }
 
-    const handlePriceChange = (e: CustomEvent) => {
-      setSelectedPrice(e.detail)
-    }
-
     const handleSortChange = (e: CustomEvent) => {
       setSortBy(e.detail)
     }
@@ -105,7 +99,6 @@ export default function CursosPage() {
     window.addEventListener('categoryChange', handleCategoryChange as EventListener)
     window.addEventListener('levelChange', handleLevelChange as EventListener)
     window.addEventListener('durationChange', handleDurationChange as EventListener)
-    window.addEventListener('priceChange', handlePriceChange as EventListener)
     window.addEventListener('sortChange', handleSortChange as EventListener)
     window.addEventListener('viewModeChange', handleViewModeChange as EventListener)
     window.addEventListener('toggleFilters', handleToggleFilters)
@@ -118,7 +111,6 @@ export default function CursosPage() {
       window.removeEventListener('categoryChange', handleCategoryChange as EventListener)
       window.removeEventListener('levelChange', handleLevelChange as EventListener)
       window.removeEventListener('durationChange', handleDurationChange as EventListener)
-      window.removeEventListener('priceChange', handlePriceChange as EventListener)
       window.removeEventListener('sortChange', handleSortChange as EventListener)
       window.removeEventListener('viewModeChange', handleViewModeChange as EventListener)
       window.removeEventListener('toggleFilters', handleToggleFilters)
@@ -169,7 +161,6 @@ export default function CursosPage() {
           selectedCategory={selectedCategory}
           selectedLevel={selectedLevel}
           selectedDuration={selectedDuration}
-          selectedPrice={selectedPrice}
           sortBy={sortBy}
           viewMode={viewMode}
           showFilters={showFilters}

@@ -7,24 +7,21 @@ interface FilterBarProps {
   selectedCategory: string
   selectedLevel: string
   selectedDuration: string
-  selectedPrice: string
   sortBy: string
   viewMode: 'grid' | 'list'
   showFilters: boolean
   filteredCount: number
 }
 
-const categories = ["Todas", "Frontend", "Backend", "Data Science", "Mobile", "DevOps", "Design", "Cloud"]
-const levels = ["Todos", "Iniciante", "Intermediário", "Avançado"]
-const durations = ["Todas", "0-10h", "10-20h", "20-30h", "30h+"]
-const prices = ["Todos", "Gratuito", "R$ 0-200", "R$ 200-400", "R$ 400+"]
+const categories = ["Categoria", "Frontend", "Backend", "Data Science", "Mobile", "DevOps", "Design", "Cloud"]
+const levels = ["Nível", "Iniciante", "Intermediário", "Avançado"]
+const durations = ["Duração", "0-10h", "10-20h", "20-30h", "30h+"]
 const sortOptions = ["Mais Relevantes", "Mais Populares", "Melhor Avaliados", "Mais Recentes", "Menor Preço", "Maior Preço"]
 
 export default function FilterBar({
   selectedCategory,
   selectedLevel,
   selectedDuration,
-  selectedPrice,
   sortBy,
   viewMode,
   showFilters,
@@ -38,7 +35,7 @@ export default function FilterBar({
           <div className="flex flex-wrap items-center gap-4">
             {/* Mobile Filter Toggle */}
             <motion.button
-              className="lg:hidden btn-secondary px-4 py-2 text-sm flex items-center space-x-2"
+              className="lg:hidden btn-secondary-mobile px-4 py-2 text-sm flex items-center space-x-2"
               onClick={() => {
                 // Dispatch custom event para comunicação
                 window.dispatchEvent(new CustomEvent('toggleFilters'))
@@ -94,26 +91,12 @@ export default function FilterBar({
                 ))}
               </select>
 
-              <select
-                value={selectedPrice}
-                onChange={(e) => {
-                  window.dispatchEvent(new CustomEvent('priceChange', {
-                    detail: e.target.value
-                  }))
-                }}
-                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
-              >
-                {prices.map(price => (
-                  <option key={price} value={price}>{price}</option>
-                ))}
-              </select>
-
               {/* Clear Filters Button */}
               <motion.button
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('clearFilters'))
                 }}
-                className="text-blue-400 hover:text-blue-300 text-sm flex items-center space-x-1"
+                className="text-violet-400 hover:text-violet-300 text-sm flex items-center space-x-1"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -148,7 +131,7 @@ export default function FilterBar({
             {/* View Mode Toggle */}
             <div className="flex items-center bg-gray-800 rounded-lg p-1">
               <motion.button
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-violet-500 text-white' : 'text-gray-400 hover:text-white'}`}
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('viewModeChange', {
                     detail: 'grid'
@@ -160,7 +143,7 @@ export default function FilterBar({
                 <Grid3X3 className="w-4 h-4" />
               </motion.button>
               <motion.button
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded ${viewMode === 'list' ? 'bg-violet-500 text-white' : 'text-gray-400 hover:text-white'}`}
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('viewModeChange', {
                     detail: 'list'
@@ -228,19 +211,6 @@ export default function FilterBar({
                   ))}
                 </select>
 
-                <select
-                  value={selectedPrice}
-                  onChange={(e) => {
-                    window.dispatchEvent(new CustomEvent('priceChange', {
-                      detail: e.target.value
-                    }))
-                  }}
-                  className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-500"
-                >
-                  {prices.map(price => (
-                    <option key={price} value={price}>{price}</option>
-                  ))}
-                </select>
               </div>
 
               {/* Mobile Clear Filters */}
@@ -248,7 +218,7 @@ export default function FilterBar({
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('clearFilters'))
                 }}
-                className="btn-secondary text-sm flex items-center space-x-2"
+                className="btn-secondary-mobile text-sm flex items-center space-x-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

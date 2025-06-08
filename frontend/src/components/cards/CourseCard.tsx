@@ -44,21 +44,18 @@ export default function CourseCard({
       thumbnail: 'h-32',
       title: 'text-md',
       icon: 'w-8 h-8',
-      price: 'text-lg'
     },
     medium: {
       container: 'p-6',
       thumbnail: 'h-48',
       title: 'text-lg',
       icon: 'w-12 h-12',
-      price: 'text-2xl'
     },
     large: {
       container: 'p-8',
       thumbnail: 'h-56',
       title: 'text-xl',
       icon: 'w-16 h-16',
-      price: 'text-3xl'
     }
   }
 
@@ -71,7 +68,7 @@ export default function CourseCard({
         className="card-glow card p-6 group cursor-pointer"
         whileHover={{ y: -2 }}
       >
-        <div className="flex items-start space-x-4">
+        <div className="flex space-x-4 items-center">
           <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
             <Play className="w-8 h-8 text-white" />
           </div>
@@ -93,11 +90,30 @@ export default function CourseCard({
                   <span>{course.students.toLocaleString()}</span>
                 </div>
               </div>
-              <div className="text-lg font-bold text-purple-400">
-                R$ {course.price.toFixed(2).replace('.', ',')}
-              </div>
             </div>
           </div>
+
+          {showActions && (
+            <div className="pt-2">
+              <div className="flex gap-2 justify-between flex-1">
+                <motion.button
+                  className="btn-secondary p-2"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Heart className="w-4 h-4" />
+                </motion.button>
+                <motion.button
+                  className="btn-primary px-4 py-2 flex items-center space-x-1"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <ArrowRight className="w-4 h-4" />
+                  <span>Acessar</span>
+                </motion.button>
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
     )

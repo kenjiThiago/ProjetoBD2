@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Search, Bell, User, ChevronDown, Settings, LogOut, BarChart3, Award, BookOpen, Heart } from 'lucide-react'
+import { Menu, X, Search, Bell, ChevronDown, Settings, LogOut, BarChart3, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
@@ -14,6 +14,7 @@ export default function Header() {
   const [localSearchTerm, setLocalSearchTerm] = useState('')
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1)
 
   const router = useRouter()
   const pathname = usePathname()
@@ -98,6 +99,39 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showSearchSuggestions || filteredSuggestions.length === 0) return
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setSelectedSuggestionIndex(prev =>
+          prev < filteredSuggestions.length ? prev + 1 : prev
+        )
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setSelectedSuggestionIndex(prev => prev > -1 ? prev - 1 : prev)
+        break
+      case 'Enter':
+        e.preventDefault()
+        if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < filteredSuggestions.length) {
+          handleSuggestionClick(filteredSuggestions[selectedSuggestionIndex])
+        } else if (selectedSuggestionIndex === filteredSuggestions.length) {
+          // "Buscar por" option
+          handleSearch(localSearchTerm)
+        } else {
+          handleSubmit(e)
+        }
+        break
+      case 'Escape':
+        setShowSearchSuggestions(false)
+        setSelectedSuggestionIndex(-1)
+        break
+    }
+  }
+
+
   const handleSearch = (term: string) => {
     if (!term.trim()) return
 
@@ -107,10 +141,7 @@ export default function Header() {
     setGlobalSearchTerm(searchTerm)
     setShowSearchSuggestions(false)
 
-    // Se não estiver na página de cursos, navega para lá
-    if (pathname !== '/cursos') {
-      router.push(`/cursos?search=${encodeURIComponent(searchTerm)}`)
-    }
+    router.push(`/cursos?search=${encodeURIComponent(searchTerm)}`)
 
     // Limpa o campo do header após a busca
     setLocalSearchTerm('')
@@ -127,15 +158,18 @@ export default function Header() {
     const value = e.target.value
     setLocalSearchTerm(value)
     setShowSearchSuggestions(value.length > 0)
+    setSelectedSuggestionIndex(-1)
   }
 
   const handleSuggestionClick = (suggestion: string) => {
     handleSearch(suggestion)
+    setSelectedSuggestionIndex(-1)
   }
 
   const clearSearch = () => {
     setLocalSearchTerm('')
     setShowSearchSuggestions(false)
+    setSelectedSuggestionIndex(-1)
   }
 
   // NAVEGAÇÃO CORRIGIDA PARA USAR ROUTER.PUSH
@@ -221,6 +255,7 @@ export default function Header() {
                   value={localSearchTerm}
                   onChange={handleInputChange}
                   onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
+                  onKeyDown={handleKeyDown}
                   className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-all duration-200"
                 />
 
@@ -263,27 +298,32 @@ export default function Header() {
                   className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50"
                 >
                   {filteredSuggestions.map((suggestion, index) => (
-                    <motion.button
+                    <button
                       key={suggestion}
                       onClick={() => handleSuggestionClick(suggestion)}
-                      className="w-full text-left px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-150 ease-out flex items-center space-x-2"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 ${
+                        selectedSuggestionIndex === index
+                          ? 'bg-orange-500/20 text-orange-300 border-l-2 border-orange-500'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      }`}
                     >
                       <Search className="w-4 h-4 text-gray-500" />
                       <span>{suggestion}</span>
-                    </motion.button>
+                    </button>
                   ))}
 
                   {localSearchTerm && (
-                    <motion.button
+                    <button
                       onClick={() => handleSearch(localSearchTerm)}
-                      className="w-full text-left px-4 py-3 text-orange-400 hover:bg-gray-700 hover:text-orange-300 transition-all duration-150 ease-out flex items-center space-x-2 border-t border-gray-700"
+                      className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 border-t border-gray-700 ${
+                        selectedSuggestionIndex === filteredSuggestions.length
+                          ? 'bg-orange-500/20 text-orange-300 border-l-2 border-orange-500'
+                          : 'text-orange-400 hover:bg-gray-700 hover:text-orange-300'
+                      }`}
                     >
                       <Search className="w-4 h-4" />
                       <span>Buscar por "{localSearchTerm}"</span>
-                    </motion.button>
+                    </button>
                   )}
                 </motion.div>
               )}

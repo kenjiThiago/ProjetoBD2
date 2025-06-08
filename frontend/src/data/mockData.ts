@@ -10,8 +10,6 @@ export interface Course {
   category: string
   rating: number
   students: number
-  price: number
-  originalPrice: number
   thumbnail: string
   tags: string[]
   lessons: number
@@ -84,8 +82,6 @@ export const courses: Course[] = [
     category: "Frontend",
     rating: 4.9,
     students: 3245,
-    price: 299.90,
-    originalPrice: 399.90,
     thumbnail: "react-typescript",
     tags: ["React", "TypeScript", "Hooks", "Context API", "Performance"],
     lessons: 32,
@@ -117,8 +113,6 @@ export const courses: Course[] = [
     category: "Backend",
     rating: 4.8,
     students: 2890,
-    price: 349.90,
-    originalPrice: 499.90,
     thumbnail: "nodejs-api",
     tags: ["Node.js", "Express", "MongoDB", "JWT", "API REST"],
     lessons: 28,
@@ -150,8 +144,6 @@ export const courses: Course[] = [
     category: "Data Science",
     rating: 4.9,
     students: 4156,
-    price: 279.90,
-    originalPrice: 399.90,
     thumbnail: "python-datascience",
     tags: ["Python", "Pandas", "NumPy", "Matplotlib", "Data Analysis"],
     lessons: 25,
@@ -183,8 +175,6 @@ export const courses: Course[] = [
     category: "Frontend",
     rating: 4.7,
     students: 1967,
-    price: 249.90,
-    originalPrice: 349.90,
     thumbnail: "vuejs-complete",
     tags: ["Vue.js", "Composition API", "Pinia", "Vue Router", "Vite"],
     lessons: 24,
@@ -212,8 +202,6 @@ export const courses: Course[] = [
     category: "DevOps",
     rating: 4.6,
     students: 2134,
-    price: 329.90,
-    originalPrice: 449.90,
     thumbnail: "docker-kubernetes",
     tags: ["Docker", "Kubernetes", "Containers", "DevOps", "Orquestração"],
     lessons: 20,
@@ -244,8 +232,6 @@ export const courses: Course[] = [
     category: "Mobile",
     rating: 4.8,
     students: 1876,
-    price: 359.90,
-    originalPrice: 499.90,
     thumbnail: "flutter-development",
     tags: ["Flutter", "Dart", "Mobile", "iOS", "Android"],
     lessons: 30,
@@ -273,8 +259,6 @@ export const courses: Course[] = [
     category: "Data Science",
     rating: 4.9,
     students: 2567,
-    price: 399.90,
-    originalPrice: 599.90,
     thumbnail: "machine-learning",
     tags: ["Machine Learning", "Python", "Scikit-learn", "TensorFlow", "AI"],
     lessons: 35,
@@ -302,8 +286,6 @@ export const courses: Course[] = [
     category: "Design",
     rating: 4.7,
     students: 3456,
-    price: 199.90,
-    originalPrice: 299.90,
     thumbnail: "uiux-design",
     tags: ["UI/UX", "Figma", "Design System", "Prototipagem", "Usabilidade"],
     lessons: 18,
@@ -334,8 +316,6 @@ export const courses: Course[] = [
     category: "Cloud",
     rating: 4.6,
     students: 2890,
-    price: 249.90,
-    originalPrice: 349.90,
     thumbnail: "aws-cloud",
     tags: ["AWS", "Cloud", "EC2", "S3", "Lambda"],
     lessons: 22,
@@ -363,8 +343,6 @@ export const courses: Course[] = [
     category: "Frontend",
     rating: 4.8,
     students: 4567,
-    price: 179.90,
-    originalPrice: 249.90,
     thumbnail: "javascript-modern",
     tags: ["JavaScript", "ES6+", "Async/Await", "Modules", "Classes"],
     lessons: 26,
