@@ -9,8 +9,8 @@ import {
   Trophy,
   Zap,
   Award,
+  ArrowRight,
   Heart,
-  ShoppingCart
 } from 'lucide-react'
 import type { Course } from '@/data/mockData'
 
@@ -181,16 +181,8 @@ export default function CourseCard({
         </div>
 
         {showActions && (
-          <div className="flex items-center justify-between pt-2">
-            <div>
-              <div className={`${classes.price} font-bold text-purple-400`}>
-                R$ {course.price.toFixed(2).replace('.', ',')}
-              </div>
-              <div className="text-sm text-gray-500 line-through">
-                R$ {course.originalPrice.toFixed(2).replace('.', ',')}
-              </div>
-            </div>
-            <div className="flex gap-2">
+          <div className="pt-2">
+            <div className="flex gap-2 justify-between flex-1">
               <motion.button
                 className="btn-secondary p-2"
                 whileHover={{ scale: 1.1 }}
@@ -203,8 +195,8 @@ export default function CourseCard({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <ShoppingCart className="w-4 h-4" />
-                <span>Comprar</span>
+                <ArrowRight className="w-4 h-4" />
+                <span>Acessar</span>
               </motion.button>
             </div>
           </div>

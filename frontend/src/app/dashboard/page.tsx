@@ -4,51 +4,26 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   BookOpen,
-  Trophy,
   Clock,
   Play,
   CheckCircle,
   Star,
-  Calendar,
-  TrendingUp,
   Target,
   Award,
   Download,
-  Share2,
-  Users,
-  MessageSquare,
-  Bell,
-  Settings,
-  LogOut,
-  ChevronRight,
   BarChart3,
   Flame,
-  Zap,
-  Brain,
-  Code,
-  Headphones,
-  FileText,
-  Video,
-  User,
   Eye,
-  ArrowRight,
-  PlusCircle,
-  Filter,
-  Heart
 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import {
   courses,
-  learningPaths,
-  achievements,
-  activities,
   getCoursesInProgress,
   getCompletedCourses,
   getCoursesWithCertificates
 } from '@/data/mockData'
-import type { Course, LearningPath, Achievement, Activity } from '@/data/mockData'
 
 export default function DashboardPage() {
   // LER SEARCHPARAMS CORRETAMENTE
@@ -69,9 +44,6 @@ export default function DashboardPage() {
   const coursesInProgress = getCoursesInProgress()
   const completedCourses = getCompletedCourses()
   const coursesWithCertificates = getCoursesWithCertificates()
-
-  // Filtrar trilhas em andamento (que têm progresso)
-  const pathsInProgress = learningPaths.filter(path => path.progress && path.progress > 0)
 
   // ATUALIZAR TAB QUANDO URL MUDAR
   useEffect(() => {
@@ -113,27 +85,6 @@ export default function DashboardPage() {
       case 'Intermediário': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
       case 'Avançado': return 'bg-red-500/20 text-red-400 border-red-500/30'
       default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30'
-    }
-  }
-
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case 'course_completed': return BookOpen
-      case 'lesson_completed': return CheckCircle
-      case 'achievement_earned': return Trophy
-      case 'streak_milestone': return Flame
-      default: return Star
-    }
-  }
-
-  const getAchievementIcon = (icon: string) => {
-    switch (icon) {
-      case 'trophy': return Trophy
-      case 'flame': return Flame
-      case 'code': return Code
-      case 'award': return Award
-      case 'clock': return Clock
-      default: return Trophy
     }
   }
 

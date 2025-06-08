@@ -6,7 +6,6 @@ import { Users, BookOpen, GraduationCap, Star, Award, Globe, Zap, Heart } from '
 
 export default function Stats() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
 
   const stats = [
     {

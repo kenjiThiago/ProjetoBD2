@@ -5,7 +5,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  Facebook,
   Twitter,
   Instagram,
   Linkedin,
@@ -303,7 +302,7 @@ export default function Footer() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              &copy; 2024 Codify. Todos os direitos reservados.
+              &copy; 2025 Codify. Todos os direitos reservados.
             </motion.p>
 
             <motion.div

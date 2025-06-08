@@ -71,52 +71,6 @@ export interface Job {
   isFeatured?: boolean
 }
 
-export interface LearningPath {
-  id: number
-  title: string
-  description: string
-  level: 'Iniciante' | 'Intermediário' | 'Avançado'
-  category: string
-  duration: string
-  courses: number
-  students: number
-  rating: number
-  thumbnail: string
-  instructor: string
-  instructorAvatar: string
-  tags: string[]
-  skills: string[]
-  isPopular?: boolean
-  isNew?: boolean
-  price: number
-  originalPrice: number
-  completionRate: number
-  progress?: number
-  totalCourses?: number
-  completedCourses?: number
-  estimatedCompletion?: string
-}
-
-export interface Achievement {
-  id: number
-  title: string
-  description: string
-  icon: string
-  earnedAt: string
-  category: string
-  points: number
-}
-
-export interface Activity {
-  id: number
-  type: 'course_completed' | 'lesson_completed' | 'achievement_earned' | 'streak_milestone'
-  title: string
-  description: string
-  timestamp: string
-  icon: string
-  points?: number
-}
-
 // CURSOS PADRONIZADOS
 export const courses: Course[] = [
   {
@@ -533,204 +487,114 @@ export const companies: Company[] = [
   }
 ]
 
-// TRILHAS PADRONIZADAS
-export const learningPaths: LearningPath[] = [
+export const jobs: Job[] = [
   {
     id: 1,
-    title: "Desenvolvedor Full Stack Moderno",
-    description: "Trilha completa para se tornar um desenvolvedor full stack usando as tecnologias mais demandadas do mercado",
-    level: "Intermediário",
-    category: "Full Stack",
-    duration: "6 meses",
-    courses: 12,
-    students: 4567,
-    rating: 4.9,
-    thumbnail: "fullstack-path",
-    instructor: "Carlos Santos",
-    instructorAvatar: "CS",
-    tags: ["React", "Node.js", "TypeScript", "MongoDB"],
-    skills: ["Frontend", "Backend", "Database", "Deploy"],
-    isPopular: true,
-    price: 899.90,
-    originalPrice: 1299.90,
-    completionRate: 87,
-    progress: 60,
-    totalCourses: 12,
-    completedCourses: 7,
-    estimatedCompletion: "2 meses"
+    title: "Desenvolvedor React Sênior",
+    company: "TechCorp Solutions",
+    companyLogo: "TC",
+    location: "São Paulo, SP",
+    type: "Híbrido",
+    level: "Sênior",
+    salaryRange: "R$ 12.000 - R$ 18.000",
+    description: "Buscamos um desenvolvedor React sênior para liderar projetos frontend e mentorar desenvolvedores juniores.",
+    requirements: ["5+ anos com React", "TypeScript", "Next.js", "Testes automatizados", "Liderança técnica"],
+    technologies: ["React", "TypeScript", "Next.js", "Jest", "Cypress"],
+    benefits: ["Plano de saúde", "Vale refeição", "Home office", "Auxílio educação"],
+    postedAt: "2025-06-01",
+    deadline: "2025-06-30",
+    applicants: 47,
+    isFeatured: true
   },
   {
     id: 2,
-    title: "Data Science com Python",
-    description: "Aprenda análise de dados, machine learning e inteligência artificial do zero ao avançado",
-    level: "Intermediário",
-    category: "Data Science",
-    duration: "4 meses",
-    courses: 8,
-    students: 3245,
-    rating: 4.8,
-    thumbnail: "datascience-path",
-    instructor: "Marina Costa",
-    instructorAvatar: "MC",
-    tags: ["Python", "Pandas", "Scikit-learn", "TensorFlow"],
-    skills: ["Análise de Dados", "Machine Learning", "Visualização", "IA"],
-    price: 799.90,
-    originalPrice: 1199.90,
-    completionRate: 92,
-    progress: 33,
-    totalCourses: 8,
-    completedCourses: 3,
-    estimatedCompletion: "3 meses"
+    title: "Data Scientist",
+    company: "DataFlow Analytics",
+    companyLogo: "DF",
+    location: "Rio de Janeiro, RJ",
+    type: "Remoto",
+    level: "Pleno",
+    salaryRange: "R$ 8.000 - R$ 12.000",
+    description: "Profissional para desenvolvimento de modelos de ML e análise de grandes volumes de dados.",
+    requirements: ["Python", "Pandas", "Scikit-learn", "SQL", "Estatística"],
+    technologies: ["Python", "Pandas", "Scikit-learn", "TensorFlow", "SQL"],
+    benefits: ["Plano de saúde", "Gympass", "Cursos online", "Stock options"],
+    postedAt: "2025-05-30",
+    deadline: "2025-06-25",
+    applicants: 32,
+    isNew: true
   },
   {
     id: 3,
-    title: "Frontend Especialista React",
-    description: "Domine React, Next.js e todo o ecossistema frontend para criar aplicações profissionais",
-    level: "Intermediário",
-    category: "Frontend",
-    duration: "3 meses",
-    courses: 6,
-    students: 2890,
-    rating: 4.9,
-    thumbnail: "react-path",
-    instructor: "Ana Silva",
-    instructorAvatar: "AS",
-    tags: ["React", "Next.js", "TypeScript", "Tailwind"],
-    skills: ["Componentes", "Hooks", "Performance", "Testing"],
-    isNew: true,
-    price: 599.90,
-    originalPrice: 899.90,
-    completionRate: 89
+    title: "DevOps Engineer",
+    company: "CloudNine Systems",
+    companyLogo: "C9",
+    location: "Florianópolis, SC",
+    type: "Remoto",
+    level: "Pleno",
+    salaryRange: "R$ 10.000 - R$ 15.000",
+    description: "Responsável por CI/CD, infraestrutura como código e automação de deploy.",
+    requirements: ["AWS", "Docker", "Kubernetes", "Terraform", "Linux"],
+    technologies: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+    benefits: ["100% remoto", "Horário flexível", "Equipamentos", "Cursos AWS"],
+    postedAt: "2025-05-28",
+    deadline: "2025-06-20",
+    applicants: 28,
+    isUrgent: true
   },
   {
     id: 4,
-    title: "DevOps e Cloud Computing",
-    description: "Aprenda a automatizar deploys, gerenciar infraestrutura e trabalhar com AWS",
-    level: "Avançado",
-    category: "DevOps",
-    duration: "5 meses",
-    courses: 10,
-    students: 1876,
-    rating: 4.7,
-    thumbnail: "devops-path",
-    instructor: "Pedro Oliveira",
-    instructorAvatar: "PO",
-    tags: ["Docker", "Kubernetes", "AWS", "CI/CD"],
-    skills: ["Containers", "Orquestração", "Monitoramento", "Segurança"],
-    price: 999.90,
-    originalPrice: 1499.90,
-    completionRate: 84,
-    progress: 15,
-    totalCourses: 10,
-    completedCourses: 2,
-    estimatedCompletion: "4 meses"
-  }
-]
-
-// CONQUISTAS PADRONIZADAS
-export const achievements: Achievement[] = [
-  {
-    id: 1,
-    title: "Primeira Conquista",
-    description: "Completou seu primeiro curso",
-    icon: "trophy",
-    earnedAt: "2025-05-15",
-    category: "Marcos",
-    points: 100
-  },
-  {
-    id: 2,
-    title: "Sequência de 7 Dias",
-    description: "Estudou por 7 dias consecutivos",
-    icon: "flame",
-    earnedAt: "2025-06-02",
-    category: "Consistência",
-    points: 150
-  },
-  {
-    id: 3,
-    title: "Especialista Frontend",
-    description: "Completou 3 cursos de Frontend",
-    icon: "code",
-    earnedAt: "2025-06-01",
-    category: "Especialização",
-    points: 200
-  },
-  {
-    id: 4,
-    title: "Colecionador de Certificados",
-    description: "Conquistou 2 certificados",
-    icon: "award",
-    earnedAt: "2025-05-28",
-    category: "Marcos",
-    points: 250
+    title: "Estágio em Desenvolvimento Web",
+    company: "StartupHub Ventures",
+    companyLogo: "SH",
+    location: "Belo Horizonte, MG",
+    type: "Presencial",
+    level: "Estágio",
+    salaryRange: "R$ 1.200 - R$ 1.800",
+    description: "Oportunidade para estudantes desenvolverem habilidades em desenvolvimento web full stack.",
+    requirements: ["Estudante", "HTML/CSS/JS", "React básico", "Git", "Inglês básico"],
+    technologies: ["React", "Node.js", "MongoDB", "Git", "JavaScript"],
+    benefits: ["Vale transporte", "Vale refeição", "Mentorias", "Ambiente startup"],
+    postedAt: "2025-06-02",
+    deadline: "2025-06-15",
+    applicants: 156,
+    isNew: true
   },
   {
     id: 5,
-    title: "Dedicação Total",
-    description: "Estudou por mais de 50 horas",
-    icon: "clock",
-    earnedAt: "2025-05-30",
-    category: "Tempo",
-    points: 300
-  }
-]
-
-// ATIVIDADES PADRONIZADAS
-export const activities: Activity[] = [
-  {
-    id: 1,
-    type: 'lesson_completed',
-    title: "Aula concluída",
-    description: "Context API com TypeScript",
-    timestamp: "2025-06-04T16:30:00",
-    icon: "check-circle",
-    points: 10
-  },
-  {
-    id: 2,
-    type: 'lesson_completed',
-    title: "Aula concluída",
-    description: "Hooks Avançados em React",
-    timestamp: "2025-06-04T15:45:00",
-    icon: "check-circle",
-    points: 10
-  },
-  {
-    id: 3,
-    type: 'achievement_earned',
-    title: "Conquista desbloqueada",
-    description: "Sequência de 7 Dias",
-    timestamp: "2025-06-02T09:15:00",
-    icon: "trophy",
-    points: 150
-  },
-  {
-    id: 4,
-    type: 'lesson_completed',
-    title: "Aula concluída",
-    description: "Docker Compose na Prática",
-    timestamp: "2025-06-02T14:20:00",
-    icon: "check-circle",
-    points: 10
-  },
-  {
-    id: 5,
-    type: 'course_completed',
-    title: "Curso concluído",
-    description: "Python para Data Science",
-    timestamp: "2025-05-28T14:20:00",
-    icon: "book-open",
-    points: 500
+    title: "Backend Developer Java",
+    company: "FinTech Revolution",
+    companyLogo: "FR",
+    location: "São Paulo, SP",
+    type: "Híbrido",
+    level: "Pleno",
+    salaryRange: "R$ 9.000 - R$ 14.000",
+    description: "Desenvolvimento de APIs e microserviços para soluções financeiras de alta performance.",
+    requirements: ["Java 11+", "Spring Boot", "Microserviços", "Apache Kafka", "Banco de dados"],
+    technologies: ["Java", "Spring Boot", "Kafka", "PostgreSQL", "Docker"],
+    benefits: ["Plano de saúde premium", "PIR", "Day off aniversário", "Massagem"],
+    postedAt: "2025-05-29",
+    deadline: "2025-06-28",
+    applicants: 64,
+    isFeatured: true
   },
   {
     id: 6,
-    type: 'achievement_earned',
-    title: "Conquista desbloqueada",
-    description: "Colecionador de Certificados",
-    timestamp: "2025-05-28T14:25:00",
-    icon: "trophy",
-    points: 250
+    title: "Game Developer Unity",
+    company: "GameDev Studios",
+    companyLogo: "GD",
+    location: "Curitiba, PR",
+    type: "Presencial",
+    level: "Júnior",
+    salaryRange: "R$ 4.000 - R$ 6.000",
+    description: "Desenvolvimento de jogos mobile e web usando Unity e C#.",
+    requirements: ["Unity", "C#", "Game design", "Git", "Matemática"],
+    technologies: ["Unity", "C#", "Blender", "Git", "Mobile"],
+    benefits: ["Ambiente criativo", "Games gratuitos", "Eventos gaming", "Pets friendly"],
+    postedAt: "2025-06-03",
+    deadline: "2025-06-18",
+    applicants: 89,
+    isNew: true
   }
 ]
 

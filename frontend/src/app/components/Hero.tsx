@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Play, Star, Users, BookOpen, Award, Code2, Zap } from 'lucide-react'
+import { Play, Star, Code2, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 export default function Hero() {
@@ -14,7 +14,7 @@ export default function Hero() {
 
     // Generate code elements only on client
     const codes = ['<>', '{}', '( )', '[ ]', '</ >', 'fn()', '=>']
-    const generatedCodeElements = codes.map((code, i) => ({
+    const generatedCodeElements = codes.map((code, _) => ({
       code,
       style: {
         left: `${Math.random() * 100}%`,
