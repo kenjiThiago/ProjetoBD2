@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
-import { Users, BookOpen, GraduationCap, Star, Award, Globe, Zap, Heart } from 'lucide-react'
+import { Users, BookOpen, GraduationCap, Building, Award, Globe, Zap, Heart } from 'lucide-react'
 
 export default function Stats() {
   const ref = useRef(null)
@@ -30,10 +30,10 @@ export default function Stats() {
       gradient: "from-purple-500 to-pink-400"
     },
     {
-      number: 4.9,
-      suffix: "",
-      label: "Avaliação Média",
-      icon: Star,
+      number: 30,
+      suffix: "+",
+      label: "Empresas Parceiras",
+      icon: Building,
       gradient: "from-yellow-500 to-orange-400"
     }
   ]
@@ -83,13 +83,10 @@ export default function Stats() {
         const progress = Math.min((currentTime - startTime) / duration, 1)
 
         const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+        setCount(Math.floor(easeOutQuart * number))
 
         if (progress < 1) {
           animationFrame = requestAnimationFrame(animate)
-          setCount(Math.floor(easeOutQuart * number))
-        }
-        else {
-          setCount(number)
         }
       }
 
@@ -194,31 +191,6 @@ export default function Stats() {
           })}
         </motion.div>
 
-        {/* CTA Section - Simplified */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <div className="glass rounded-2xl p-8 max-w-3xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Pronto para começar sua <span className="gradient-text">transformação?</span>
-            </h3>
-            <p className="text-gray-400 mb-8 text-lg">
-              Junte-se aos milhares de profissionais que já mudaram de carreira com o Codify
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary px-8 py-4 text-lg">
-                Começar Agora - Grátis
-              </button>
-              <button className="glass border-2 border-white/20 text-white hover:bg-white/10 font-semibold py-4 px-8 rounded-lg transition-all duration-300">
-                Falar com Consultor
-              </button>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
