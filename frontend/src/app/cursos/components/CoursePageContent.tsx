@@ -166,7 +166,6 @@ export default function CursosPageContent() {
                       key={course.id}
                       course={course}
                       layout={viewMode}
-                      size={"small"}
                     />
                   ))}
                 </motion.div>

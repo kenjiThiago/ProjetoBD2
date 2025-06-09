@@ -46,7 +46,6 @@ export default function FeaturedCourses({
             <CourseCard
               key={course.id}
               course={course}
-              size={"small"}
             />
           ))}
         </motion.div>
