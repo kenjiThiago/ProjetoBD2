@@ -10,6 +10,11 @@ export function useCourseFilters(initialSearchTerm: string = '') {
   const [sortBy, setSortBy] = useState("Mais Relevantes")
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
 
+  // Limpa o input da página de cursos ao entrar
+  useEffect(() => {
+    setSearchTerm("")
+  }, [])
+
   // Filtrar cursos
   useEffect(() => {
     let filtered = [...courses]
