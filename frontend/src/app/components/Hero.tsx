@@ -63,7 +63,7 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
           >
             {/* Rating Section - Simplificado */}
-            <div className="flex items-center space-x-2 mb-6">
+            <div className="lg:justify-start justify-center flex items-center space-x-2 mb-6">
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
@@ -73,30 +73,29 @@ export default function Hero() {
             </div>
 
             {/* Main Heading - Removida animação complexa do gradient */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
-              Domine a
-              <span className="gradient-text block pb-2">
-                programação
-              </span>
+            <h1 className="lg:text-left text-center text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
+              <div className="flex lg:block gap-4 justify-center">
+                Domine a
+                <span className="gradient-text block pb-2">
+                  programação
+                </span>
+              </div>
               do zero ao avançado
             </h1>
 
             {/* Description */}
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+            <p className="lg:text-left text-center text-xl text-gray-300 mb-8 leading-relaxed">
               Aprenda as tecnologias mais demandadas do mercado com
               <span className="font-semibold text-orange-400"> projetos práticos</span> e
               mentoria especializada. Construa sua carreira na programação.
             </p>
 
             {/* Buttons - Removidas animações hover complexas */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <div className="lg:justify-start justify-center flex flex-col sm:flex-row gap-4 mb-8">
               <button className="btn-primary text-lg px-8 py-4 flex items-center space-x-2">
                 <Play className="w-5 h-5" />
                 <span>Começar a Programar</span>
-              </button>
-              <button className="glass border-2 border-white/20 text-white hover:bg-white/10 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center space-x-2">
                 <Code2 className="w-5 h-5" />
-                <span>Ver Roadmaps</span>
               </button>
             </div>
           </motion.div>
@@ -108,7 +107,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="relative">
+            <div className="relative p-12 lg:p-0">
               {/* Main Card - Code Editor Mockup - Removidas animações complexas */}
               <div className="card-glow card p-1 transform rotate-3 hover:rotate-0 transition-transform duration-500 bg-gray-900">
                 {/* Editor Header */}
@@ -141,22 +140,22 @@ export default function Hero() {
               </div>
 
               {/* Floating Elements - Simplificados e estáticos */}
-              <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white">
+              <div className="absolute top-8 lg:-top-4 right-6 lg:-right-4 w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white">
                 <Zap className="w-6 h-6" />
               </div>
 
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+              <div className="absolute bottom-8 lg:-bottom-4 left-6 lg:-left-4 w-16 h-16 bg-blue-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                   <Code2 className="w-4 h-4 text-white" />
                 </div>
               </div>
 
               {/* Language Icons - Removidas animações */}
-              <div className="absolute top-1/2 -left-8 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-bold text-sm">
+              <div className="absolute top-1/2 left-2 lg:-left-8 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-bold text-sm">
                 JS
               </div>
 
-              <div className="absolute top-1/4 -right-8 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+              <div className="absolute top-1/4 right-2 lg:-right-8 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                 TS
               </div>
             </div>
