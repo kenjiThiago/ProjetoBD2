@@ -68,8 +68,8 @@ export function useCourseFilters(initialSearchTerm: string = '') {
       default:
         // Mais Relevantes - prioriza populares, bestsellers e novos
         filtered.sort((a, b) => {
-          const aScore = (a.isPopular ? 3 : 0) + (a.isBestseller ? 2 : 0) + (a.isNew ? 1 : 0)
-          const bScore = (b.isPopular ? 3 : 0) + (b.isBestseller ? 2 : 0) + (b.isNew ? 1 : 0)
+          const aScore = (a.isPopular ? 3 : 0) + (a.isNew ? 1 : 0)
+          const bScore = (b.isPopular ? 3 : 0) + (b.isNew ? 1 : 0)
           return bScore - aScore
         })
     }

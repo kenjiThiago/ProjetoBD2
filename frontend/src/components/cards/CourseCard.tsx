@@ -121,12 +121,6 @@ export default function CourseCard({
             <span>Novo</span>
           </span>
         )}
-        {course.isBestseller && (
-          <span className="bg-purple-500/20 text-purple-400 text-xs font-bold px-2 py-1 rounded flex items-center space-x-1 border border-purple-500/30">
-            <Award className="w-3 h-3" />
-            <span>Bestseller</span>
-          </span>
-        )}
       </div>
 
       {/* Thumbnail - Simplificado */}
