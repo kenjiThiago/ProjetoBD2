@@ -174,10 +174,7 @@ export default function CourseCard({
 
         {showActions && (
           <div className="pt-2">
-            <div className="flex gap-2 justify-between flex-1">
-              <button className="btn-secondary p-2">
-                <Heart className="w-4 h-4" />
-              </button>
+            <div className="flex gap-2 flex-1">
               <button className="btn-primary px-4 py-2 flex items-center space-x-1">
                 <ArrowRight className="w-4 h-4" />
                 <span>Acessar</span>
