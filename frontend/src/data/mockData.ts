@@ -20,11 +20,11 @@ export interface Course {
   whatYouWillLearn: string[]
   isPopular?: boolean
   isNew?: boolean
-  isBestseller?: boolean
   progress?: number
   completedLessons?: number
   lastAccessed?: string
   nextLesson?: string
+  isFree?: boolean
 }
 
 export interface Company {
@@ -100,7 +100,8 @@ export const courses: Course[] = [
     progress: 75,
     completedLessons: 24,
     lastAccessed: "2025-06-04",
-    nextLesson: "Context API com TypeScript"
+    nextLesson: "Context API com TypeScript",
+    isFree: true,
   },
   {
     id: 2,
@@ -127,11 +128,11 @@ export const courses: Course[] = [
       "Middleware e validações",
       "Deploy e documentação"
     ],
-    isBestseller: true,
     progress: 45,
     completedLessons: 13,
     lastAccessed: "2025-06-03",
-    nextLesson: "Middleware de Autenticação"
+    nextLesson: "Middleware de Autenticação",
+    isFree: true,
   },
   {
     id: 3,
@@ -162,7 +163,8 @@ export const courses: Course[] = [
     progress: 100,
     completedLessons: 25,
     lastAccessed: "2025-05-28",
-    nextLesson: "Concluído"
+    nextLesson: "Concluído",
+    isFree: false,
   },
   {
     id: 4,
@@ -219,7 +221,9 @@ export const courses: Course[] = [
     progress: 20,
     completedLessons: 4,
     lastAccessed: "2025-06-02",
-    nextLesson: "Containers e Imagens"
+    nextLesson: "Containers e Imagens",
+    isNew: true,
+    isFree: false,
   },
   {
     id: 6,
@@ -246,7 +250,8 @@ export const courses: Course[] = [
       "Integração com APIs",
       "Publicação nas stores"
     ],
-    isPopular: true
+    isPopular: true,
+    isFree: false,
   },
   {
     id: 7,
@@ -273,7 +278,7 @@ export const courses: Course[] = [
       "Avaliação de modelos",
       "Deploy de modelos em produção"
     ],
-    isBestseller: true
+    isFree: false,
   },
   {
     id: 8,
@@ -303,7 +308,8 @@ export const courses: Course[] = [
     progress: 100,
     completedLessons: 18,
     lastAccessed: "2025-05-15",
-    nextLesson: "Concluído"
+    nextLesson: "Concluído",
+    isFree: false,
   },
   {
     id: 9,
@@ -330,7 +336,8 @@ export const courses: Course[] = [
       "Segurança na nuvem",
       "Preparação para certificação"
     ],
-    isNew: true
+    isNew: true,
+    isFree: false,
   },
   {
     id: 10,
@@ -357,7 +364,8 @@ export const courses: Course[] = [
       "Classes e herança",
       "APIs modernas do navegador"
     ],
-    isPopular: true
+    isPopular: true,
+    isFree: false,
   },
   {
     id: 11,
@@ -385,7 +393,8 @@ export const courses: Course[] = [
       "APIs modernas do navegador"
     ],
     isPopular: true,
-    isNew: true
+    isNew: true,
+    isFree: true,
   }
 ]
 
@@ -618,13 +627,10 @@ export const getCoursesByCategory = (category: string) =>
   courses.filter(course => course.category === category)
 
 export const getFeaturedCourses = () =>
-  courses.filter(course => course.isPopular || course.isBestseller || course.isNew)
+  courses.filter(course => course.isPopular || course.isNew)
 
 export const getPopularCourses = () =>
   courses.filter(course => course.isPopular)
 
 export const getNewCourses = () =>
   courses.filter(course => course.isNew)
-
-export const getBestsellerCourses = () =>
-  courses.filter(course => course.isBestseller)
