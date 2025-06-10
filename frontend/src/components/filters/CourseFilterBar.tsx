@@ -16,7 +16,7 @@ interface FilterBarProps {
 const categories = ["Categoria", "Frontend", "Backend", "Data Science", "Mobile", "DevOps", "Design", "Cloud"]
 const levels = ["Nível", "Iniciante", "Intermediário", "Avançado"]
 const durations = ["Duração", "0-10h", "10-20h", "20-30h", "30h+"]
-const sortOptions = ["Mais Relevantes", "Mais Populares", "Melhor Avaliados", "Mais Recentes", "Menor Preço", "Maior Preço"]
+const sortOptions = ["Mais Relevantes", "Mais Populares", "Melhor Avaliados", "Mais Recentes"]
 
 export default function FilterBar({
   selectedCategory,
