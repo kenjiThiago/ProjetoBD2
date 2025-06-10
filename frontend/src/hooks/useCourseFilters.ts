@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { courses } from '@/data/mockData'
 import type { Course } from '@/data/mockData'
+import { calculatePopularityScore, getCoursesByAccess, getCoursesByCategory, getCoursesByLevel, isCourseNew, isPopular } from '@/utils/courseUtils'
 
 export function useCourseFilters(initialSearchTerm: string = '') {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
@@ -32,26 +33,22 @@ export function useCourseFilters(initialSearchTerm: string = '') {
 
     // Filtro de categoria
     if (selectedCategory !== "Categoria") {
-      filtered = filtered.filter(course => course.category === selectedCategory)
+      filtered = getCoursesByCategory(filtered, selectedCategory)
     }
 
     // Filtro de nível
     if (selectedLevel !== "Nível") {
-      filtered = filtered.filter(course => course.level === selectedLevel)
+      filtered = getCoursesByLevel(filtered, selectedLevel)
     }
 
     if (selectedAccess !== "Acesso") {
-      if (selectedAccess === "Grátis") {
-        filtered = filtered.filter(course => course.isFree === true)
-      } else {
-        filtered = filtered.filter(course => course.isFree === false)
-      }
+      filtered = getCoursesByAccess(filtered, selectedAccess)
     }
 
     // Ordenação
     switch (sortBy) {
       case "Mais Populares":
-        filtered.sort((a, b) => b.students - a.students)
+        filtered.sort((a, b) => calculatePopularityScore(b) - calculatePopularityScore(a))
         break
       case "Melhor Avaliados":
         filtered.sort((a, b) => b.rating - a.rating)
@@ -62,8 +59,8 @@ export function useCourseFilters(initialSearchTerm: string = '') {
       default:
         // Mais Relevantes - prioriza populares, bestsellers e novos
         filtered.sort((a, b) => {
-          const aScore = (a.isPopular ? 3 : 0) + (a.isNew ? 1 : 0)
-          const bScore = (b.isPopular ? 3 : 0) + (b.isNew ? 1 : 0)
+          const aScore = (isPopular(a) ? 3 : 0) + (isCourseNew(a) ? 1 : 0)
+          const bScore = (isPopular(b) ? 3 : 0) + (isCourseNew(b) ? 1 : 0)
           return bScore - aScore
         })
     }

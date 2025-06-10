@@ -602,25 +602,3 @@ export const jobs: Job[] = [
     isNew: true
   }
 ]
-
-// Funções utilitárias
-export const getCoursesInProgress = () =>
-  courses.filter(course => course.progress && course.progress > 0 && course.progress < 100)
-
-export const getCompletedCourses = () =>
-  courses.filter(course => course.progress === 100)
-
-export const getCoursesWithCertificates = () =>
-  courses.filter(course => course.certificate && course.progress === 100)
-
-export const getCoursesByCategory = (category: string) =>
-  courses.filter(course => course.category === category)
-
-export const getFeaturedCourses = () =>
-  courses.filter(course => course.isPopular || course.isNew)
-
-export const getPopularCourses = () =>
-  courses.filter(course => course.isPopular)
-
-export const getNewCourses = () =>
-  courses.filter(course => course.isNew)

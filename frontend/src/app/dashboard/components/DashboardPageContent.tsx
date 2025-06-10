@@ -9,11 +9,11 @@ import DashboardTabs from '@/app/dashboard/components/DashboardTabs'
 import DashboardOverview from '@/app/dashboard/components/DashboardOverview'
 import DashboardCourses from '@/app/dashboard/components/DashboardCourses'
 import {
-  courses,
   getCoursesInProgress,
   getCompletedCourses,
   getCoursesWithCertificates
-} from '@/data/mockData'
+} from '@/utils/courseUtils'
+import { courses, } from '@/data/mockData'
 
 export default function DashboardPage() {
   // Searchparams
@@ -30,9 +30,9 @@ export default function DashboardPage() {
   const [weeklyGoal, setWeeklyGoal] = useState({ target: 10, completed: 7 })
 
   // Dados centralizados
-  const coursesInProgress = getCoursesInProgress()
-  const completedCourses = getCompletedCourses()
-  const coursesWithCertificates = getCoursesWithCertificates()
+  const coursesInProgress = getCoursesInProgress(courses)
+  const completedCourses = getCompletedCourses(courses)
+  const coursesWithCertificates = getCoursesWithCertificates(courses)
 
   // Tab quando url mudar
   useEffect(() => {
