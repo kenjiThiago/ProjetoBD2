@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
-import { Users, BookOpen, GraduationCap, Building, Award, Globe, Zap, Heart } from 'lucide-react'
+import { Users, BookOpen, GraduationCap, Building, Award, Zap, Heart, Briefcase } from 'lucide-react'
 
 export default function Stats() {
   const ref = useRef(null)
@@ -45,9 +45,9 @@ export default function Stats() {
       description: "Certificados aceitos pelas maiores empresas do mercado"
     },
     {
-      icon: Globe,
-      title: "Acesso Vitalício",
-      description: "Estude no seu ritmo, quando e onde quiser"
+      icon: Briefcase,
+      title: "Conexão com Empresas",
+      description: "Conectamos você diretamente com empresas parceiras"
     },
     {
       icon: Zap,
