@@ -16,11 +16,11 @@ import {
 } from '@/data/mockData'
 
 export default function DashboardPage() {
-  // LER SEARCHPARAMS CORRETAMENTE
+  // Searchparams
   const searchParams = useSearchParams()
   const tabFromUrl = searchParams.get('tab')
 
-  // DEFINIR TAB INICIAL BASEADO NA URL
+  // Tab inicial baseado na url
   const [activeTab, setActiveTab] = useState<'overview' | 'courses' | 'achievements' | 'paths'>(
     (tabFromUrl as 'overview' | 'courses' | 'achievements' | 'paths') || 'overview'
   )
@@ -29,12 +29,12 @@ export default function DashboardPage() {
   const [totalPoints, setTotalPoints] = useState(2450)
   const [weeklyGoal, setWeeklyGoal] = useState({ target: 10, completed: 7 })
 
-  // USAR DADOS CENTRALIZADOS
+  // Dados centralizados
   const coursesInProgress = getCoursesInProgress()
   const completedCourses = getCompletedCourses()
   const coursesWithCertificates = getCoursesWithCertificates()
 
-  // ATUALIZAR TAB QUANDO URL MUDAR
+  // Tab quando url mudar
   useEffect(() => {
     if (tabFromUrl && ['overview', 'courses', 'achievements', 'paths'].includes(tabFromUrl)) {
       setActiveTab(tabFromUrl as 'overview' | 'courses' | 'achievements' | 'paths')

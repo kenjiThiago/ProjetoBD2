@@ -14,7 +14,7 @@ export default function CoursesHero({
 }: CoursesHeroProps) {
   return (
     <section className="bg-gradient-to-br from-gray-900 via-blue-950/20 to-gray-900 py-16 relative overflow-hidden">
-      {/* Simplified background - removed animations */}
+      {/* Simplified background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -34,7 +34,7 @@ export default function CoursesHero({
             Descubra mais de {totalCourses} cursos das tecnologias mais demandadas do mercado
           </p>
 
-          {/* Search Bar - Simplified clear button */}
+          {/* Search Bar */}
           <div className="max-w-2xl mx-auto relative">
             <div className="relative flex items-center">
               <Search className="absolute left-4 w-5 h-5 text-gray-400 pointer-events-none" />
@@ -50,7 +50,7 @@ export default function CoursesHero({
                 className="w-full pl-12 pr-12 py-4 bg-gray-800/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 text-lg transition-colors duration-200"
               />
 
-              {/* Clear button - Simplified animation */}
+              {/* Clear button */}
               <AnimatePresence>
                 {searchTerm && (
                   <motion.button

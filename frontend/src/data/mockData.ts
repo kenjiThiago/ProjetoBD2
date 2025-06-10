@@ -358,6 +358,34 @@ export const courses: Course[] = [
       "APIs modernas do navegador"
     ],
     isPopular: true
+  },
+  {
+    id: 11,
+    title: "JavaScript Moderno ES6+",
+    instructor: "Lucas Frontend",
+    instructorAvatar: "LF",
+    description: "Domine as funcionalidades modernas do JavaScript ES6+. Base sólida para qualquer framework.",
+    duration: "14h 15m",
+    level: "Intermediário",
+    category: "Frontend",
+    rating: 4.8,
+    students: 4567,
+    thumbnail: "javascript-modern",
+    tags: ["JavaScript", "ES6+", "Async/Await", "Modules", "Classes"],
+    lessons: 26,
+    certificate: true,
+    lastUpdated: "2025-05-22",
+    language: "Português",
+    prerequisites: ["JavaScript Básico"],
+    whatYouWillLearn: [
+      "Arrow functions e destructuring",
+      "Promises e async/await",
+      "Modules e imports",
+      "Classes e herança",
+      "APIs modernas do navegador"
+    ],
+    isPopular: true,
+    isNew: true
   }
 ]
 

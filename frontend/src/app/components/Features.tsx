@@ -103,14 +103,14 @@ export default function Stats() {
 
   return (
     <section ref={ref} className="py-20 bg-gradient-to-br from-gray-900 via-blue-950/20 to-gray-900 relative overflow-hidden">
-      {/* Simplified background - removed animations */}
+      {/* Simplified background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section - Simplified entry animation */}
+        {/* Header Section */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -126,7 +126,7 @@ export default function Stats() {
           </p>
         </motion.div>
 
-        {/* Stats Grid - Simplified animations */}
+        {/* Stats Grid */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -153,14 +153,14 @@ export default function Stats() {
                   {stat.label}
                 </div>
 
-                {/* Simplified decorative line */}
+                {/* Decorative line */}
                 <div className={`w-12 h-1 bg-gradient-to-r ${stat.gradient} mx-auto mt-4 rounded-full`} />
               </div>
             )
           })}
         </motion.div>
 
-        {/* Features Grid - Simplified */}
+        {/* Features Grid */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           initial={{ opacity: 0, y: 30 }}

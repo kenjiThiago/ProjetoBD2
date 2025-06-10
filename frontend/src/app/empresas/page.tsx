@@ -161,7 +161,7 @@ export default function EmpresasPage() {
           filteredCount={currentItems.length}
         />
 
-        {/* Content - Simplified animations */}
+        {/* Content */}
         <section className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {currentItems.length > 0 ? (

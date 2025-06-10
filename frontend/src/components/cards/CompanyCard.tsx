@@ -117,7 +117,7 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
                 </div>
               </div>
 
-              {/* CTA - Simplified */}
+              {/* CTA */}
               <div className="flex gap-2">
                 <button className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1">
                   <Eye className="w-4 h-4" />
@@ -197,7 +197,7 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
         </div>
       </div>
 
-      {/* CTA - Simplified */}
+      {/* CTA */}
       <div className="flex gap-2">
         <button className="btn-secondary flex-1 py-2 text-sm flex items-center justify-center space-x-1">
           <Eye className="w-4 h-4" />

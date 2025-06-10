@@ -13,13 +13,13 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-950">
-      {/* Simplified Background */}
+      {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950"></div>
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
 
-        {/* Simplified background pattern - Only render on client, no animations */}
+        {/* Background pattern - Only render on client */}
         {isClient && (
           <div className="absolute inset-0 opacity-5">
             <div className="grid grid-cols-20 gap-4 h-full">
@@ -35,7 +35,7 @@ export default function Hero() {
           </div>
         )}
 
-        {/* Static floating code elements - no animations */}
+        {/* Static floating code elements */}
         {isClient && (
           <div className="absolute inset-0 opacity-10">
             {['<>', '{}', '( )', '[ ]', '</ >', 'fn()', '=>'].map((code, i) => (
@@ -56,13 +56,13 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content - Mantida animação de entrada */}
+          {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Rating Section - Simplificado */}
+            {/* Rating Section */}
             <div className="lg:justify-start justify-center flex items-center space-x-2 mb-6">
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -72,7 +72,7 @@ export default function Hero() {
               <span className="text-gray-400">Escolhido por 50.000+ desenvolvedores</span>
             </div>
 
-            {/* Main Heading - Removida animação complexa do gradient */}
+            {/* Main Heading */}
             <h1 className="lg:text-left text-center text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
               <div className="flex lg:block gap-4 justify-center">
                 Domine a
@@ -90,7 +90,7 @@ export default function Hero() {
               mentoria especializada. Construa sua carreira na programação.
             </p>
 
-            {/* Buttons - Removidas animações hover complexas */}
+            {/* Buttons */}
             <div className="lg:justify-start justify-center flex flex-col sm:flex-row gap-4 mb-8">
               <button className="btn-primary text-lg px-8 py-4 flex items-center space-x-2">
                 <Play className="w-5 h-5" />
@@ -100,7 +100,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Content - Animação de entrada simplificada */}
+          {/* Right Content */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, y: 30 }}
@@ -108,7 +108,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="relative p-12 lg:p-0">
-              {/* Main Card - Code Editor Mockup - Removidas animações complexas */}
+              {/* Main Card - Code Editor Mockup */}
               <div className="card-glow card p-1 transform rotate-3 hover:rotate-0 transition-transform duration-500 bg-gray-900">
                 {/* Editor Header */}
                 <div className="bg-gray-800 rounded-t-lg p-3 flex items-center space-x-2">
@@ -139,7 +139,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Floating Elements - Simplificados e estáticos */}
+              {/* Floating Elements */}
               <div className="absolute top-8 lg:-top-4 right-6 lg:-right-4 w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white">
                 <Zap className="w-6 h-6" />
               </div>
@@ -150,7 +150,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Language Icons - Removidas animações */}
+              {/* Language Icons */}
               <div className="absolute top-1/2 left-2 lg:-left-8 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-bold text-sm">
                 JS
               </div>

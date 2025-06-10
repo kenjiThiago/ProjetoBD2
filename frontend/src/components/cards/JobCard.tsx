@@ -146,7 +146,7 @@ export default function JobCard({ job, variants }: JobCardProps) {
               </div>
             </div>
 
-            {/* CTA - Simplified */}
+            {/* CTA */}
             <div className="flex flex-col gap-2 lg:items-end">
               <button className="btn-primary px-6 py-3 flex items-center space-x-2">
                 <ExternalLink className="w-4 h-4" />

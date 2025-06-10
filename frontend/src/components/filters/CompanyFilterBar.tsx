@@ -150,7 +150,7 @@ export default function CompanyFilterBar({
               {filteredCount} {activeTab === 'companies' ? 'empresa' : 'vaga'}{filteredCount !== 1 ? 's' : ''} encontrada{filteredCount !== 1 ? 's' : ''}
             </div>
 
-            {/* View Mode Toggle - Only for companies */}
+            {/* View Mode Toggle */}
             {activeTab === 'companies' && (
               <div className="flex items-center bg-gray-800 rounded-lg p-1">
                 <motion.button

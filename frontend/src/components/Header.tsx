@@ -172,7 +172,6 @@ export default function Header() {
     setSelectedSuggestionIndex(-1)
   }
 
-  // NAVEGAÇÃO CORRIGIDA PARA USAR ROUTER.PUSH
   const handleUserMenuClick = (href: string) => {
     setShowUserMenu(false)
     router.push(href)
@@ -201,7 +200,7 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo - Animação mais natural e simples */}
+          {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer group">
               <div className="relative">
@@ -214,7 +213,7 @@ export default function Header() {
                     className="object-cover rounded-full"
                     priority
                   />
-                  {/* Shine effect mais sutil */}
+                  {/* Shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                 </div>
               </div>
@@ -226,7 +225,7 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Search Bar - Desktop - Simplificado */}
+          {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-md mx-8 relative search-container">
             <form onSubmit={handleSubmit} className="w-full">
               <div className="relative flex items-center">
@@ -241,7 +240,7 @@ export default function Header() {
                   className="w-full pl-10 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-white placeholder-gray-400 transition-colors duration-200"
                 />
 
-                {/* Clear button - Animação simplificada */}
+                {/* Clear button */}
                 <AnimatePresence>
                   {localSearchTerm && (
                     <motion.button
@@ -260,7 +259,7 @@ export default function Header() {
               </div>
             </form>
 
-            {/* Search Suggestions - Animação simplificada */}
+            {/* Search Suggestions */}
             <AnimatePresence>
               {showSearchSuggestions && filteredSuggestions.length > 0 && (
                 <motion.div
@@ -303,7 +302,7 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          {/* Navigation - Removida animação individual dos itens */}
+          {/* Navigation */}
           <nav className="hidden lg:block mr-12">
             <div className="flex items-center space-x-12">
               {[
@@ -332,7 +331,7 @@ export default function Header() {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-6">
-            {/* User Menu - Simplificado */}
+            {/* User Menu */}
             <div className="relative user-menu-container">
               <button
                 className="flex items-center space-x-3 cursor-pointer group"
@@ -348,7 +347,7 @@ export default function Header() {
                 <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-white transition-all duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* User Dropdown Menu - Animação simplificada */}
+              {/* User Dropdown Menu */}
               <AnimatePresence>
                 {showUserMenu && (
                   <motion.div
@@ -371,7 +370,7 @@ export default function Header() {
                       </div>
                     </div>
 
-                    {/* Menu Items - Removida animação de stagger */}
+                    {/* Menu Items */}
                     <div className="py-2">
                       {userMenuItems.map((item) => {
                         const Icon = item.icon
@@ -441,7 +440,7 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile menu - Animação simplificada */}
+        {/* Mobile menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -452,7 +451,7 @@ export default function Header() {
               className="md:hidden border-t border-gray-700/50 mt-2"
             >
               <div className="px-2 pt-4 pb-3 space-y-1 bg-gray-900/50 rounded-lg mt-2">
-                {/* Navigation Links - Removida animação de stagger */}
+                {/* Navigation Links */}
                 {[
                   { name: 'Cursos', href: '/cursos' },
                   { name: 'Empresas', href: '/empresas' }
@@ -512,7 +511,7 @@ export default function Header() {
                   </button>
                 </div>
 
-                {/* Mobile Search - Simplificado */}
+                {/* Mobile Search */}
                 <div className="pt-4 border-t border-gray-700/50">
                   <div className="px-3 py-2">
                     <form onSubmit={(e) => {

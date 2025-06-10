@@ -79,6 +79,7 @@ export default function CourseCard({
 
   return (
     <div className={`card-glow card group p-6 cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
+      {/* Badges */}
       <div className="absolute top-3 left-3 right-3 z-10 flex justify-between gap-2">
         <div className="flex items-center gap-1.5">
           {course.isPopular && (

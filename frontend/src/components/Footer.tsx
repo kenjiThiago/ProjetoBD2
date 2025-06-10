@@ -57,7 +57,7 @@ export default function Footer() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Newsletter Section - Simplified */}
+        {/* Newsletter Section */}
         <motion.div
           className="py-12 border-b border-gray-800/50"
           initial={{ opacity: 0, y: 30 }}
@@ -89,7 +89,7 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* Main Footer Content - Simplified */}
+        {/* Main Footer Content */}
         <motion.div
           className="py-16"
           initial={{ opacity: 0, y: 30 }}
@@ -98,7 +98,7 @@ export default function Footer() {
           viewport={{ once: true }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-            {/* Company Info - Simplified logo animation */}
+            {/* Company Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-6 group">
                 <div className="relative">
@@ -122,7 +122,7 @@ export default function Footer() {
                 até projetos complexos, desenvolvemos desenvolvedores completos.
               </p>
 
-              {/* Contact Info - Simplified hover effects */}
+              {/* Contact Info */}
               <div className="space-y-3 mb-6">
                 <div className="flex items-center text-gray-400 hover:text-white transition-colors cursor-pointer">
                   <Phone className="w-4 h-4 mr-3" />
@@ -138,7 +138,7 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Social Links - Simplified */}
+              {/* Social Links */}
               <div className="flex space-x-4">
                 {socialLinks.map((social, index) => {
                   const IconComponent = social.icon
@@ -155,7 +155,7 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Quick Links - Simplified */}
+            {/* Quick Links */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Navegação</h4>
               <ul className="space-y-3">
@@ -173,7 +173,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Categories - Simplified */}
+            {/* Categories */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Tecnologias</h4>
               <ul className="space-y-3">
@@ -191,7 +191,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Support - Simplified */}
+            {/* Support */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Suporte</h4>
               <ul className="space-y-3">
@@ -211,7 +211,7 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* Bottom Section - Simplified */}
+        {/* Bottom Section */}
         <motion.div
           className="border-t border-gray-800/50 py-8"
           initial={{ opacity: 0, y: 30 }}

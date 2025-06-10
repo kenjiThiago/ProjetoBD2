@@ -20,7 +20,7 @@ export default function FeaturedCourses({
   return (
     <section className="py-20 bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header - Mantida animação de entrada simples */}
+        {/* Header */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -34,7 +34,7 @@ export default function FeaturedCourses({
           </p>
         </motion.div>
 
-        {/* Courses Grid - Simplificado sem stagger */}
+        {/* Courses Grid */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0, y: 30 }}
@@ -50,7 +50,7 @@ export default function FeaturedCourses({
           ))}
         </motion.div>
 
-        {/* CTA Button - Simplificado */}
+        {/* CTA Button */}
         <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 30 }}

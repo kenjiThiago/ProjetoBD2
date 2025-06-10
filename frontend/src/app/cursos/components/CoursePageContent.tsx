@@ -146,7 +146,7 @@ export default function CursosPageContent() {
           filteredCount={filteredCourses.length}
         />
 
-        {/* Content - Simplified animation */}
+        {/* Content */}
         <section className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredCourses.length > 0 ? (
