@@ -148,16 +148,6 @@ export default function JobCard({ job, variants }: JobCardProps) {
 
             {/* CTA - Simplified */}
             <div className="flex flex-col gap-2 lg:items-end">
-              <div className="flex gap-2">
-                <button className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1">
-                  <Heart className="w-4 h-4" />
-                  <span>Salvar</span>
-                </button>
-                <button className="btn-secondary px-4 py-2 text-sm flex items-center space-x-1">
-                  <Share2 className="w-4 h-4" />
-                  <span>Compartilhar</span>
-                </button>
-              </div>
               <button className="btn-primary px-6 py-3 flex items-center space-x-2">
                 <ExternalLink className="w-4 h-4" />
                 <span>Candidatar-se</span>
