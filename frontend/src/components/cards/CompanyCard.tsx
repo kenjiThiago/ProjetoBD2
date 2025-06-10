@@ -47,11 +47,6 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
           {/* Logo */}
           <div className="lg:w-24 h-24 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center">
             <span className="text-2xl font-bold text-white">{company.logo}</span>
-            {company.isPremium && (
-              <div className="absolute top-1 right-1">
-                <Trophy className="w-4 h-4 text-yellow-400" />
-              </div>
-            )}
           </div>
 
           {/* Content */}
@@ -63,12 +58,6 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
                     <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded border border-blue-500/30 flex items-center space-x-1">
                       <Shield className="w-3 h-3" />
                       <span>Parceira</span>
-                    </span>
-                  )}
-                  {company.isPremium && (
-                    <span className="bg-yellow-500/20 text-yellow-400 text-xs font-semibold px-2 py-1 rounded border border-yellow-500/30 flex items-center space-x-1">
-                      <Trophy className="w-3 h-3" />
-                      <span>Premium</span>
                     </span>
                   )}
                   <span className="bg-purple-500/20 text-purple-400 text-xs font-semibold px-2 py-1 rounded border border-purple-500/30">
@@ -152,11 +141,6 @@ export default function CompanyCard({ company, viewMode, variants }: CompanyCard
       {/* Logo */}
       <div className="h-24 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
         <span className="text-2xl font-bold text-white">{company.logo}</span>
-        {company.isPremium && (
-          <div className="absolute top-2 right-2">
-            <Trophy className="w-5 h-5 text-yellow-400" />
-          </div>
-        )}
       </div>
 
       {/* Content */}
