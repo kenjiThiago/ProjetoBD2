@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import type { Course } from '@/data/mockData'
 import Thumbnail from '@/components/Thumbnail'
+import { isCourseNew, isPopular } from "@/utils/courseUtils"
 
 interface CourseCardProps {
   course: Course
@@ -23,6 +24,9 @@ export default function CourseCard({
   layout = 'grid'
 }: CourseCardProps) {
 
+  const isDynamicallyPopular = isPopular(course)
+  const isNew = isCourseNew(course)
+
   const getLevelColor = (level: string) => {
     switch (level) {
       case 'Iniciante': return 'bg-green-500/20 text-green-400 border-green-500/30'
@@ -30,6 +34,34 @@ export default function CourseCard({
       case 'Avançado': return 'bg-red-500/20 text-red-400 border-red-500/30'
       default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30'
     }
+  }
+
+  const renderBadges = () => {
+    if (course.isFree) {
+      return (
+        <span className="bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1 border border-slate-500/50">
+          Grátis
+        </span>
+      )
+    }
+
+    if (isNew) {
+      return (
+        <span className="bg-gradient-to-r from-lime-500 to-lime-600 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+          Lançamento
+        </span>
+      )
+    }
+
+    if (isDynamicallyPopular) {
+      return (
+        <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+          Popular
+        </span>
+      )
+    }
+
+    return null
   }
 
   if (layout === 'list') {
@@ -50,19 +82,7 @@ export default function CourseCard({
                   {course.level}
                 </span>
 
-                {course.isFree ? (
-                  <span className="bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-2 py-1 rounded flex items-center space-x-1 border border-slate-500/50">
-                    <span>Grátis</span>
-                  </span>
-                ) : course.isNew ? (
-                    <span className="bg-gradient-to-r from-lime-500 to-lime-600 text-black text-xs font-bold px-2 py-1 rounded flex items-center space-x-1">
-                      <span>Lançamento</span>
-                    </span>
-                  ) : course.isPopular ? (
-                      <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-bold px-2 py-1 rounded flex items-center space-x-1">
-                        <span>Popular</span>
-                      </span>
-                    ) : null}
+                {renderBadges()}
 
                 {course.tags.length > 0 && (
                   <div className="flex items-center gap-1 flex-wrap">
@@ -111,20 +131,8 @@ export default function CourseCard({
   return (
     <div className={`card-glow card group p-4 cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
       {/* Badges */}
-      <div className="absolute top-3 right-3 z-10">
-        {course.isFree ? (
-          <span className="bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1 border border-slate-500/50">
-            Grátis
-          </span>
-        ) : course.isNew ? (
-            <span className="bg-gradient-to-r from-lime-500 to-lime-600 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
-              Lançamento
-            </span>
-          ) : course.isPopular ? (
-            <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
-              Popular
-            </span>
-          ) : null}
+      <div className="absolute top-3 left-3 z-10">
+        {renderBadges()}
       </div>
 
       {/* Thumbnail */}
