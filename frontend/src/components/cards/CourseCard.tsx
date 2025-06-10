@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  Star,
   Users,
   Clock,
   ArrowRight,
@@ -84,7 +83,7 @@ export default function CourseCard({
 
   if (layout === 'list') {
     return (
-      <div className="card-glow card p-6 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+      <div className="card-glow card p-6 group hover:-translate-y-1 transition-transform duration-300">
         <div className="flex space-x-4 items-center">
           <Thumbnail
             course={course}
@@ -109,6 +108,9 @@ export default function CourseCard({
                         {tag}
                       </span>
                     ))}
+                    {course.tags.length > 3 && (
+                      <span className="text-xs text-gray-400">+{course.tags.length - 3}</span>
+                    )}
                   </div>
                 )}
               </div>
@@ -119,10 +121,6 @@ export default function CourseCard({
             </p>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4 text-sm text-gray-400">
-                <div className="flex items-center">
-                  <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-                  <span className="text-white font-semibold">{course.rating}</span>
-                </div>
                 <div className="flex items-center">
                   <Users className="w-4 h-4 mr-1" />
                   <span>{course.students.toLocaleString()}</span>
@@ -147,9 +145,9 @@ export default function CourseCard({
   }
 
   return (
-    <div className={`card-glow card group p-4 cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
+    <div className={`card-glow card group p-4 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
       {/* Badges */}
-      <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between">
+      <div className="absolute top-3 right-3 z-10 flex items-center gap-1">
         {renderBadges("grid")}
       </div>
 
@@ -172,6 +170,9 @@ export default function CourseCard({
                   {tag}
                 </span>
               ))}
+              {course.tags.length > 3 && (
+                <span className="text-xs text-gray-400">+{course.tags.length - 3}</span>
+              )}
             </div>
           )}
         </div>
@@ -193,19 +194,13 @@ export default function CourseCard({
         </div>
 
         <div className="flex items-center justify-between text-sm text-gray-400">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" />
-              <span>{course.duration}</span>
-            </div>
-            <div className="flex items-center">
-              <Users className="w-4 h-4 mr-1" />
-              <span>{course.students.toLocaleString()}</span>
-            </div>
+          <div className="flex items-center">
+            <Clock className="w-4 h-4 mr-1" />
+            <span>{course.duration}</span>
           </div>
           <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-            <span className="text-white font-semibold">{course.rating}</span>
+            <Users className="w-4 h-4 mr-1" />
+            <span>{course.students.toLocaleString()}</span>
           </div>
         </div>
 
