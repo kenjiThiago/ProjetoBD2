@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 export default function Hero() {
   const [isClient, setIsClient] = useState(false)
 
+  const codeElements = ['<>', '{}', '( )', '[ ]', '</ >', 'fn()', '=>', '&&', '||', '??', '...', '::', '$']
+
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -16,39 +18,33 @@ export default function Hero() {
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950/20 to-gray-950"></div>
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
-
-        {/* Background pattern - Only render on client */}
-        {isClient && (
-          <div className="absolute inset-0 opacity-5">
-            <div className="grid grid-cols-20 gap-4 h-full">
-              {Array.from({ length: 50 }, (_, i) => (
-                <div
-                  key={i}
-                  className="text-green-400 text-xs font-mono opacity-30"
-                >
-                  {Math.random() > 0.5 ? '01' : '10'}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
 
         {/* Static floating code elements */}
         {isClient && (
-          <div className="absolute inset-0 opacity-10">
-            {['<>', '{}', '( )', '[ ]', '</ >', 'fn()', '=>'].map((code, i) => (
-              <div
+          <div className="absolute inset-0 opacity-15">
+            {codeElements.map((code, i) => (
+              <motion.div
                 key={i}
-                className="absolute text-orange-400 font-mono text-lg font-bold opacity-40"
+                className="absolute text-orange-400 font-mono text-lg font-bold opacity-30"
                 style={{
-                  left: `${20 + (i * 12)}%`,
-                  top: `${10 + (i * 10)}%`,
+                  left: `${(i * 23 + Math.random() * 15) % 100}%`,
+                  top: `${(i * 17 + Math.random() * 20) % 100}%`,
+                }}
+                animate={{
+                  y: [0, -10, 0],
+                  opacity: [0.2, 0.5, 0.2]
+                }}
+                transition={{
+                  duration: 3 + (i * 0.2), // Cada um com timing diferente
+                  repeat: Infinity,
+                  delay: i * 0.3, // Delay escalonado
+                  ease: "easeInOut"
                 }}
               >
                 {code}
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
