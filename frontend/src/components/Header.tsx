@@ -101,7 +101,7 @@ export default function Header() {
   }, [])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!showSearchSuggestions || filteredSuggestions.length === 0) return
+    if (!showSearchSuggestions && filteredSuggestions.length === 0) return
 
     switch (e.key) {
       case 'ArrowDown':
@@ -203,19 +203,17 @@ export default function Header() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer group">
-              <div className="relative">
-                <div className="relative w-10 h-10 overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-105">
-                  <Image
-                    src="/logo-codify.png"
-                    alt="Codify Logo"
-                    width={40}
-                    height={40}
-                    className="object-cover rounded-full"
-                    priority
-                  />
-                  {/* Shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                </div>
+              <div className="relative w-10 h-10 overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-105">
+                <Image
+                  src="/logo-codify.png"
+                  alt="Codify Logo"
+                  width={40}
+                  height={40}
+                  className="object-cover rounded-full"
+                  priority
+                />
+                {/* Shine effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
               </div>
               <div className="flex-shrink-0">
                 <h1 className="text-2xl font-bold text-white transition-colors duration-300 group-hover:text-orange-300">
@@ -261,7 +259,7 @@ export default function Header() {
 
             {/* Search Suggestions */}
             <AnimatePresence>
-              {showSearchSuggestions && filteredSuggestions.length > 0 && (
+              {(showSearchSuggestions || filteredSuggestions.length > 0) && (
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -289,7 +287,7 @@ export default function Header() {
                       onClick={() => handleSearch(localSearchTerm)}
                       className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 border-t border-gray-700 ${
                         selectedSuggestionIndex === filteredSuggestions.length
-                          ? 'bg-orange-500/20 text-orange-300 border-l-2 border-orange-500'
+                          ? 'bg-orange-500/20 text-orange-300 border-l-2 border-l-orange-500'
                           : 'text-orange-400 hover:bg-gray-700 hover:text-orange-300'
                       }`}
                     >
