@@ -5,11 +5,10 @@ import {
   Star,
   Users,
   Clock,
-  Trophy,
   Zap,
-  Award,
   ArrowRight,
-  Heart,
+  Gift,
+  TrendingUp,
 } from 'lucide-react'
 import type { Course } from '@/data/mockData'
 
@@ -23,7 +22,6 @@ interface CourseCardProps {
 
 export default function CourseCard({
   course,
-  size = 'medium',
   showActions = true,
   layout = 'grid'
 }: CourseCardProps) {
@@ -35,29 +33,6 @@ export default function CourseCard({
       default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30'
     }
   }
-
-  const sizeClasses = {
-    small: {
-      container: 'p-4',
-      thumbnail: 'h-32',
-      title: 'text-md',
-      icon: 'w-8 h-8',
-    },
-    medium: {
-      container: 'p-6',
-      thumbnail: 'h-48',
-      title: 'text-lg',
-      icon: 'w-12 h-12',
-    },
-    large: {
-      container: 'p-8',
-      thumbnail: 'h-56',
-      title: 'text-xl',
-      icon: 'w-16 h-16',
-    }
-  }
-
-  const classes = sizeClasses[size]
 
   if (layout === 'list') {
     return (
@@ -90,9 +65,6 @@ export default function CourseCard({
           {showActions && (
             <div className="pt-2">
               <div className="flex gap-2 justify-between flex-1">
-                <button className="btn-secondary p-2">
-                  <Heart className="w-4 h-4" />
-                </button>
                 <button className="btn-primary px-4 py-2 flex items-center space-x-1">
                   <ArrowRight className="w-4 h-4" />
                   <span>Acessar</span>
@@ -106,26 +78,32 @@ export default function CourseCard({
   }
 
   return (
-    <div className={`card-glow card ${classes.container} group cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
-      {/* Badges */}
-      <div className="flex items-center gap-2 mb-4">
-        {course.isPopular && (
-          <span className="bg-orange-500/20 text-orange-400 text-xs font-bold px-2 py-1 rounded flex items-center space-x-1 border border-orange-500/30">
-            <Trophy className="w-3 h-3" />
-            <span>Popular</span>
-          </span>
-        )}
-        {course.isNew && (
-          <span className="bg-green-500/20 text-green-400 text-xs font-bold px-2 py-1 rounded flex items-center space-x-1 border border-green-500/30">
-            <Zap className="w-3 h-3" />
-            <span>Novo</span>
-          </span>
-        )}
+    <div className={`card-glow card group p-6 cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
+      <div className="absolute top-3 left-3 right-3 z-10 flex justify-between gap-2">
+        <div className="flex items-center gap-1.5">
+          {course.isPopular && (
+            <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+              <TrendingUp className="w-3 h-3" />
+              <span>Popular</span>
+            </span>
+          )}
+          {course.isNew && (
+            <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+              <Zap className="w-3 h-3" />
+              <span>Novo</span>
+            </span>
+          )}
+        </div>
+
+        <span className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+          <Gift className="w-3 h-3" />
+          <span>Grátis</span>
+        </span>
       </div>
 
-      {/* Thumbnail - Simplificado */}
-      <div className={`${classes.thumbnail} bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center`}>
-        <Play className={`${classes.icon} text-white opacity-80 group-hover:opacity-100 transition-opacity`} />
+      {/* Thumbnail */}
+      <div className={`h-48 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center`}>
+        <Play className={`w-12 h-12 text-white opacity-80 group-hover:opacity-100 transition-opacity`} />
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
       </div>
 
@@ -140,7 +118,7 @@ export default function CourseCard({
           </span>
         </div>
 
-        <h3 className={`${classes.title} font-semibold text-white group-hover:text-purple-300 transition-colors line-clamp-2`}>
+        <h3 className={`text-lg font-semibold text-white group-hover:text-purple-300 transition-colors line-clamp-2`}>
           {course.title}
         </h3>
 

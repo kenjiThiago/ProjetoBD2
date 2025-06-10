@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   Play,
   Clock,
@@ -8,6 +7,7 @@ import {
   CheckCircle,
   Eye,
   Download,
+  Gift,
 } from 'lucide-react'
 import { Course } from '@/data/mockData'
 
@@ -26,26 +26,17 @@ export default function CourseCard({ course }: CourseCardProps) {
   }
 
   return (
-    <motion.div
-      className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.2 }}
-    >
+    <div className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+      <span className="bg-gradient-to-r from-cyan-500 to-blue-500 absolute top-3 left-3 z-10 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+        <Gift className="w-3 h-3" />
+        <span>Grátis</span>
+      </span>
+
       <div className="h-40 bg-gradient-to-br from-purple-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
         <Play className="w-12 h-12 text-white opacity-80 group-hover:opacity-100 transition-opacity" />
         {course.progress === 100 && (
           <div className="absolute top-2 right-2 bg-green-500 rounded-full p-1">
             <CheckCircle className="w-4 h-4 text-white" />
-          </div>
-        )}
-        {course.isPopular && (
-          <div className="absolute top-2 left-2 bg-orange-500/90 text-white text-xs font-bold px-2 py-1 rounded">
-            Popular
-          </div>
-        )}
-        {course.isNew && (
-          <div className="absolute top-2 left-2 bg-green-500/90 text-white text-xs font-bold px-2 py-1 rounded">
-            Novo
           </div>
         )}
       </div>
@@ -120,6 +111,6 @@ export default function CourseCard({ course }: CourseCardProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
