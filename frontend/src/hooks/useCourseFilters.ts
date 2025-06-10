@@ -6,7 +6,7 @@ export function useCourseFilters(initialSearchTerm: string = '') {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
   const [selectedCategory, setSelectedCategory] = useState("Categoria")
   const [selectedLevel, setSelectedLevel] = useState("Nível")
-  const [selectedDuration, setSelectedDuration] = useState("Duração")
+  const [selectedAccess, setSelectedAccess] = useState("Acesso")
   const [sortBy, setSortBy] = useState("Mais Relevantes")
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
 
@@ -40,18 +40,12 @@ export function useCourseFilters(initialSearchTerm: string = '') {
       filtered = filtered.filter(course => course.level === selectedLevel)
     }
 
-    // Filtro de duração
-    if (selectedDuration !== "Duração") {
-      filtered = filtered.filter(course => {
-        const duration = parseInt(course.duration.split('h')[0])
-        switch (selectedDuration) {
-          case "0-10h": return duration <= 10
-          case "10-20h": return duration > 10 && duration <= 20
-          case "20-30h": return duration > 20 && duration <= 30
-          case "30h+": return duration > 30
-          default: return true
-        }
-      })
+    if (selectedAccess !== "Acesso") {
+      if (selectedAccess === "Grátis") {
+        filtered = filtered.filter(course => course.isFree === true)
+      } else {
+        filtered = filtered.filter(course => course.isFree === false)
+      }
     }
 
     // Ordenação
@@ -75,13 +69,13 @@ export function useCourseFilters(initialSearchTerm: string = '') {
     }
 
     setFilteredCourses(filtered)
-  }, [searchTerm, selectedCategory, selectedLevel, selectedDuration, sortBy])
+  }, [searchTerm, selectedCategory, selectedLevel, selectedAccess, sortBy])
 
   const clearAllFilters = () => {
     setSearchTerm("")
     setSelectedCategory("Categoria")
     setSelectedLevel("Nível")
-    setSelectedDuration("Duração")
+    setSelectedAccess("Acesso")
     setSortBy("Mais Relevantes")
   }
 
@@ -90,12 +84,12 @@ export function useCourseFilters(initialSearchTerm: string = '') {
     searchTerm,
     selectedCategory,
     selectedLevel,
-    selectedDuration,
+    selectedAccess,
     sortBy,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
-    setSelectedDuration,
+    setSelectedAccess,
     setSortBy,
     clearAllFilters
   }

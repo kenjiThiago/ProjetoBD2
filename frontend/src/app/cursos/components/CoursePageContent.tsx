@@ -30,12 +30,12 @@ export default function CursosPageContent() {
     searchTerm,
     selectedCategory,
     selectedLevel,
-    selectedDuration,
+    selectedAccess,
     sortBy,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
-    setSelectedDuration,
+    setSelectedAccess,
     setSortBy,
     clearAllFilters
   } = useCourseFilters(urlSearchTerm || globalSearchTerm || '')
@@ -68,8 +68,8 @@ export default function CursosPageContent() {
       setSelectedLevel(e.detail)
     }
 
-    const handleDurationChange = (e: CustomEvent) => {
-      setSelectedDuration(e.detail)
+    const handleAccessChange = (e: CustomEvent) => {
+      setSelectedAccess(e.detail)
     }
 
     const handleSortChange = (e: CustomEvent) => {
@@ -97,7 +97,7 @@ export default function CursosPageContent() {
     window.addEventListener('searchChange', handleSearchChange as EventListener)
     window.addEventListener('categoryChange', handleCategoryChange as EventListener)
     window.addEventListener('levelChange', handleLevelChange as EventListener)
-    window.addEventListener('durationChange', handleDurationChange as EventListener)
+    window.addEventListener('accessChange', handleAccessChange as EventListener)
     window.addEventListener('sortChange', handleSortChange as EventListener)
     window.addEventListener('viewModeChange', handleViewModeChange as EventListener)
     window.addEventListener('toggleFilters', handleToggleFilters)
@@ -109,7 +109,7 @@ export default function CursosPageContent() {
       window.removeEventListener('searchChange', handleSearchChange as EventListener)
       window.removeEventListener('categoryChange', handleCategoryChange as EventListener)
       window.removeEventListener('levelChange', handleLevelChange as EventListener)
-      window.removeEventListener('durationChange', handleDurationChange as EventListener)
+      window.removeEventListener('accessChange', handleAccessChange as EventListener)
       window.removeEventListener('sortChange', handleSortChange as EventListener)
       window.removeEventListener('viewModeChange', handleViewModeChange as EventListener)
       window.removeEventListener('toggleFilters', handleToggleFilters)
@@ -139,7 +139,7 @@ export default function CursosPageContent() {
         <FilterBar
           selectedCategory={selectedCategory}
           selectedLevel={selectedLevel}
-          selectedDuration={selectedDuration}
+          selectedAccess={selectedAccess}
           sortBy={sortBy}
           viewMode={viewMode}
           showFilters={showFilters}

@@ -6,7 +6,7 @@ import { SlidersHorizontal, X, Grid3X3, List } from 'lucide-react'
 interface FilterBarProps {
   selectedCategory: string
   selectedLevel: string
-  selectedDuration: string
+  selectedAccess: string
   sortBy: string
   viewMode: 'grid' | 'list'
   showFilters: boolean
@@ -15,13 +15,13 @@ interface FilterBarProps {
 
 const categories = ["Categoria", "Frontend", "Backend", "Data Science", "Mobile", "DevOps", "Design", "Cloud"]
 const levels = ["Nível", "Iniciante", "Intermediário", "Avançado"]
-const durations = ["Duração", "0-10h", "10-20h", "20-30h", "30h+"]
+const accessTypeOptions = ["Acesso", "Grátis", "Assinatura"]
 const sortOptions = ["Mais Relevantes", "Mais Populares", "Melhor Avaliados", "Mais Recentes"]
 
 export default function FilterBar({
   selectedCategory,
   selectedLevel,
-  selectedDuration,
+  selectedAccess,
   sortBy,
   viewMode,
   showFilters,
@@ -78,16 +78,16 @@ export default function FilterBar({
               </select>
 
               <select
-                value={selectedDuration}
+                value={selectedAccess}
                 onChange={(e) => {
-                  window.dispatchEvent(new CustomEvent('durationChange', {
+                  window.dispatchEvent(new CustomEvent('accessChange', {
                     detail: e.target.value
                   }))
                 }}
                 className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
               >
-                {durations.map(duration => (
-                  <option key={duration} value={duration}>{duration}</option>
+                {accessTypeOptions.map(accessType => (
+                  <option key={accessType} value={accessType}>{accessType}</option>
                 ))}
               </select>
 
@@ -198,16 +198,16 @@ export default function FilterBar({
                 </select>
 
                 <select
-                  value={selectedDuration}
+                  value={selectedAccess}
                   onChange={(e) => {
-                    window.dispatchEvent(new CustomEvent('durationChange', {
+                    window.dispatchEvent(new CustomEvent('accessChange', {
                       detail: e.target.value
                     }))
                   }}
                   className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500"
                 >
-                  {durations.map(duration => (
-                    <option key={duration} value={duration}>{duration}</option>
+                  {accessTypeOptions.map(accessType => (
+                    <option key={accessType} value={accessType}>{accessType}</option>
                   ))}
                 </select>
 
