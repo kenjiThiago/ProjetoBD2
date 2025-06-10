@@ -36,32 +36,50 @@ export default function CourseCard({
     }
   }
 
-  const renderBadges = () => {
+  const renderBadges = (type: string) => {
+    const badges = []
+
+    const styles = {
+      "list": "rounded",
+      "grid": "rounded-full"
+    }
+
     if (course.isFree) {
-      return (
-        <span className="bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1 border border-slate-500/50">
+      badges.push(
+        <span
+          key={1}
+          className={`bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-2 py-1 ${styles[type]} flex items-center space-x-1 border border-slate-500/50`}
+        >
           Grátis
         </span>
       )
     }
 
     if (isNew) {
-      return (
-        <span className="bg-gradient-to-r from-lime-500 to-lime-600 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+      badges.push(
+        <span
+          key={2}
+          className={`bg-gradient-to-r from-lime-500 to-lime-600 text-black text-xs font-bold px-2 py-1 ${styles[type]} flex items-center space-x-1`}
+        >
           Lançamento
         </span>
       )
     }
 
     if (isDynamicallyPopular) {
-      return (
-        <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1">
+      badges.push(
+        <span
+          key={3}
+          className={`bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-bold px-2 py-1 ${styles[type]} flex items-center space-x-1`}
+        >
           Popular
         </span>
       )
     }
 
-    return null
+    return badges.length > 0 ? (
+      badges.slice(0, 2)
+    ) : null
   }
 
   if (layout === 'list') {
@@ -82,7 +100,7 @@ export default function CourseCard({
                   {course.level}
                 </span>
 
-                {renderBadges()}
+                {renderBadges("list")}
 
                 {course.tags.length > 0 && (
                   <div className="flex items-center gap-1 flex-wrap">
@@ -131,8 +149,8 @@ export default function CourseCard({
   return (
     <div className={`card-glow card group p-4 cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
       {/* Badges */}
-      <div className="absolute top-3 left-3 z-10">
-        {renderBadges()}
+      <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between">
+        {renderBadges("grid")}
       </div>
 
       {/* Thumbnail */}
