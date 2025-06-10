@@ -18,8 +18,6 @@ export interface Course {
   language: string
   prerequisites: string[]
   whatYouWillLearn: string[]
-  isPopular?: boolean
-  isNew?: boolean
   progress?: number
   completedLessons?: number
   lastAccessed?: string
@@ -96,7 +94,6 @@ export const courses: Course[] = [
       "Otimização de performance",
       "Testes com Jest e React Testing Library"
     ],
-    isPopular: true,
     progress: 75,
     completedLessons: 24,
     lastAccessed: "2025-06-04",
@@ -159,7 +156,6 @@ export const courses: Course[] = [
       "Limpeza e preparação de dados",
       "Projeto prático completo"
     ],
-    isPopular: true,
     progress: 100,
     completedLessons: 25,
     lastAccessed: "2025-05-28",
@@ -191,7 +187,7 @@ export const courses: Course[] = [
       "Componentes reutilizáveis",
       "Deploy em produção"
     ],
-    isNew: true
+    isFree: true,
   },
   {
     id: 5,
@@ -222,7 +218,6 @@ export const courses: Course[] = [
     completedLessons: 4,
     lastAccessed: "2025-06-02",
     nextLesson: "Containers e Imagens",
-    isNew: true,
     isFree: false,
   },
   {
@@ -250,7 +245,6 @@ export const courses: Course[] = [
       "Integração com APIs",
       "Publicação nas stores"
     ],
-    isPopular: true,
     isFree: false,
   },
   {
@@ -336,7 +330,6 @@ export const courses: Course[] = [
       "Segurança na nuvem",
       "Preparação para certificação"
     ],
-    isNew: true,
     isFree: false,
   },
   {
@@ -364,7 +357,6 @@ export const courses: Course[] = [
       "Classes e herança",
       "APIs modernas do navegador"
     ],
-    isPopular: true,
     isFree: false,
   },
   {
@@ -392,8 +384,6 @@ export const courses: Course[] = [
       "Classes e herança",
       "APIs modernas do navegador"
     ],
-    isPopular: true,
-    isNew: true,
     isFree: true,
   }
 ]
