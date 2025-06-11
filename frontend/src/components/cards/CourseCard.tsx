@@ -83,7 +83,7 @@ export default function CourseCard({
 
   if (layout === 'list') {
     return (
-      <div className="card-glow card p-6 group hover:-translate-y-1 transition-transform duration-300">
+      <div className="card card-glow p-6 group hover:-translate-y-1 transition-transform duration-300">
         <div className="flex space-x-4 items-center">
           <Thumbnail
             course={course}
@@ -95,16 +95,16 @@ export default function CourseCard({
                 {course.title}
               </h4>
               <div className="flex gap-2 items-center flex-wrap">
-                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.level)}`}>
+                {renderBadges("list")}
+
+                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.level)} ml-3`}>
                   {course.level}
                 </span>
-
-                {renderBadges("list")}
 
                 {course.tags.length > 0 && (
                   <div className="flex items-center gap-1 flex-wrap">
                     {course.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="bg-gray-800/50 text-gray-400 text-xs px-2 py-1 rounded hover:bg-gray-700/50 transition-colors">
+                      <span key={tag} className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
                         {tag}
                       </span>
                     ))}
@@ -145,7 +145,7 @@ export default function CourseCard({
   }
 
   return (
-    <div className={`card-glow card group p-4 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
+    <div className={`card card-glow cursor-pointer group p-4 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
       {/* Badges */}
       <div className="absolute top-3 right-3 z-10 flex items-center gap-1">
         {renderBadges("grid")}
@@ -166,7 +166,7 @@ export default function CourseCard({
           {course.tags.length > 0 && (
             <div className="flex items-center gap-1 flex-wrap">
               {course.tags.slice(0, 3).map(tag => (
-                <span key={tag} className="bg-gray-800/50 text-gray-400 text-xs px-2 py-1 rounded hover:bg-gray-700/50 transition-colors">
+                <span key={tag} className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
                   {tag}
                 </span>
               ))}
@@ -207,7 +207,7 @@ export default function CourseCard({
         {showActions && (
           <div className="pt-2">
             <div className="flex gap-2 flex-1">
-              <button className="w-full btn-primary px-4 py-2 flex items-center justify-center space-x-1">
+              <button className="w-full btn-primary px-4 py-1.5 flex items-center justify-center space-x-1">
                 <ArrowRight className="w-4 h-4" />
                 <span>Acessar</span>
               </button>
