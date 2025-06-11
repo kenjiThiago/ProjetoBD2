@@ -31,11 +31,55 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-orange-600 to-red-500 hover:from-orange-700 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-orange-500/25;
+    @apply bg-gradient-to-r from-orange-700 to-red-600 relative text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 overflow-hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #f97316, #f87171);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-primary > * {
+    position: relative;
+    z-index: 1;
   }
 
   .btn-secondary {
-    @apply bg-gradient-to-r from-sky-700 to-blue-600 hover:from-sky-800 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25;
+    @apply bg-gradient-to-r from-sky-700 to-blue-600 relative text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 overflow-hidden;
+  }
+
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #0ea5e9, #60a5fa);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  .btn-secondary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-secondary > * {
+    position: relative;
+    z-index: 1;
   }
 
   .btn-secondary-mobile {
@@ -43,7 +87,7 @@
   }
 
   .card {
-    @apply bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-lg hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 hover:-translate-y-1 hover:border-gray-600/50;
+    @apply bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-lg hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 hover:border-gray-600/50;
   }
 
   .card-glow {
