@@ -41,7 +41,7 @@ export function calculatePopularityScore(course: Course): number {
   return Math.round(totalScore * 100) / 100
 }
 
-export function isPopular(course: Course, threshold: number = 0.75): boolean {
+export function isPopular(course: Course, threshold: number = 0.8): boolean {
   return calculatePopularityScore(course) >= threshold
 }
 
