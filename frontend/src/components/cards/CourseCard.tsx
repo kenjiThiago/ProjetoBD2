@@ -95,37 +95,37 @@ export default function CourseCard({
                 {course.title}
               </h4>
               <div className="flex gap-2 items-center flex-wrap">
-                {renderBadges("list")}
+                <div className="flex items-center text-sm text-gray-400 mr-4">
+                  <Users className="w-4 h-4 mr-1" />
+                  <span>{course.students.toLocaleString()}</span>
+                </div>
 
-                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.level)} ml-3`}>
-                  {course.level}
-                </span>
-
-                {course.tags.length > 0 && (
-                  <div className="flex items-center gap-1 flex-wrap">
-                    {course.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
-                        {tag}
-                      </span>
-                    ))}
-                    {course.tags.length > 3 && (
-                      <span className="text-xs text-gray-400">+{course.tags.length - 3}</span>
-                    )}
-                  </div>
-                )}
+                <div className="flex gap-2">
+                  {renderBadges("list")}
+                </div>
               </div>
             </div>
 
             <p className="text-gray-400 text-sm mb-3 line-clamp-2">
               {course.description}
             </p>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 text-sm text-gray-400">
-                <div className="flex items-center">
-                  <Users className="w-4 h-4 mr-1" />
-                  <span>{course.students.toLocaleString()}</span>
+            <div className="flex items-center gap-4 flex-wrap">
+              <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.level)}`}>
+                {course.level}
+              </span>
+
+              {course.tags.length > 0 && (
+                <div className="flex items-center gap-1 flex-wrap">
+                  {course.tags.slice(0, 3).map(tag => (
+                    <span key={tag} className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
+                      {tag}
+                    </span>
+                  ))}
+                  {course.tags.length > 3 && (
+                    <span className="text-xs text-gray-400">+{course.tags.length - 3}</span>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
