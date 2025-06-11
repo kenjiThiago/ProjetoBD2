@@ -105,7 +105,7 @@ export default function Hero() {
           >
             <div className="relative p-12 lg:p-0">
               {/* Main Card - Code Editor Mockup */}
-              <div className="card-glow card p-1 transform rotate-3 hover:rotate-0 transition-transform duration-500 bg-gray-900">
+              <div className="card-glow card p-1 transform hover:rotate-3 transition-transform duration-500 bg-gray-900">
                 {/* Editor Header */}
                 <div className="bg-gray-800 rounded-t-lg p-3 flex items-center space-x-2">
                   <div className="flex space-x-2">
