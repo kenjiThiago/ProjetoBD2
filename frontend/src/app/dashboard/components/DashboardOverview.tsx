@@ -34,7 +34,7 @@ export default function DashboardOverview({
           />
         </div>
         <div>
-          <div className="flex items-center justify-between mb-6 mt-6 md:mt-0">
+          <div className="flex items-center justify-between mb-6 mt-12 lg:mt-0">
             <h2 className="text-2xl font-semibold text-white flex items-center gap-2">
               <Award className="w-5 h-5 text-purple-400" />
               Minhas Habilidades
