@@ -13,6 +13,7 @@ import {
   Zap,
   Target
 } from 'lucide-react'
+import JobThumbnail from '@/components/JobThumbnail'
 
 interface Job {
   id: number
@@ -65,34 +66,18 @@ export default function JobCard({ job, variants }: JobCardProps) {
   return (
     <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Company Logo */}
-        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center">
-          <span className="text-lg font-bold text-white">{job.companyLogo}</span>
-        </div>
+        {/* Job Thumbnail */}
+        <JobThumbnail
+          job={job}
+          type="list"
+          className="w-16 h-16 flex-shrink-0"
+        />
 
         {/* Content */}
         <div className="flex-1">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3 flex-wrap">
-                {job.isFeatured && (
-                  <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded border border-blue-500/30 flex items-center space-x-1">
-                    <Trophy className="w-3 h-3" />
-                    <span>Destaque</span>
-                  </span>
-                )}
-                {job.isNew && (
-                  <span className="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded border border-green-500/30 flex items-center space-x-1">
-                    <Zap className="w-3 h-3" />
-                    <span>Nova</span>
-                  </span>
-                )}
-                {job.isUrgent && (
-                  <span className="bg-red-500/20 text-red-400 text-xs font-semibold px-2 py-1 rounded border border-red-500/30 flex items-center space-x-1">
-                    <Target className="w-3 h-3" />
-                    <span>Urgente</span>
-                  </span>
-                )}
                 <span className={`text-xs font-semibold px-2 py-1 rounded border ${getJobLevelColor(job.level)}`}>
                   {job.level}
                 </span>

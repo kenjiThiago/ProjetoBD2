@@ -10,6 +10,7 @@ import {
   Eye,
   Shield
 } from 'lucide-react'
+import CompanyThumbnail from '@/components/CompanyThumbnail'
 
 interface Company {
   id: number
@@ -43,10 +44,12 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
     return (
       <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Logo */}
-          <div className="lg:w-24 h-24 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center">
-            <span className="text-2xl font-bold text-white">{company.logo}</span>
-          </div>
+          {/* Thumbnail */}
+          <CompanyThumbnail
+            company={company}
+            type="list"
+            className=""
+          />
 
           {/* Content */}
           <div className="flex-1">
@@ -137,10 +140,11 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
   // Grid View - Simplified
   return (
     <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-2 transition-transform duration-300">
-      {/* Logo */}
-      <div className="h-24 bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg mb-4 relative overflow-hidden flex items-center justify-center">
-        <span className="text-2xl font-bold text-white">{company.logo}</span>
-      </div>
+      {/* Thumbnail */}
+      <CompanyThumbnail
+        company={company}
+        type="grid"
+      />
 
       {/* Content */}
       <div className="flex items-center gap-2 mb-3">
