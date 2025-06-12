@@ -48,8 +48,6 @@ export function useDashboardCourseFilters({
         )
       } else if (selectedStatus === "Concluídos") {
         filtered = filtered.filter(course => course.progress === 100)
-      } else if (selectedStatus === "Não iniciados") {
-        filtered = filtered.filter(course => !course.progress || course.progress === 0)
       }
     }
 

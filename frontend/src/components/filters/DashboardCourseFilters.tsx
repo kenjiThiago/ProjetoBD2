@@ -16,7 +16,7 @@ interface DashboardCourseFiltersProps {
 
 const categories = ["Categorias", "Frontend", "Backend", "Data Science", "DevOps", "Mobile", "Design", "Cloud"]
 const levels = ["Níveis", "Iniciante", "Intermediário", "Avançado"]
-const statuses = ["Status", "Em andamento", "Concluídos", "Não iniciados"]
+const statuses = ["Status", "Em andamento", "Concluídos"]
 
 export default function DashboardCourseFilters({
   searchTerm,
