@@ -16,7 +16,7 @@ interface FilterBarProps {
 const categories = ["Categoria", "Frontend", "Backend", "Data Science", "Mobile", "DevOps", "Design", "Cloud"]
 const levels = ["Nível", "Iniciante", "Intermediário", "Avançado"]
 const accessTypeOptions = ["Acesso", "Grátis", "Assinatura"]
-const sortOptions = ["Mais Relevantes", "Mais Populares", "Melhor Avaliados", "Mais Recentes"]
+const sortOptions = ["Ordenação", "Mais Recentes"]
 
 export default function FilterBar({
   selectedCategory,
@@ -96,7 +96,7 @@ export default function FilterBar({
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('clearFilters'))
                 }}
-                className="text-orange-400 hover:text-orange-300 text-sm flex items-center space-x-1"
+                className="text-orange-400 text-sm flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-gray-700/50 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

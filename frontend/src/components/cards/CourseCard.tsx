@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import type { Course } from '@/data/mockData'
 import Thumbnail from '@/components/Thumbnail'
-import { isCourseNew, isPopular } from "@/utils/courseUtils"
+import { isCourseNew } from "@/utils/courseUtils"
 
 interface CourseCardProps {
   course: Course
@@ -23,7 +23,6 @@ export default function CourseCard({
   layout = 'grid'
 }: CourseCardProps) {
 
-  const isDynamicallyPopular = isPopular(course)
   const isNew = isCourseNew(course)
 
   const getLevelColor = (level: string) => {
@@ -61,17 +60,6 @@ export default function CourseCard({
           className={`bg-gradient-to-r from-lime-500 to-lime-600 text-black text-xs font-bold px-2 py-1 ${styles[type]} flex items-center space-x-1`}
         >
           Lançamento
-        </span>
-      )
-    }
-
-    if (isDynamicallyPopular) {
-      badges.push(
-        <span
-          key={3}
-          className={`bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-bold px-2 py-1 ${styles[type]} flex items-center space-x-1`}
-        >
-          Popular
         </span>
       )
     }
