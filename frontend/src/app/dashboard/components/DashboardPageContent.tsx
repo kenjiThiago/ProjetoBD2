@@ -64,7 +64,8 @@ export default function DashboardPage() {
     inProgressCourses: coursesInProgress.length,
     certificates: coursesWithCertificates.length,
     studyTime: "200h",
-    totalCourses: courses.length
+    totalCourses: courses.length,
+    appliedJobs: 5,
   }
 
   return (
