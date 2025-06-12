@@ -74,15 +74,9 @@ export default function CourseCard({ course }: CourseCardProps) {
           <span>Por {course.instructor}</span>
         </div>
 
-        <div className="flex items-center justify-between text-sm text-gray-400">
-          <div className="flex items-center">
-            <Clock className="w-4 h-4 mr-1" />
-            <span>{course.duration}</span>
-          </div>
-          <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-            <span className="text-white font-semibold">{course.rating}</span>
-          </div>
+        <div className="flex items-center text-sm text-gray-400">
+          <Clock className="w-4 h-4 mr-1" />
+          <span>{course.duration}</span>
         </div>
 
         <div className="space-y-2">

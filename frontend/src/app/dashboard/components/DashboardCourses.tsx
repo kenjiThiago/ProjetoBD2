@@ -13,14 +13,10 @@ import {
 
 interface DashboardCoursesProps {
   courses: Course[]
-  coursesInProgress: Course[]
-  completedCourses: Course[]
 }
 
 export default function DashboardCourses({
   courses,
-  coursesInProgress,
-  completedCourses
 }: DashboardCoursesProps) {
   const {
     searchTerm,
@@ -91,21 +87,7 @@ export default function DashboardCourses({
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-        <h2 className="text-2xl font-bold text-white">Meus Cursos</h2>
-
-        {/* Quick Stats */}
-        <div className="flex items-center space-x-4 text-sm text-gray-400">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-            <span>Em andamento: {coursesInProgress.length}</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span>Concluídos: {completedCourses.length}</span>
-          </div>
-        </div>
-      </div>
+      <h2 className="text-2xl font-bold text-white mb-8 ">Meus Cursos</h2>
 
       {/* Filters */}
       <DashboardCourseFilters

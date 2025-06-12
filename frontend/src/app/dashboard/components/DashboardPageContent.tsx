@@ -25,14 +25,13 @@ export default function DashboardPage() {
     (tabFromUrl as 'overview' | 'courses' | 'achievements' | 'paths') || 'overview'
   )
 
-  const [studyStreak, setStudyStreak] = useState(7)
-  const [totalPoints, setTotalPoints] = useState(2450)
-  const [weeklyGoal, setWeeklyGoal] = useState({ target: 10, completed: 7 })
+  const [totalPoints, setTotalPoints] = useState(20)
 
   // Dados centralizados
   const coursesInProgress = getCoursesInProgress(courses)
   const completedCourses = getCompletedCourses(courses)
   const coursesWithCertificates = getCoursesWithCertificates(courses)
+  const allCourses = coursesInProgress.concat(completedCourses)
 
   // Tab quando url mudar
   useEffect(() => {
@@ -64,6 +63,7 @@ export default function DashboardPage() {
     completedCourses: completedCourses.length,
     inProgressCourses: coursesInProgress.length,
     certificates: coursesWithCertificates.length,
+    studyTime: "200h",
     totalCourses: courses.length
   }
 
@@ -75,9 +75,7 @@ export default function DashboardPage() {
         {/* Hero/Welcome Section */}
         <DashboardHero
           user={user}
-          studyStreak={studyStreak}
           totalPoints={totalPoints}
-          weeklyGoal={weeklyGoal}
         />
 
         {/* Navigation Tabs */}
@@ -96,9 +94,7 @@ export default function DashboardPage() {
 
             {activeTab === 'courses' && (
               <DashboardCourses
-                courses={courses}
-                coursesInProgress={coursesInProgress}
-                completedCourses={completedCourses}
+                courses={allCourses}
               />
             )}
           </div>
