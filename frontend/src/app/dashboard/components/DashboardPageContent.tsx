@@ -25,8 +25,6 @@ export default function DashboardPage() {
     (tabFromUrl as 'overview' | 'courses' | 'achievements' | 'paths') || 'overview'
   )
 
-  const [totalPoints, setTotalPoints] = useState(20)
-
   // Dados centralizados
   const coursesInProgress = getCoursesInProgress(courses)
   const completedCourses = getCompletedCourses(courses)
@@ -76,7 +74,6 @@ export default function DashboardPage() {
         {/* Hero/Welcome Section */}
         <DashboardHero
           user={user}
-          totalPoints={totalPoints}
         />
 
         {/* Navigation Tabs */}
