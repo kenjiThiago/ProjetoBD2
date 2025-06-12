@@ -99,7 +99,7 @@ export default function SkillsWidget({ skills }: SkillsWidgetProps) {
     <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 card-glow">
 
       {skills.length > 0 ? (
-        <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar">
+        <div className="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
           {skills.map((skill, index) => {
             const [skillName, level] = skill.split(': ')
             const Icon = getSkillIcon(skill)
