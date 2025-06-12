@@ -45,10 +45,10 @@ export default function DashboardHero({
           transition={{ duration: 0.6 }}
         >
           {/* Welcome Message */}
-          <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-20 gap-y-20 flex-1 w-full px-32 lg:px-0">
+          <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-20 gap-y-20 flex-1 w-full px-10 lg:px-0">
             <div className="flex flex-col justify-end gap-10">
               <div className="flex items-center justify-center space-x-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full flex items-center justify-center">
+                <div className="hidden w-16 h-16 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full sm:flex items-center justify-center">
                   <span className="text-xl font-bold text-white">{user.avatar}</span>
                 </div>
                 <div>
