@@ -8,7 +8,6 @@ import {
   Briefcase,
   TrendingUp,
   Eye,
-  Trophy,
   Shield
 } from 'lucide-react'
 
@@ -39,7 +38,7 @@ interface CompanyCardProps {
   variants?: any
 }
 
-export default function CompanyCard({ company, viewMode, variants }: CompanyCardProps) {
+export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
   if (viewMode === 'list') {
     return (
       <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
