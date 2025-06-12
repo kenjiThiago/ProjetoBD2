@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Codify - Sua Jornada de Programação',
   description: 'Plataforma de cursos online para desenvolvedores. Aprenda programação com os melhores especialistas.',
+  icons: {
+    icon: "/favicon.png"
+  }
 }
 
 export default function RootLayout({
