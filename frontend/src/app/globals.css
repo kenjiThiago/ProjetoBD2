@@ -96,7 +96,7 @@
 
   .card-glow::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] transition-transform duration-1000;
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] transition-transform duration-1000 -z-10;
   }
 
   .card-glow:hover::before {
