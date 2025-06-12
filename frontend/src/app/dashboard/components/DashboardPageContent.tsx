@@ -62,9 +62,12 @@ export default function DashboardPage() {
     inProgressCourses: coursesInProgress.length,
     certificates: coursesWithCertificates.length,
     studyTime: "200h",
+    skills: ["React", "Python", "C"],
     totalCourses: courses.length,
     appliedJobs: 5,
   }
+
+  const skills = user.skills
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -87,6 +90,7 @@ export default function DashboardPage() {
             {activeTab === 'overview' && (
               <DashboardOverview
                 coursesInProgress={coursesInProgress}
+                skills={skills}
               />
             )}
 
