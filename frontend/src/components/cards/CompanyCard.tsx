@@ -4,7 +4,6 @@ import {
   MapPin,
   Users,
   Calendar,
-  Star,
   Briefcase,
   TrendingUp,
   Eye,
@@ -88,10 +87,6 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
                     <Calendar className="w-4 h-4 mr-1" />
                     <span>Fundada em {company.founded}</span>
                   </div>
-                  <div className="flex items-center">
-                    <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-                    <span className="text-white font-semibold">{company.rating}</span>
-                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1 mb-4">
@@ -171,10 +166,6 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
         <div className="flex items-center">
           <MapPin className="w-4 h-4 mr-1" />
           <span className="truncate">{company.location}</span>
-        </div>
-        <div className="flex items-center">
-          <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-          <span className="text-white font-semibold">{company.rating}</span>
         </div>
       </div>
 
