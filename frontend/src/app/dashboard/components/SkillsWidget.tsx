@@ -36,7 +36,7 @@ export default function SkillsWidget({ skills }: SkillsWidgetProps) {
     if (skillLower.includes('javascript') || skillLower.includes('typescript')) return Code
     if (skillLower.includes('python')) return FileCode
     if (skillLower.includes('java') && !skillLower.includes('javascript')) return Cpu
-    if (skillLower.includes('c++') || skillLower.includes('c#') || skillLower.includes('c')) return Terminal
+    if (skillLower.includes('c++') || skillLower.includes('c#') || skillLower.includes('c ')) return Terminal
     if (skillLower.includes('php')) return Globe
     if (skillLower.includes('go') || skillLower.includes('golang')) return Zap
     if (skillLower.includes('rust')) return Shield
