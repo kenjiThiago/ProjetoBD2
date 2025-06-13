@@ -62,9 +62,9 @@ export default function DashboardPage() {
     inProgressCourses: coursesInProgress.length,
     certificates: coursesWithCertificates.length,
     studyTime: "200h",
-    skills: ["React", "Python", "C"],
+    skills: ["React: avançado", "Python: intermediário", "c : avançado", "css: basico", "java: basico", "node: avançado", "figma: basico", "javascript: intermediário", "go: basico"],
     totalCourses: courses.length,
-    appliedJobs: 5,
+    appliedJobs: 3,
   }
 
   const skills = user.skills
