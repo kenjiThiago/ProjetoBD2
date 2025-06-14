@@ -2,11 +2,12 @@
 
 import { motion } from 'framer-motion'
 import {
-  BookOpen,
   Award,
   Briefcase,
   Sparkles,
   Crown,
+  Star,
+  Clock,
 } from 'lucide-react'
 import DonutChart from './DonutChart'
 
@@ -22,15 +23,98 @@ interface User {
   certificates: number
   totalCourses: number
   appliedJobs: number
+  statusPlano?: string
 }
 
 interface DashboardHeroProps {
   user: User
 }
 
+// Função para formatar o status do plano
+const getPlanDisplayInfo = (statusPlano: string) => {
+  const planStatus = statusPlano?.toLowerCase()
+
+  if (planStatus === 'pago' || planStatus === 'premium') {
+    return {
+      text: 'Premium',
+      icon: Crown,
+      color: 'text-yellow-400',
+      bgColor: 'from-yellow-500/20 to-orange-500/20',
+      borderColor: 'border-yellow-500/30'
+    }
+  }
+
+  return {
+    text: 'Gratuito',
+    icon: Star,
+    color: 'text-blue-400',
+    bgColor: 'from-blue-500/20 to-purple-500/20',
+    borderColor: 'border-blue-500/30'
+  }
+}
+
+// Componente reutilizável para cards de estatísticas
+const StatCard = ({
+  icon: Icon,
+  label,
+  value,
+  color,
+  bgGradient,
+  borderColor,
+  hasAnimation = false,
+  onClick
+}: {
+  icon: any
+  label: string
+  value: string | number
+  subtitle?: string
+  color: string
+  bgGradient: string
+  borderColor: string
+  hasAnimation?: boolean
+  onClick?: () => void
+}) => (
+  <motion.div
+    className={`flex flex-col items-center bg-gradient-to-br ${bgGradient} rounded-xl p-5 border ${borderColor} h-full relative overflow-hidden group transition-all duration-300 hover:scale-105 ${onClick ? 'cursor-pointer' : ''}`}
+    whileHover={{ y: -2 }}
+    onClick={onClick}
+  >
+    {/* Efeito de brilho animado */}
+    {hasAnimation && (
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+    )}
+
+    <div className="flex gap-2 flex-wrap justify-center items-center">
+      {/* Ícone com fundo */}
+      <div className={`relative z-10 w-12 h-12 bg-gradient-to-br ${bgGradient} border ${borderColor} rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+        <Icon className={`w-6 h-6 ${color}`} />
+      </div>
+
+      {/* Label com trend */}
+      <div className="flex items-center space-x-1 mb-2 relative z-10">
+        <span className="text-sm text-gray-300 text-center">{label}</span>
+      </div>
+    </div>
+
+    {/* Valor principal */}
+    <div className={`text-2xl font-bold ${color} relative z-10 group-hover:scale-110 transition-transform duration-300`}>
+      {typeof value === 'number' ? value.toLocaleString() : value}
+    </div>
+
+    {/* Indicador de hover */}
+    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+  </motion.div>
+)
+
 export default function DashboardHero({
   user,
 }: DashboardHeroProps) {
+  const planInfo = getPlanDisplayInfo(user.statusPlano || 'gratuito')
+
+  // Calcular algumas métricas adicionais
+  const completionRate = user.totalCourses > 0 ? Math.round((user.completedCourses / user.totalCourses) * 100) : 0
+  const avgStudyHours = user.studyTime ? parseInt(user.studyTime.replace('h', '')) : 0
+  const studyLevel = avgStudyHours > 150 ? 'Intensivo' : avgStudyHours > 50 ? 'Regular' : 'Iniciante'
 
   return (
     <section className="bg-gradient-to-br from-gray-900 via-purple-950/20 to-gray-900 py-12 relative overflow-hidden">
@@ -48,9 +132,9 @@ export default function DashboardHero({
         >
           {/* Welcome Message */}
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-20 gap-y-20 flex-1 w-full px-10 lg:px-0">
-            <div className="flex flex-col justify-end gap-10">
-              <div className="flex items-center justify-center space-x-4 mb-6">
-                <div className="hidden w-16 h-16 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full sm:flex items-center justify-center">
+            <div className="flex flex-col justify-end gap-5">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="hidden w-16 h-16 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full sm:flex items-center justify-center relative">
                   <span className="text-xl font-bold text-white">{user.avatar}</span>
                 </div>
                 <div>
@@ -60,42 +144,63 @@ export default function DashboardHero({
                     </h1>
                     <Sparkles className="text-yellow-400"/>
                   </div>
-                  <p className="text-gray-400 text-center sm:text-left">Pronto para continuar sua jornada de aprendizado?</p>
+                  <p className="text-gray-400 text-center sm:text-left">
+                    Pronto para continuar sua jornada de aprendizado?
+                  </p>
                 </div>
               </div>
 
-              {/* Quick Stats */}
+              {/* Enhanced Stats Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 items-center">
-                <div className="flex flex-col items-center bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 h-full">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Briefcase className="w-5 h-5 text-orange-400" />
-                    <span className="text-sm text-gray-400">Vagas</span>
-                  </div>
-                  <div className="text-2xl font-bold text-white">{user.appliedJobs.toLocaleString()}</div>
-                </div>
+                {/* Card de Vagas Aplicadas */}
+                <StatCard
+                  icon={Briefcase}
+                  label="Vagas Aplicadas"
+                  value={user.appliedJobs}
+                  subtitle={user.appliedJobs > 0 ? "Oportunidades ativas" : "Comece a aplicar!"}
+                  color="text-orange-400"
+                  bgGradient="from-orange-500/10 to-red-500/10"
+                  borderColor="border-orange-500/30"
+                  hasAnimation={true}
+                  onClick={() => console.log('Navegar para vagas')}
+                />
 
-                <div className="flex flex-col items-center bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <BookOpen className="w-5 h-5 text-blue-400" />
-                    <span className="text-sm text-gray-400">Horas de Estudo</span>
-                  </div>
-                  <div className="text-2xl font-bold text-white">{user.studyTime}</div>
-                </div>
+                {/* Card de Horas de Estudo */}
+                <StatCard
+                  icon={Clock}
+                  label="Tempo de Estudo"
+                  value={user.studyTime}
+                  subtitle={`Nível: ${studyLevel}`}
+                  color="text-blue-400"
+                  bgGradient="from-blue-500/10 to-cyan-500/10"
+                  borderColor="border-blue-500/30"
+                  hasAnimation={true}
+                />
 
-                <div className="flex flex-col items-center bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 h-full">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Award className="w-5 h-5 text-purple-400" />
-                    <span className="text-sm text-gray-400">Certificados</span>
-                  </div>
-                  <div className="text-2xl font-bold text-white">{user.certificates}</div>
-                </div>
-                <div className="flex flex-col items-center bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 h-full">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Crown className="w-5 h-5 text-yellow-400" />
-                    <span className="text-sm text-gray-400">Status</span>
-                  </div>
-                  <div className="text-2xl font-bold text-white">{user.status}</div>
-                </div>
+                {/* Card de Certificados */}
+                <StatCard
+                  icon={Award}
+                  label="Certificados"
+                  value={user.certificates}
+                  subtitle={user.certificates > 0 ? `${completionRate}% concluído` : "Finalize um curso"}
+                  color="text-purple-400"
+                  bgGradient="from-purple-500/10 to-pink-500/10"
+                  borderColor="border-purple-500/30"
+                  hasAnimation={user.certificates > 0}
+                  onClick={() => console.log('Ver certificados')}
+                />
+
+                {/* Card do Plano */}
+                <StatCard
+                  icon={planInfo.icon}
+                  label="Plano Atual"
+                  value={planInfo.text}
+                  color={planInfo.color}
+                  bgGradient={planInfo.bgColor}
+                  borderColor={planInfo.borderColor}
+                  hasAnimation={planInfo.text === 'Premium'}
+                  onClick={() => planInfo.text === 'Gratuito' && console.log('Navegar para planos')}
+                />
               </div>
             </div>
 
