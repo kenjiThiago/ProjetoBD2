@@ -6,12 +6,7 @@ import {
   DollarSign,
   Users,
   Clock,
-  Heart,
-  Share2,
   ExternalLink,
-  Trophy,
-  Zap,
-  Target
 } from 'lucide-react'
 import JobThumbnail from '@/components/JobThumbnail'
 
