@@ -93,6 +93,7 @@ export function useCompanyFilters() {
     selectedJobType,
     selectedJobLevel,
     activeTab,
+    totalItems: filteredJobs.length,
     setSearchTerm,
     setSelectedIndustry,
     setSelectedSize,

@@ -32,6 +32,7 @@ export default function CursosPageContent() {
     selectedLevel,
     selectedAccess,
     sortBy,
+    totalItems,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
@@ -174,6 +175,8 @@ export default function CursosPageContent() {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
+                  totalItems={totalItems}
+                  itemsPerPage={6}
                 />
               </>
             ) : (

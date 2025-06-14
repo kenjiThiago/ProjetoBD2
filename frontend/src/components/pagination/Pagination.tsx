@@ -1,15 +1,20 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PaginationProps {
   currentPage: number
   totalPages: number
+  totalItems: number
+  itemsPerPage: number
 }
 
 export default function Pagination({
   currentPage,
-  totalPages
+  totalPages,
+  totalItems,
+  itemsPerPage,
 }: PaginationProps) {
   if (totalPages <= 1) return null
 
@@ -60,50 +65,59 @@ export default function Pagination({
   }
 
   const visiblePages = getVisiblePages()
-  console.log(visiblePages)
+  const startItem = (currentPage - 1) * itemsPerPage + 1
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems)
 
   return (
-    <motion.div
-      className="flex justify-center items-center space-x-2 mt-12"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.3 }}
-    >
-      <motion.button
-        className="px-4 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
-        onClick={handlePreviousPage}
-        disabled={currentPage === 1}
-        whileHover={{ scale: currentPage === 1 ? 1 : 1.05 }}
-        whileTap={{ scale: currentPage === 1 ? 1 : 0.95 }}
-      >
-        Anterior
-      </motion.button>
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
+      <div className="text-sm text-gray-400">
+        Mostrando <span className="font-medium text-white">{startItem}</span> a{' '}
+        <span className="font-medium text-white">{endItem}</span>
+      </div>
 
-      {visiblePages.map((page) => (
+      <div className="flex items-center space-x-2">
         <motion.button
-          key={page}
-          className={`px-4 py-2 rounded-lg transition-colors ${currentPage === page
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className={`p-2 rounded-lg transition-colors ${currentPage === 1
+              ? 'text-gray-600 cursor-not-allowed'
+              : 'text-gray-400 hover:text-white hover:bg-gray-700'
             }`}
-          onClick={() => handlePageChange(page)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={currentPage > 1 ? { scale: 1.05 } : {}}
+          whileTap={currentPage > 1 ? { scale: 0.95 } : {}}
         >
-          {page}
+          <ChevronLeft className="w-4 h-4" />
         </motion.button>
-      )
-      )}
 
-      <motion.button
-        className="px-4 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
-        onClick={handleNextPage}
-        disabled={currentPage === totalPages}
-        whileHover={{ scale: currentPage === totalPages ? 1 : 1.05 }}
-        whileTap={{ scale: currentPage === totalPages ? 1 : 0.95 }}
-      >
-        Próximo
-      </motion.button>
-    </motion.div>
+        {visiblePages.map((page) => (
+          <motion.button
+            key={page}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === page
+                ? 'bg-purple-500 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+              }`}
+            onClick={() => handlePageChange(page)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {page}
+          </motion.button>
+        )
+        )}
+
+        <motion.button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className={`p-2 rounded-lg transition-colors ${currentPage === totalPages
+            ? 'text-gray-600 cursor-not-allowed'
+            : 'text-gray-400 hover:text-white hover:bg-gray-700'
+            }`}
+          whileHover={currentPage < totalPages ? { scale: 1.05 } : {}}
+          whileTap={currentPage < totalPages ? { scale: 0.95 } : {}}
+        >
+          <ChevronRight className="w-4 h-4" />
+        </motion.button>
+      </div>
+    </div>
   )
 }

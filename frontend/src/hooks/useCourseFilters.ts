@@ -70,6 +70,7 @@ export function useCourseFilters(initialSearchTerm: string = '') {
     selectedLevel,
     selectedAccess,
     sortBy,
+    totalItems: filteredCourses.length,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,

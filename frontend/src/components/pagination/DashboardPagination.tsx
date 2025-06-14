@@ -69,7 +69,7 @@ export default function DashboardPagination({
   const endItem = Math.min(currentPage * itemsPerPage, totalItems)
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-700/50">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
       {/* Items info */}
       <div className="text-sm text-gray-400">
         Mostrando <span className="font-medium text-white">{startItem}</span> a{' '}

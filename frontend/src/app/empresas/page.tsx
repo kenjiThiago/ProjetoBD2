@@ -32,6 +32,7 @@ export default function EmpresasPage() {
     selectedJobType,
     selectedJobLevel,
     activeTab,
+    totalItems,
     setSearchTerm,
     setSelectedIndustry,
     setSelectedSize,
@@ -206,6 +207,8 @@ export default function EmpresasPage() {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
+                  totalItems={totalItems}
+                  itemsPerPage={6}
                 />
               </>
             ) : (
