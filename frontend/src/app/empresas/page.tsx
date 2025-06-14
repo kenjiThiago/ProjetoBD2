@@ -138,8 +138,6 @@ export default function EmpresasPage() {
         {/* Hero Section */}
         <CompaniesHero
           searchTerm={searchTerm}
-          totalCompanies={companies.length}
-          totalJobs={jobs.length}
         />
 
         {/* Tabs */}
