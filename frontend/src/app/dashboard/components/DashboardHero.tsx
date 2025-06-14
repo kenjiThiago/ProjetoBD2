@@ -84,7 +84,7 @@ const StatCard = ({
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
     )}
 
-    <div className="flex gap-2 flex-wrap justify-center items-center">
+    <div className="flex gap-3 flex-wrap justify-center items-center">
       {/* Ícone com fundo */}
       <div className={`relative z-10 w-12 h-12 bg-gradient-to-br ${bgGradient} border ${borderColor} rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
         <Icon className={`w-6 h-6 ${color}`} />
@@ -132,7 +132,7 @@ export default function DashboardHero({
         >
           {/* Welcome Message */}
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-20 gap-y-20 flex-1 w-full px-10 lg:px-0">
-            <div className="flex flex-col justify-end gap-5">
+            <div className="flex flex-col justify-end gap-10">
               <div className="flex items-center justify-center space-x-4">
                 <div className="hidden w-16 h-16 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full sm:flex items-center justify-center relative">
                   <span className="text-xl font-bold text-white">{user.avatar}</span>

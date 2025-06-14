@@ -10,7 +10,7 @@ import {
   Legend,
   ChartOptions
 } from 'chart.js'
-import { TrendingUp } from 'lucide-react'
+import { BarChart3, Target, Sparkles } from 'lucide-react'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -156,7 +156,7 @@ export default function DonutChart({
     },
   }
 
-  // Determina o texto central baseado nos segmentos visíveis
+  // Determina o texto central
   const getCenterText = () => {
     const activeSegments = []
     if (segmentVisibility.completed) activeSegments.push('completed')
@@ -164,128 +164,162 @@ export default function DonutChart({
     if (segmentVisibility.notStarted) activeSegments.push('notStarted')
 
     if (activeSegments.length === 0) {
-      return { percentage: '0%', label: 'Nenhum' }
+      return { value: '0', label: 'Cursos' }
     }
 
-    // Se apenas "Concluídos" estiver ativo
-    if (activeSegments.length === 1 && activeSegments[0] === 'completed') {
-      return { percentage: '100%', label: 'Concluídos' }
-    }
-
-    // Se apenas "Em Andamento" estiver ativo
-    if (activeSegments.length === 1 && activeSegments[0] === 'inProgress') {
-      return { percentage: '100%', label: 'Em Andamento' }
-    }
-
-    // Se apenas "Não Iniciados" estiver ativo
-    if (activeSegments.length === 1 && activeSegments[0] === 'notStarted') {
-      return { percentage: '100%', label: 'Não Iniciados' }
-    }
-
-    // Para múltiplos segmentos, mostra a porcentagem de concluído
     return {
-      percentage: `${visibleCompletionPercentage}%`,
-      label: 'Concluído'
+      value: visibleTotal.toString(),
+      label: visibleTotal === 1 ? 'Curso' : 'Cursos'
     }
   }
 
   const centerText = getCenterText()
 
+  // Determina a meta
+  const getMetaInfo = () => {
+    if (completedCourses + inProgressCourses === 0) {
+      return { value: '0%', label: 'Ativo' }
+    }
+
+    return {
+      value: `${visibleCompletionPercentage}%`,
+      label: 'Concluído'
+    }
+  }
+
+  const metaInfo = getMetaInfo()
+
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-emerald-400" />
-          Progresso dos Cursos ({scope})
-        </h3>
+    <motion.div
+      className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl p-6 border border-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300 hover:scale-[1.02] relative overflow-hidden group h-full"
+      whileHover={{ y: -2 }}
+    >
+      {/* Efeito de brilho animado */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-400/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+
+      {/* Header melhorado */}
+      <div className="flex items-center justify-between mb-6 relative z-10">
+        <div className="flex items-center gap-3">
+          {/* Ícone com fundo gradiente */}
+          <div className="w-10 h-10 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <BarChart3 className="w-5 h-5 text-emerald-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+              Progresso dos Cursos
+              {visibleCompletionPercentage > 70 && (
+                <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse" />
+              )}
+            </h3>
+            <p className="text-sm text-gray-400">Visualização: {scope}</p>
+          </div>
+        </div>
+
+        {/* Badge de performance */}
+        <div className="bg-emerald-500/20 border border-emerald-500/30 rounded-full px-3 py-1 flex items-center gap-1">
+          <Target className="w-3 h-3 text-emerald-400" />
+          <span className="text-xs font-medium text-emerald-400">
+            {metaInfo.value} {metaInfo.label}
+          </span>
+        </div>
       </div>
 
-      <div className="relative h-48">
+      {/* Container do gráfico */}
+      <div className="relative h-48 mb-4">
         <Doughnut data={getFilteredData()} options={options} />
 
-        {/* Centro do gráfico com valores dinâmicos */}
+        {/* Centro do gráfico */}
         <motion.div
           className="absolute inset-0 -z-10 flex flex-col items-center justify-center pointer-events-none"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <div className="bg-gray-900/80 backdrop-blur-sm rounded-full p-3 py-4 border border-gray-700/50 shadow-lg">
+          <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-full p-5 border border-emerald-500/20 shadow-xl">
             <div className="text-center">
               <motion.div
-                className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent mb-1"
+                className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent mb-1"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
-                key={centerText.percentage} // Força re-render na mudança
+                key={centerText.value}
               >
-                {centerText.percentage}
+                {centerText.value}
               </motion.div>
-              <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">
+              <div className="text-xs text-emerald-300 font-medium uppercase tracking-wider">
                 {centerText.label}
               </div>
-              {visibleTotal > 0 && (
-                <div className="text-xs text-gray-500 font-medium">
-                  {visibleTotal} curso{visibleTotal !== 1 ? 's' : ''}
-                </div>
-              )}
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Legenda personalizada com funcionalidade de clique */}
-      <div className="mt-4">
-        <div className="bg-gray-900/60 backdrop-blur-sm rounded-lg p-3 border border-gray-700/30">
-          <div className="grid md:grid-cols-3 grid-cols-1 gap-2 text-xs">
+      {/* Legenda personalizada melhorada */}
+      <div className="relative z-10">
+        <div className="bg-gradient-to-br from-gray-900/70 to-gray-800/70 backdrop-blur-sm rounded-lg p-4 border border-gray-700/30">
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-3 text-xs">
             {/* Concluídos */}
-            <div
-              className={`flex items-center space-x-2 justify-center transition-all duration-200 p-2 rounded-md ${
+            <motion.div
+              className={`flex items-center space-x-2 justify-center transition-all duration-200 p-2 rounded-md hover:bg-emerald-500/10 ${
                 !segmentVisibility.completed ? 'opacity-50' : ''
               }`}
+              whileHover={{ scale: 1.05 }}
             >
-              <div className={`w-3 h-3 bg-emerald-500 rounded-full transition-opacity duration-200 ${
-                !segmentVisibility.completed ? 'opacity-30' : ''
+              <div className={`w-3 h-3 bg-emerald-500 rounded-full transition-all duration-200 ${
+                !segmentVisibility.completed ? 'opacity-30' : 'shadow-lg shadow-emerald-500/30'
               }`}></div>
               <div className="text-gray-300 flex gap-1">
-                <div className="font-medium">{completedCourses}</div>
+                <div className="font-bold text-emerald-400">{completedCourses}</div>
                 <div className="text-gray-400">Concluídos</div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Em Andamento */}
-            <div
-              className={`flex items-center space-x-2 justify-center transition-all duration-200 p-2 rounded-md ${
+            <motion.div
+              className={`flex items-center space-x-2 justify-center transition-all duration-200 p-2 rounded-md hover:bg-orange-500/10 ${
                 !segmentVisibility.inProgress ? 'opacity-50' : ''
               }`}
+              whileHover={{ scale: 1.05 }}
             >
-              <div className={`w-3 h-3 bg-orange-500 rounded-full transition-opacity duration-200 ${
-                !segmentVisibility.inProgress ? 'opacity-30' : ''
+              <div className={`w-3 h-3 bg-orange-500 rounded-full transition-all duration-200 ${
+                !segmentVisibility.inProgress ? 'opacity-30' : 'shadow-lg shadow-orange-500/30'
               }`}></div>
               <div className="text-gray-300 flex gap-1">
-                <div className="font-medium">{inProgressCourses}</div>
+                <div className="font-bold text-orange-400">{inProgressCourses}</div>
                 <div className="text-gray-400">Em Andamento</div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Não Iniciados */}
-            <div
-              className={`flex items-center space-x-2 justify-center cursor-pointer transition-all duration-200 p-2 rounded-md hover:bg-gray-800/50 ${
+            <motion.div
+              className={`flex items-center space-x-2 justify-center cursor-pointer transition-all duration-200 p-2 rounded-md hover:bg-gray-500/20 ${
                 !segmentVisibility.notStarted ? 'opacity-50' : ''
               }`}
               onClick={() => toggleSegment('notStarted')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className={`w-3 h-3 bg-gray-500 rounded-full transition-opacity duration-200 ${
-                !segmentVisibility.notStarted ? 'opacity-30' : ''
+              <div className={`w-3 h-3 bg-gray-500 rounded-full transition-all duration-200 ${
+                !segmentVisibility.notStarted ? 'opacity-30' : 'shadow-lg shadow-gray-500/30'
               }`}></div>
               <div className="text-gray-300 flex gap-1">
-                <div className="font-medium">{notStartedCourses}</div>
+                <div className="font-bold text-gray-400">{notStartedCourses}</div>
                 <div className="text-gray-400">Não Iniciados</div>
               </div>
-            </div>
+            </motion.div>
+          </div>
+
+          {/* Indicador de clique */}
+          <div className="text-center mt-2 pt-2 border-t border-gray-700/30">
+            <p className="text-xs text-gray-500">
+              Clique em "Não Iniciados" para alternar visualização
+            </p>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Indicador de hover na parte inferior */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+    </motion.div>
   )
 }
