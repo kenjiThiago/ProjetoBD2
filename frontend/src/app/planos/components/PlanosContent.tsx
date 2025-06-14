@@ -236,7 +236,7 @@ export default function PlanosContent() {
                   className={`w-full py-4 rounded-xl font-semibold text-lg transition-all duration-200 ${plan.buttonStyle}`}
                   onClick={() => handlePlanoClick(plan.id)}
                 >
-                  {plan.buttonText}
+                  <span>{plan.buttonText}</span>
                 </button>
               </motion.div>
             )

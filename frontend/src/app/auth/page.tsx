@@ -18,7 +18,7 @@ export default function AuthPage() {
       <Header />
 
       <main className="py-20">
-        <div className="max-w-md mx-auto px-4">
+        <div className="max-w-3xl mx-auto px-4">
           <motion.div
             className="bg-gray-900/50 rounded-2xl p-8 border border-gray-700"
             initial={{ opacity: 0, y: 30 }}

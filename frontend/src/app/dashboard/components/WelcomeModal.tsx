@@ -26,7 +26,7 @@ export default function WelcomeModal() {
   const benefits = [
     {
       icon: BookOpen,
-      title: 'Acesso a 5 Cursos',
+      title: 'Acesso aos Cursos Grátis',
       description: 'HTML, CSS, JavaScript, Python e Git'
     },
     {
@@ -97,13 +97,13 @@ export default function WelcomeModal() {
                 onClick={() => router.push('/cursos')}
                 className="w-full btn-primary"
               >
-                Começar Primeiro Curso
+                <span>Começar Primeiro Curso</span>
               </button>
               <button
                 onClick={handleClose}
                 className="w-full btn-secondary"
               >
-                Explorar Dashboard
+                <span>Explorar Dashboard</span>
               </button>
             </div>
           </motion.div>
