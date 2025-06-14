@@ -5,14 +5,10 @@ import { Search, X, Building2 } from 'lucide-react'
 
 interface CompaniesHeroProps {
   searchTerm: string
-  totalCompanies: number
-  totalJobs: number
 }
 
 export default function CompaniesHero({
   searchTerm,
-  totalCompanies,
-  totalJobs
 }: CompaniesHeroProps) {
   return (
     <section className="bg-gradient-to-br from-gray-900 via-blue-950/20 to-gray-900 py-16 relative overflow-hidden">
@@ -77,22 +73,6 @@ export default function CompaniesHero({
                   </motion.button>
                 )}
               </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-2">{totalCompanies}+</div>
-              <div className="text-gray-400">Empresas Parceiras</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-orange-400 mb-2">{totalJobs}+</div>
-              <div className="text-gray-400">Vagas Ativas</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">85%</div>
-              <div className="text-gray-400">Taxa de Contratação</div>
             </div>
           </div>
         </motion.div>
