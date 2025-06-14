@@ -8,13 +8,15 @@ interface DashboardPaginationProps {
   totalPages: number
   totalItems: number
   itemsPerPage: number
+  scrollTargetId?: string
 }
 
 export default function DashboardPagination({
   currentPage,
   totalPages,
   totalItems,
-  itemsPerPage
+  itemsPerPage,
+  scrollTargetId = "content-area",
 }: DashboardPaginationProps) {
   if (totalPages <= 1) return null
 
@@ -22,6 +24,25 @@ export default function DashboardPagination({
     window.dispatchEvent(new CustomEvent('dashboardPageChange', {
       detail: page
     }))
+
+    // Disparar evento de mudança de página
+    window.dispatchEvent(new CustomEvent('pageChange', {
+      detail: page
+    }))
+
+    // Fazer scroll para o elemento especificado
+    setTimeout(() => {
+      const targetElement = document.getElementById(scrollTargetId)
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect()
+        const offsetTop = window.pageYOffset + rect.top - 100
+
+        window.scrollTo({
+          top: Math.max(0, offsetTop),
+          behavior: 'smooth'
+        })
+      }
+    }, 150)
   }
 
   const handlePreviousPage = () => {

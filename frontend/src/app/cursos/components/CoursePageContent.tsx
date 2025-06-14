@@ -148,7 +148,7 @@ export default function CursosPageContent() {
         />
 
         {/* Content */}
-        <section className="py-12">
+        <section id="content-area" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredCourses.length > 0 ? (
               <>
@@ -177,6 +177,7 @@ export default function CursosPageContent() {
                   totalPages={totalPages}
                   totalItems={totalItems}
                   itemsPerPage={6}
+                  scrollTargetId="content-area"
                 />
               </>
             ) : (

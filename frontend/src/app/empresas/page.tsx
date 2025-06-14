@@ -163,7 +163,7 @@ export default function EmpresasPage() {
         />
 
         {/* Content */}
-        <section className="py-12">
+        <section id="company-content" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {currentItems.length > 0 ? (
               <>
@@ -209,6 +209,7 @@ export default function EmpresasPage() {
                   totalPages={totalPages}
                   totalItems={totalItems}
                   itemsPerPage={6}
+                  scrollTargetId="company-content"
                 />
               </>
             ) : (
