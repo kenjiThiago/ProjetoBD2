@@ -224,7 +224,7 @@ export default function Header() {
           </Link>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8 relative search-container">
+          <div className="hidden lg:flex flex-1 max-w-md mx-8 relative search-container">
             <form onSubmit={handleSubmit} className="w-full">
               <div className="relative flex items-center">
                 <Search className="absolute left-3 w-4 h-4 text-gray-400 z-10 pointer-events-none" />
@@ -301,9 +301,10 @@ export default function Header() {
           </div>
 
           {/* Navigation */}
-          <nav className="hidden md:block mr-12">
+          <nav className="hidden lg:block mr-12">
             <div className="flex items-center space-x-12">
               {[
+                { name: 'Planos', href: '/planos' },
                 { name: 'Cursos', href: '/cursos' },
                 { name: 'Empresas', href: '/empresas' }
               ].map((item) => (
@@ -328,7 +329,7 @@ export default function Header() {
           </nav>
 
           {/* User Actions */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-6">
             {/* User Menu */}
             <div className="relative user-menu-container">
               <button
@@ -409,7 +410,7 @@ export default function Header() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            className="lg:hidden p-2 text-gray-400 hover:text-white transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <AnimatePresence mode="wait">
@@ -446,11 +447,12 @@ export default function Header() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden border-t border-gray-700/50 mt-2"
+              className="lg:hidden border-t border-gray-700/50 mt-2"
             >
               <div className="px-2 pt-4 pb-3 space-y-1 bg-gray-900/50 rounded-lg mt-2">
                 {/* Navigation Links */}
                 {[
+                  { name: 'Planos', href: '/planos' },
                   { name: 'Cursos', href: '/cursos' },
                   { name: 'Empresas', href: '/empresas' }
                 ].map((item) => (
@@ -522,6 +524,7 @@ export default function Header() {
                           type="text"
                           placeholder="Buscar cursos..."
                           value={localSearchTerm}
+                          onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
                           onChange={handleInputChange}
                           className="w-full pl-10 pr-10 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-white placeholder-gray-400"
                         />
