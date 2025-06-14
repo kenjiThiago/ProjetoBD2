@@ -3,7 +3,6 @@
 import {
   Play,
   Clock,
-  Star,
   CheckCircle,
   Eye,
   Download,
@@ -27,14 +26,6 @@ export default function CourseCard({ course }: CourseCardProps) {
 
   return (
     <div className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-      <div className="absolute top-3 left-3 z-10">
-        {course.isFree && (
-          <span className="bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center space-x-1 border border-slate-500/50">
-            Grátis
-          </span>
-        )}
-      </div>
-
       <div className="relative">
         <Thumbnail
           course={course}
@@ -91,7 +82,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             />
           </div>
           <div className="text-xs text-gray-400">
-            {course.completedLessons || 0}/{course.lessons} módulos concluídas
+            {course.completedLessons || 0}/{course.lessons} aulas concluídas
           </div>
         </div>
 
