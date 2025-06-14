@@ -6,6 +6,7 @@ import {
   Award,
   Briefcase,
   Sparkles,
+  Crown,
 } from 'lucide-react'
 import DonutChart from './DonutChart'
 
@@ -17,6 +18,7 @@ interface User {
   completedCourses: number
   inProgressCourses: number
   studyTime: string
+  status: string
   certificates: number
   totalCourses: number
   appliedJobs: number
@@ -52,18 +54,18 @@ export default function DashboardHero({
                   <span className="text-xl font-bold text-white">{user.avatar}</span>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 justify-center sm:justify-start">
                     <h1 className="text-3xl font-bold text-white">
                       Olá, <span className="gradient-text">{user.name}</span>!
                     </h1>
                     <Sparkles className="text-yellow-400"/>
                   </div>
-                  <p className="text-gray-400">Pronto para continuar sua jornada de aprendizado?</p>
+                  <p className="text-gray-400 text-center sm:text-left">Pronto para continuar sua jornada de aprendizado?</p>
                 </div>
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 items-center">
+              <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 items-center">
                 <div className="flex flex-col items-center bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 h-full">
                   <div className="flex items-center space-x-2 mb-2">
                     <Briefcase className="w-5 h-5 text-orange-400" />
@@ -86,6 +88,13 @@ export default function DashboardHero({
                     <span className="text-sm text-gray-400">Certificados</span>
                   </div>
                   <div className="text-2xl font-bold text-white">{user.certificates}</div>
+                </div>
+                <div className="flex flex-col items-center bg-gray-800/50 rounded-lg p-4 border border-gray-700/50 h-full">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Crown className="w-5 h-5 text-yellow-400" />
+                    <span className="text-sm text-gray-400">Status</span>
+                  </div>
+                  <div className="text-2xl font-bold text-white">{user.status}</div>
                 </div>
               </div>
             </div>

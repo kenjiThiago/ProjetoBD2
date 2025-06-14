@@ -62,6 +62,7 @@ export default function DashboardPage() {
     inProgressCourses: coursesInProgress.length,
     certificates: coursesWithCertificates.length,
     studyTime: "200h",
+    status: "ativo",
     skills: ["React: avançado", "Python: intermediário", "c : avançado", "css: basico", "java: basico", "node: avançado", "figma: basico", "javascript: intermediário", "go: basico"],
     totalCourses: courses.length,
     appliedJobs: 3,
