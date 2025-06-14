@@ -14,6 +14,7 @@ import {
   getCoursesWithCertificates
 } from '@/utils/courseUtils'
 import { courses, } from '@/data/mockData'
+import WelcomeModal from './WelcomeModal'
 
 export default function DashboardPage() {
   // Searchparams
@@ -73,6 +74,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-950">
       <Header />
+      <WelcomeModal />
 
       <main className="pb-16">
         {/* Hero/Welcome Section */}
