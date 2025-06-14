@@ -3,9 +3,7 @@
 import {
   MapPin,
   Users,
-  Calendar,
   Briefcase,
-  TrendingUp,
   Eye,
   Shield
 } from 'lucide-react'
@@ -81,34 +79,12 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
                   </div>
                   <div className="flex items-center">
                     <Users className="w-4 h-4 mr-1" />
-                    <span>{company.size}</span>
+                    <span>{company.size.split(' ')[0]}</span>
                   </div>
-                  <div className="flex items-center">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    <span>Fundada em {company.founded}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {company.technologies.slice(0, 4).map((tech, index) => (
-                    <span key={index} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded font-mono">
-                      {tech}
-                    </span>
-                  ))}
-                  {company.technologies.length > 4 && (
-                    <span className="text-xs text-gray-400">+{company.technologies.length - 4}</span>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4 text-sm text-gray-400">
                     <div className="flex items-center">
                       <Briefcase className="w-4 h-4 mr-1" />
                       <span>{company.activeJobs} vagas ativas</span>
-                    </div>
-                    <div className="flex items-center">
-                      <TrendingUp className="w-4 h-4 mr-1" />
-                      <span>{company.totalHires} contratações</span>
                     </div>
                   </div>
                 </div>
@@ -167,17 +143,6 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
           <MapPin className="w-4 h-4 mr-1" />
           <span className="truncate">{company.location}</span>
         </div>
-      </div>
-
-      <div className="flex flex-wrap gap-1 mb-4">
-        {company.technologies.slice(0, 3).map((tech, index) => (
-          <span key={index} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded font-mono">
-            {tech}
-          </span>
-        ))}
-        {company.technologies.length > 3 && (
-          <span className="text-xs text-gray-400">+{company.technologies.length - 3}</span>
-        )}
       </div>
 
       <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
