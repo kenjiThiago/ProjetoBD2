@@ -5,6 +5,11 @@ Ir para o diretório
 cd frontend
 ```
 
+Instalar as dependências
+```$
+npm install
+```
+
 Buildar os arquivos
 ```$
 npm run build
