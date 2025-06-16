@@ -5,7 +5,10 @@ CREATE TABLE Aluno (
     email           VARCHAR(100)    PRIMARY KEY,
     nome            VARCHAR(100)    NOT NULL,
     data_nascimento DATE,
-    status_plano    VARCHAR(50)
+    plano           VARCHAR(50),
+    cpf             VARCHAR(11),
+    senha           VARCHAR(100)    NOT NULL,
+    forma_pagamento VARCHAR(50)
 );
 
 -- Tabela Professor
@@ -28,7 +31,8 @@ CREATE TABLE Curso (
     descricao       TEXT,
     duracao         INT,
     nivel           VARCHAR(50),
-    data_lancamento DATE
+    data_lancamento DATE,
+    acesso          VARCHAR(50)
 );
 
 --Tabela Habilidade_Curso
@@ -41,33 +45,25 @@ CREATE TABLE Habilidade_Curso (
     FOREIGN KEY (id_habilidade) REFERENCES Habilidade(id)
 );
 
--- Tabela Modulo
-CREATE TABLE Modulo (
-    nome_curso          VARCHAR(100)    NOT NULL,
-    nome                VARCHAR(100)    PRIMARY KEY,
-    descricao           TEXT,
-    ordem_dentro_curso  INT,
-
-    FOREIGN KEY (nome_curso)    REFERENCES Curso(nome)
-);
-
 -- Tabela Aula
 CREATE TABLE Aula (
-    nome_modulo         VARCHAR(100)    NOT NULL,
+    nome_curso         VARCHAR(100)    NOT NULL,
     nome                VARCHAR(100)    PRIMARY KEY,
     descricao           TEXT,
     duracao             INT,
     tipo                TIPOAULA,
     ordem_dentro_modulo INT,
 
-    FOREIGN KEY (nome_modulo)   REFERENCES Modulo(nome)
+    FOREIGN KEY (nome_curso)   REFERENCES Curso(nome)
 );
 
 -- Tabela Empresa
 CREATE TABLE Empresa (
     nome        VARCHAR(100)    PRIMARY KEY,
     localizacao VARCHAR(100),
-    setor       VARCHAR(50)
+    setor       VARCHAR(50),
+    descricao   TEXT,
+    porte       VARCHAR(50)
 );
 
 -- Tabela Vaga
@@ -76,6 +72,11 @@ CREATE TABLE Vaga (
     nome        VARCHAR(100),
     descricao   TEXT,
     empresa     VARCHAR(100),
+    nivel       VARCHAR(50),
+    modalidade  VARCHAR(50),
+    salario     VARCHAR(50),
+    tempo_aberta INT,
+    prazo       DATE,
 
     FOREIGN KEY (empresa)   REFERENCES Empresa(nome)
 );
