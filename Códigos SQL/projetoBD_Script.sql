@@ -2,12 +2,12 @@ CREATE TYPE TIPOAULA AS ENUM ('video', 'texto');
 
 -- Tabela Aluno
 CREATE TABLE Aluno (
-    email           VARCHAR(100)    PRIMARY KEY,
+    cpf             VARCHAR(11)     PRIMARY KEY,
     nome            VARCHAR(100)    NOT NULL,
+    email           VARCHAR(100)    NOT NULL,
+    senha           VARCHAR(100)    NOT NULL,
     data_nascimento DATE,
     plano           VARCHAR(50),
-    cpf             VARCHAR(11),
-    senha           VARCHAR(100)    NOT NULL,
     forma_pagamento VARCHAR(50)
 );
 
@@ -32,7 +32,8 @@ CREATE TABLE Curso (
     duracao         INT,
     nivel           VARCHAR(50),
     data_lancamento DATE,
-    acesso          VARCHAR(50)
+    acesso          VARCHAR(50),
+    categoria       VARCHAR(50)
 );
 
 --Tabela Habilidade_Curso
@@ -57,13 +58,25 @@ CREATE TABLE Aula (
     FOREIGN KEY (nome_curso)   REFERENCES Curso(nome)
 );
 
+-- Tabela de Relacionamento Assiste (Aluno-Aula)
+CREATE TABLE Assiste (
+    cpf_aluno       VARCHAR(11)     NOT NULL,
+    nome_aula       VARCHAR(100)    NOT NULL,
+    data_conclusao  DATE,
+
+    PRIMARY KEY (cpf_aluno, nome_aula),
+    FOREIGN KEY (cpf_aluno)   REFERENCES Aluno(cpf),
+    FOREIGN KEY (nome_aula)   REFERENCES Aula(nome)
+)
+
 -- Tabela Empresa
 CREATE TABLE Empresa (
     nome        VARCHAR(100)    PRIMARY KEY,
     localizacao VARCHAR(100),
     setor       VARCHAR(50),
     descricao   TEXT,
-    porte       VARCHAR(50)
+    porte       VARCHAR(50),
+    sigla       VARCHAR(10)
 );
 
 -- Tabela Vaga
@@ -83,13 +96,13 @@ CREATE TABLE Vaga (
 
 -- Tabela de Relacionamento Estudam (Aluno-Curso)
 CREATE TABLE Estuda (
-    email_aluno     VARCHAR(100),
+    cpf_aluno       VARCHAR(11),
     nome_curso      VARCHAR(100),
     data_conclusao  DATE,
     nota            DECIMAL(5, 2),
 
-    PRIMARY KEY (email_aluno, nome_curso),
-    FOREIGN KEY (email_aluno)   REFERENCES Aluno(email),
+    PRIMARY KEY (cpf_aluno, nome_curso),
+    FOREIGN KEY (cpf_aluno)   REFERENCES Aluno(cpf),
     FOREIGN KEY (nome_curso)    REFERENCES Curso(nome)
 );
 
@@ -102,14 +115,14 @@ CREATE TABLE Ministra (
     FOREIGN KEY (email_professor)   REFERENCES Professor(email),
     FOREIGN KEY (nome_curso)        REFERENCES Curso(nome)
 );
-
+    
 -- Tabela de Relacionamento Se_inscreve (Aluno-Vaga)
 CREATE TABLE Se_Inscreve (
-    email_aluno VARCHAR(100),
+    cpf_aluno   VARCHAR(11),
     id_vaga     INT,
 
-    PRIMARY KEY (email_aluno, id_vaga),
-    FOREIGN KEY (email_aluno)   REFERENCES Aluno(email),
+    PRIMARY KEY (cpf_aluno, id_vaga),
+    FOREIGN KEY (cpf_aluno)   REFERENCES Aluno(cpf),
     FOREIGN KEY (id_vaga)       REFERENCES Vaga(id)
 );
 
@@ -123,7 +136,7 @@ CREATE TABLE Habilidade_Vaga (
     FOREIGN KEY (id_habilidade) REFERENCES Habilidade(id)
 );
 
-INSERT INTO Aluno (email, nome, data_nascimento, status_plano) VALUES
+INSERT INTO Aluno (email, nome, data_nascimento, plano, cpf, senha, forma_pagamento) VALUES
 ('joão.silva@gmail.com', 'João Silva', '2000-03-15', 'ativo'),
 ('maria.oliveira@gmail.com', 'Maria Oliveira', '1999-08-22', 'inativo'),
 ('pedro.costa@gmail.com', 'Pedro Costa', '2001-11-05', 'ativo'),
@@ -841,283 +854,6 @@ INSERT INTO Habilidade_Curso (nome_curso, id_habilidade) VALUES
 ('Sistemas Operacionais na Prática',        54),
 ('Sistemas Operacionais na Prática',        55);
 
-INSERT INTO Modulo (nome_curso, nome, descricao, ordem_dentro_curso) VALUES
--- Módulos para Desenvolvimento Web Completo
-('Desenvolvimento Web Completo',    'Introdução ao Desenvolvimento Web',    'Fundamentos da criação de websites.',                      1),
-('Desenvolvimento Web Completo',    'HTML e CSS',                           'Criação de páginas web com HTML e CSS.',                   2),
-('Desenvolvimento Web Completo',    'JavaScript Básico',                    'Introdução ao JavaScript para interação com o usuário.',   3),
-
--- Módulos para Introdução ao Desenvolvimento Mobile
-('Introdução ao Desenvolvimento Mobile',    'Introdução ao Desenvolvimento Mobile', 'Fundamentos do desenvolvimento para dispositivos móveis.', 1),
-('Introdução ao Desenvolvimento Mobile',    'Android Basics',                       'Criação de aplicativos para Android.',                     2),
-('Introdução ao Desenvolvimento Mobile',    'iOS Basics',                           'Criação de aplicativos para iOS.',                         3),
-
--- Módulos para Data Science com Python
-('Data Science com Python', 'Introdução à Ciência de Dados',        'Conceitos básicos de ciência de dados.',                   1),
-('Data Science com Python', 'Manipulação de Dados com Pandas',      'Como usar a biblioteca Pandas para manipulação de dados.', 2),
-('Data Science com Python', 'Visualização de Dados com Matplotlib', 'Criando gráficos e visualizações com Matplotlib.',         3),
-
--- Módulos para Fundamentos de Inteligência Artificial
-('Fundamentos de Inteligência Artificial',  'Introdução à IA',          'Conceitos básicos sobre inteligência artificial.', 1),
-('Fundamentos de Inteligência Artificial',  'Aprendizado de Máquina',   'Técnicas de aprendizado de máquina.',              2),
-('Fundamentos de Inteligência Artificial',  'Redes Neurais',            'Introdução às redes neurais.',                     3),
-
--- Módulos para DevOps para Iniciantes
-('DevOps para Iniciantes',  'Fundamentos de DevOps',        'Entenda os princípios de DevOps.',                 1),
-('DevOps para Iniciantes',  'Automação de Infraestrutura',  'Automatizando a configuração de infraestrutura.',  2),
-('DevOps para Iniciantes',  'Monitoramento e Log',          'Introdução ao monitoramento e logging.',           3),
-
--- Módulos para UX/UI Design na Prática
-('UX/UI Design na Prática', 'Princípios de Design',     'Conceitos fundamentais de design de interface.',       1),
-('UX/UI Design na Prática', 'Ferramentas de Design',    'Ferramentas usadas para design de interfaces.',        2),
-('UX/UI Design na Prática', 'Testes de Usabilidade',    'Métodos de teste de usabilidade com usuários.',        3),
-
--- Módulos para Segurança da Informação
-('Segurança da Informação', 'Introdução à Segurança',   'Fundamentos da segurança da informação.',          1),
-('Segurança da Informação', 'Tipos de Ataques',         'Conheça os tipos de ataques cibernéticos.',        2),
-('Segurança da Informação', 'Práticas de Segurança',    'Práticas recomendadas para manter a segurança.',   3),
-
--- Módulos para Banco de Dados com SQL
-('Banco de Dados com SQL',  'Introdução a SQL',         'Conceitos básicos de SQL.',                            1),
-('Banco de Dados com SQL',  'Consultas e Filtros',      'Como realizar consultas e aplicar filtros.',           2),
-('Banco de Dados com SQL',  'Joins e Relacionamentos',  'Entendendo joins e relacionamentos entre tabelas.',    3),
-
--- Módulos para Engenharia de Software
-('Engenharia de Software',  'Ciclo de Vida do Software',    'Fases do desenvolvimento de software.',            1),
-('Engenharia de Software',  'Metodologias Ágeis',           'Introdução às metodologias ágeis.',                2),
-('Engenharia de Software',  'Gestão de Projetos',           'Fundamentos de gestão de projetos de software.',   3),
-
--- Módulos para Arquitetura de Software
-('Arquitetura de Software', 'Conceitos de Arquitetura',     'Entendendo a arquitetura de software.',        1),
-('Arquitetura de Software', 'Padrões de Arquitetura',       'Estudo de padrões comuns de arquitetura.',     2),
-('Arquitetura de Software', 'Documentação de Arquitetura',  'Como documentar a arquitetura de software.',   3),
-
--- Módulos para Desenvolvimento de Jogos
-('Desenvolvimento de Jogos',    'Introdução ao Desenvolvimento de Jogos',   'Fundamentos do desenvolvimento de jogos.',                     1),
-('Desenvolvimento de Jogos',    'Criação de Jogos 2D',                      'Desenvolvimento de jogos 2D usando ferramentas populares.',    2),
-('Desenvolvimento de Jogos',    'Criação de Jogos 3D',                      'Desenvolvimento de jogos 3D com Unity.',                       3),
-
--- Módulos para Cloud Computing para Iniciantes
-('Cloud Computing para Iniciantes', 'Introdução à Nuvem',   'Conceitos básicos de computação em nuvem.',    1),
-('Cloud Computing para Iniciantes', 'Serviços de Nuvem',    'Estudo dos principais serviços de nuvem.',     2),
-('Cloud Computing para Iniciantes', 'Arquitetura de Nuvem', 'Princípios de arquitetura em nuvem.',          3),
-
--- Módulos para Redes de Computadores
-('Redes de Computadores',   'Fundamentos de Redes', 'Conceitos básicos de redes de computadores.',      1),
-('Redes de Computadores',   'Protocolos de Rede',   'Estudo dos principais protocolos de rede.',        2),
-('Redes de Computadores',   'Segurança em Redes',   'Práticas de segurança em redes de computadores.',  3),
-
--- Módulos para Machine Learning com R
-('Machine Learning com R',  'Introdução ao Machine Learning',   'Conceitos básicos de machine learning.',               1),
-('Machine Learning com R',  'Modelos de Machine Learning',      'Estudo de diferentes modelos de machine learning.',    2),
-('Machine Learning com R',  'Avaliação de Modelos',             'Métodos para avaliar a performance de modelos.',       3),
-
--- Módulos para Processamento de Dados com Apache Spark
-('Processamento de Dados com Apache Spark', 'Introdução ao Apache Spark',   'Fundamentos do Apache Spark.',                     1),
-('Processamento de Dados com Apache Spark', 'Processamento em Lote',        'Processamento de dados em lote com Spark.',        2),
-('Processamento de Dados com Apache Spark', 'Processamento em Tempo Real',  'Processamento de dados em tempo real com Spark.',  3),
-
--- Módulos para Blockchain: Fundamentos e Aplicações
-('Blockchain: Fundamentos e Aplicações',    'Introdução ao Blockchain',         'Conceitos básicos de blockchain.',                             1),
-('Blockchain: Fundamentos e Aplicações',    'Aplicações de Blockchain',         'Casos de uso de blockchain no mundo real.',                    2),
-('Blockchain: Fundamentos e Aplicações',    'Desenvolvimento em Blockchain',    'Fundamentos para desenvolver em plataformas de blockchain.',   3),
-
--- Módulos para Análise de Dados com Excel
-('Análise de Dados com Excel',  'Introdução ao Excel',      'Fundamentos do uso do Excel para análise de dados.',   1),
-('Análise de Dados com Excel',  'Fórmulas e Funções',       'Uso de fórmulas e funções no Excel.',                  2),
-('Análise de Dados com Excel',  'Gráficos e Visualizações', 'Criando gráficos e visualizações no Excel.',           3),
-
--- Módulos para Automação de Testes
-('Automação de Testes', 'Introdução à Automação de Testes', 'Conceitos básicos sobre automação de testes.',             1),
-('Automação de Testes', 'Ferramentas de Automação',         'Ferramentas populares para automação de testes.',          2),
-('Automação de Testes', 'Práticas de Testes Automatizados', 'Melhores práticas para implementar testes automatizados.', 3),
-
--- Módulos para Programação para Iniciantes
-('Programação para Iniciantes', 'Introdução à Programação', 'Conceitos básicos de programação.',            1),
-('Programação para Iniciantes', 'Estruturas de Controle',   'Entendendo estruturas de controle de fluxo.',  2),
-('Programação para Iniciantes', 'Funções e Métodos',        'Como criar e usar funções e métodos.',         3),
-
--- Módulos para Desenvolvimento em Java
-('Desenvolvimento em Java', 'Introdução ao Java',               'Fundamentos da programação em Java.',          1),
-('Desenvolvimento em Java', 'Orientação a Objetos',             'Princípios de orientação a objetos em Java.',  2),
-('Desenvolvimento em Java', 'Desenvolvimento de Aplicações',    'Criando aplicações usando Java.',              3),
-
--- Módulos para Python para Automação
-('Python para Automação',              'Introdução ao Python',                     'Fundamentos da linguagem Python.',                     1),
-('Python para Automação',              'Automação de Tarefas com Python',          'Automatize tarefas repetitivas utilizando Python.',    2),
-('Python para Automação',              'Manipulação de Arquivos',                  'Como ler, escrever e modificar arquivos com Python.',  3),
-
--- Módulos para Introdução ao Power BI
-('Introdução ao Power BI',             'Fundamentos do Power BI',                  'Introdução às ferramentas e interface do Power BI.',  1),
-('Introdução ao Power BI',             'Criação de Relatórios',                    'Aprenda a criar relatórios básicos no Power BI.',      2),
-('Introdução ao Power BI',             'Dashboards Interativos',                  'Como criar dashboards dinâmicos e interativos.',       3),
-
--- Módulos para Kubernetes na Prática
-('Kubernetes na Prática',              'Introdução ao Kubernetes',                 'Fundamentos do Kubernetes e arquitetura de contêineres.', 1),
-('Kubernetes na Prática',              'Gerenciamento de Pods',                    'Como gerenciar Pods e Deployments no Kubernetes.',     2),
-('Kubernetes na Prática',              'Escalabilidade e Monitoramento',           'Escalando aplicações e monitorando o Kubernetes.',     3),
-
--- Módulos para Introdução ao Ruby on Rails
-('Introdução ao Ruby on Rails',        'Fundamentos do Ruby on Rails',             'Introdução ao framework Ruby on Rails e sua estrutura.', 1),
-('Introdução ao Ruby on Rails',        'Modelos, Visões e Controladores',          'MVC no Ruby on Rails: Como organizar suas aplicações.', 2),
-('Introdução ao Ruby on Rails',        'Construção de uma Aplicação Web',          'Desenvolvendo uma aplicação web completa com Rails.',  3),
-
--- Módulos para JavaScript Avançado
-('JavaScript Avançado',                'Funções Avançadas e Closures',             'Conceitos avançados de funções e closures no JavaScript.', 1),
-('JavaScript Avançado',                'Manipulação Assíncrona com Promises',      'Como trabalhar com Promises e funções assíncronas.',  2),
-('JavaScript Avançado',                'Frameworks JavaScript',                    'Introdução aos principais frameworks JavaScript (React, Vue, etc.).', 3),
-
--- Módulos para Construção de APIs REST
-('Construção de APIs REST',             'Introdução a APIs REST',                  'Conceitos fundamentais de APIs RESTful e HTTP.',                1),
-('Construção de APIs REST',             'Autenticação e Autorização',              'Implementando autenticação e autorização em APIs REST.',        2),
-('Construção de APIs REST',             'Desenvolvimento e Testes de APIs',        'Desenvolvendo e testando APIs RESTful com ferramentas modernas.', 3),
-('Construção de APIs REST',             'Deploy e Escalabilidade',                 'Como realizar o deploy e escalar suas APIs.',                   4),
-
--- Módulos para Angular Básico
-('Angular Básico',                      'Introdução ao Angular',                   'Fundamentos do framework Angular para aplicações web.',       1),
-('Angular Básico',                      'Componentes e Templates',                 'Como criar e usar componentes e templates no Angular.',        2),
-('Angular Básico',                      'Diretivas e Serviços',                    'Introdução a diretivas e serviços no Angular.',                3),
-
--- Módulos para React Native para Mobile
-('React Native para Mobile',            'Introdução ao React Native',              'Fundamentos do React Native e criação de aplicações móveis.',  1),
-('React Native para Mobile',            'Componentes e Navegação',                 'Trabalhando com componentes e navegação em React Native.',     2),
-('React Native para Mobile',            'Acesso a APIs e Usando Armazenamento Local',     'Integrando APIs e usando armazenamento local em apps móveis.', 3),
-('React Native para Mobile',            'Publicação no Google Play e App Store',   'Como publicar aplicativos móveis em lojas de apps.',           4),
-
--- Módulos para Big Data com Hadoop
-('Big Data com Hadoop',                 'Introdução ao Big Data e Hadoop',         'Conceitos de Big Data e a arquitetura do Hadoop.',              1),
-('Big Data com Hadoop',                 'Processamento de Dados com MapReduce',    'Como utilizar MapReduce para processar dados no Hadoop.',       2),
-('Big Data com Hadoop',                 'Armazenamento e Análise de Dados',        'Trabalhando com HDFS e realizando análises de dados em larga escala.', 3),
-
--- Módulos para Teste de Software na Prática
-('Teste de Software na Prática',        'Introdução aos Testes de Software',       'Fundamentos do teste de software e a importância dos testes.', 1),
-('Teste de Software na Prática',        'Testes Manuais',                          'Como realizar testes manuais em diferentes tipos de software.', 2),
-('Teste de Software na Prática',        'Testes Automatizados',                    'Introdução aos testes automatizados usando ferramentas populares.', 3),
-
--- Módulos para Game Development com Unreal Engine
-('Game Development com Unreal Engine',     'Introdução ao Unreal Engine',            'Fundamentos da Unreal Engine e criação do seu primeiro jogo.', 1),
-('Game Development com Unreal Engine',     'Criação de Personagens e Animações',    'Como criar e animar personagens dentro da Unreal Engine.',    2),
-('Game Development com Unreal Engine',     'Programação de Jogo com Blueprints',     'Aprenda a programar jogos utilizando Blueprints na Unreal Engine.', 3),
-('Game Development com Unreal Engine',     'Desenvolvimento de IA para Jogos',      'Como implementar inteligência artificial para jogos.',        4),
-('Game Development com Unreal Engine',     'Otimizando e Publicando seu Jogo',       'Técnicas de otimização e publicação de jogos na Unreal Engine.', 5),
-
--- Módulos para Introdução ao TypeScript
-('Introdução ao TypeScript',               'Fundamentos do TypeScript',              'Entendendo os tipos e a sintaxe básica do TypeScript.', 1),
-('Introdução ao TypeScript',               'Tipos Avançados e Generics',             'Aprofundando-se em tipos avançados e generics no TypeScript.', 2),
-('Introdução ao TypeScript',               'Integrando TypeScript com JavaScript',   'Como integrar TypeScript em projetos JavaScript existentes.', 3),
-
--- Módulos para Gestão de Produtos Digitais
-('Gestão de Produtos Digitais',            'Introdução à Gestão de Produtos Digitais', 'Conceitos fundamentais de gestão de produtos no ambiente digital.', 1),
-('Gestão de Produtos Digitais',            'Metodologias Ágeis em Gestão de Produtos', 'Como utilizar metodologias ágeis como Scrum e Kanban na gestão de produtos.', 2),
-('Gestão de Produtos Digitais',            'Ferramentas de Gestão de Produtos',        'Ferramentas essenciais para o gerenciamento de produtos digitais.', 3),
-
--- Módulos para Noções de Docker
-('Noções de Docker',                       'Introdução ao Docker',                   'Fundamentos do Docker e como funciona o conceito de contêineres.', 1),
-('Noções de Docker',                       'Criando e Gerenciando Contêineres',      'Como criar, gerenciar e rodar contêineres Docker.', 2),
-('Noções de Docker',                       'Docker Compose e Orquestração',         'Como usar o Docker Compose para orquestrar contêineres.', 3),
-
--- Módulos para Desenvolvimento Backend com Node.js
-('Desenvolvimento Backend com Node.js',    'Fundamentos do Node.js',                 'Introdução ao Node.js e como configurar o ambiente de desenvolvimento.', 1),
-('Desenvolvimento Backend com Node.js',    'Criação de Servidores com Express.js',   'Como criar servidores robustos utilizando Express.js no Node.js.', 2),
-('Desenvolvimento Backend com Node.js',    'Trabalhando com Banco de Dados',        'Como integrar bancos de dados, como MongoDB, com Node.js.', 3),
-('Desenvolvimento Backend com Node.js',    'Autenticação e Segurança',              'Implementando autenticação e segurança em APIs com Node.js.', 4),
-('Desenvolvimento Backend com Node.js',    'Deploy de Aplicações Backend',          'Como realizar o deploy de aplicações backend com Node.js.', 5),
-
--- Módulos para Django para Web
-('Django para Web',                      'Introdução ao Django',                     'Fundamentos do framework Django e configuração inicial.', 1),
-('Django para Web',                      'Trabalhando com Modelos',                  'Como criar e gerenciar modelos no Django.',                2),
-('Django para Web',                      'Views e Templates',                        'Como criar views dinâmicas e utilizar templates no Django.', 3),
-('Django para Web',                      'Formulários e Validação',                  'Criando e validando formulários com Django.',              4),
-('Django para Web',                      'Deploy e Segurança',                       'Como fazer deploy de aplicativos Django e garantir a segurança.', 5),
-
--- Módulos para Flutter na Prática
-('Flutter na Prática',                   'Introdução ao Flutter',                    'Fundamentos do Flutter e configuração de ambiente para apps móveis.', 1),
-('Flutter na Prática',                   'Widgets e Layouts',                        'Como trabalhar com widgets e criar layouts no Flutter.',  2),
-('Flutter na Prática',                   'Gerenciamento de Estado',                  'Como gerenciar o estado de um aplicativo Flutter.',       3),
-('Flutter na Prática',                   'Acesso a APIs e Armazenamento Local',      'Integrando APIs e utilizando armazenamento local no Flutter.', 4),
-('Flutter na Prática',                   'Publicação de Apps Flutter',               'Como publicar aplicativos Flutter nas lojas de apps.',    5),
-
--- Módulos para ElasticSearch Básico
-('ElasticSearch Básico',                  'Introdução ao ElasticSearch',               'Fundamentos do ElasticSearch e sua configuração inicial.', 1),
-('ElasticSearch Básico',                  'Índices e Documentos',                     'Como criar e gerenciar índices e documentos no ElasticSearch.', 2),
-('ElasticSearch Básico',                  'Consultas e Busca',                        'Como realizar consultas e buscas no ElasticSearch.',       3),
-
--- Módulos para Inteligência Artificial com TensorFlow
-('Inteligência Artificial com TensorFlow', 'Introdução ao TensorFlow',                 'Fundamentos do TensorFlow e configuração do ambiente de IA.', 1),
-('Inteligência Artificial com TensorFlow', 'Redes Neurais com TensorFlow',             'Como criar e treinar redes neurais com TensorFlow.',        2),
-('Inteligência Artificial com TensorFlow', 'Deep Learning e Transfer Learning',       'Técnicas avançadas de Deep Learning e Transfer Learning no TensorFlow.', 3),
-('Inteligência Artificial com TensorFlow', 'Modelos de Produção com TensorFlow',       'Como levar modelos de IA para produção com TensorFlow.',    4),
-
--- Módulos para Introdução à Ciência de Dados
-('Introdução à Ciência de Dados',         'Fundamentos da Ciência de Dados',          'Compreendendo os principais conceitos de Ciência de Dados.', 1),
-('Introdução à Ciência de Dados',         'Exploração de Dados e Pré-processamento',  'Como explorar e preparar dados para análise e modelagem.', 2),
-('Introdução à Ciência de Dados',         'Fundamentos de Machine Learning',           'Fundamentos de Machine Learning e como implementar modelos simples.', 3),
-('Introdução à Ciência de Dados',         'Visualização de Dados',                    'Como utilizar ferramentas para visualizar dados de forma eficaz.', 4),
-
--- Módulos para Marketing Digital para Empresas
-('Marketing Digital para Empresas',        'Introdução ao Marketing Digital',        'Fundamentos e estratégias iniciais de marketing digital para empresas.', 1),
-('Marketing Digital para Empresas',        'SEO e SEM',                             'Estratégias de otimização para motores de busca (SEO) e marketing de busca (SEM).', 2),
-('Marketing Digital para Empresas',        'Redes Sociais e Marketing de Conteúdo',  'Como utilizar redes sociais e criar conteúdo estratégico para engajamento.', 3),
-('Marketing Digital para Empresas',        'E-mail Marketing e Automação',          'Como criar campanhas de e-mail marketing e automatizar processos de comunicação.', 4),
-
--- Módulos para Excel Avançado
-('Excel Avançado',                         'Funções Avançadas no Excel',            'Explorando funções avançadas como PROCV, ÍNDICE, CORRESP, entre outras.', 1),
-('Excel Avançado',                         'Gráficos e Visualização de Dados',      'Criando gráficos dinâmicos e visualizações para análise de dados complexos.', 2),
-('Excel Avançado',                         'Macros e VBA',                          'Automatizando processos no Excel com Macros e VBA.', 3),
-('Excel Avançado',                         'Análise de Dados com Power Query',      'Como usar Power Query para transformação e análise avançada de dados.', 4),
-
--- Módulos para PHP para Web
-('PHP para Web',                           'Introdução ao PHP',                     'Fundamentos do PHP e configuração de ambiente para desenvolvimento web.', 1),
-('PHP para Web',                           'Formulários e Banco de Dados',          'Como trabalhar com formulários e integrar bancos de dados no PHP.', 2),
-('PHP para Web',                           'Manipulação de Sessões e Cookies',      'Trabalhando com sessões e cookies em aplicações web com PHP.', 3),
-('PHP para Web',                           'Autenticação e Segurança com PHP',              'Como implementar sistemas de autenticação e segurança em PHP.', 4),
-
--- Módulos para MongoDB na Prática
-('MongoDB na Prática',                     'Introdução ao MongoDB',                 'Fundamentos do MongoDB e como configurar o ambiente de banco NoSQL.', 1),
-('MongoDB na Prática',                     'Modelagem de Dados no MongoDB',         'Como criar e gerenciar documentos e coleções no MongoDB.', 2),
-('MongoDB na Prática',                     'Consultas e Agregações no MongoDB',     'Realizando consultas avançadas e operações de agregação no MongoDB.', 3),
-
--- Módulos para Programação Funcional com Scala
-('Programação Funcional com Scala',        'Fundamentos da Programação Funcional',  'Introdução ao paradigma funcional e seus princípios em Scala.', 1),
-('Programação Funcional com Scala',        'Imutabilidade e Funções de Alta Ordem', 'Compreendendo a imutabilidade e o uso de funções de alta ordem em Scala.', 2),
-('Programação Funcional com Scala',        'Tratamento de Erros e Tipos',           'Como tratar erros e utilizar tipos robustos na programação funcional em Scala.', 3),
-('Programação Funcional com Scala',        'Concorrência e Parallellism',           'Implementando concorrência e paralelismo na programação funcional com Scala.', 4),
-
--- Módulos para Introdução ao C#
-('Introdução ao C#',                      'Fundamentos do C#',                        'Introdução à linguagem C# e conceitos básicos de programação.', 1),
-('Introdução ao C#',                      'Estruturas de Controle com C#',                  'Como usar estruturas de controle (if, loops) em C#.', 2),
-('Introdução ao C#',                      'Tipos de Dados e Variáveis',              'Trabalhando com tipos de dados e variáveis em C#.', 3),
-('Introdução ao C#',                      'Orientação a Objetos em C#',                    'Introdução à programação orientada a objetos em C#.', 4),
-
--- Módulos para Design Thinking para Inovação
-('Design Thinking para Inovação',         'Introdução ao Design Thinking',           'Compreendendo o conceito e processo de Design Thinking.', 1),
-('Design Thinking para Inovação',         'Empatia e Definição do Problema',         'Como praticar empatia e definir problemas com Design Thinking.', 2),
-('Design Thinking para Inovação',         'Ideação e Protótipos',                    'Gerando ideias e criando protótipos para soluções inovadoras.', 3),
-('Design Thinking para Inovação',         'Testando e Implementando Soluções',       'Como testar e implementar soluções com Design Thinking.', 4),
-
--- Módulos para Internet das Coisas (IoT)
-('Internet das Coisas (IoT)',             'Introdução à IoT',                        'Fundamentos e arquitetura básica da Internet das Coisas.', 1),
-('Internet das Coisas (IoT)',             'Sensores e Dispositivos',                 'Trabalhando com sensores e dispositivos IoT.', 2),
-('Internet das Coisas (IoT)',             'Conectividade e Redes',                  'Como conectar dispositivos IoT e configurar redes.', 3),
-('Internet das Coisas (IoT)',             'Processamento e Análise de Dados',        'Analisando dados de dispositivos IoT e tomando decisões inteligentes.', 4),
-
--- Módulos para Automação com Shell Script
-('Automação com Shell Script',            'Introdução ao Shell Script',              'Fundamentos do shell script e como escrever seus primeiros scripts.', 1),
-('Automação com Shell Script',            'Manipulação de Arquivos e Diretórios',    'Como manipular arquivos e diretórios usando shell script.', 2),
-('Automação com Shell Script',            'Automação de Tarefas Repetitivas',        'Como automatizar tarefas diárias em sistemas Unix com shell script.', 3),
-('Automação com Shell Script',            'Depuração e Execução de Scripts',         'Técnicas para depurar e executar scripts de forma eficiente.', 4),
-
--- Módulos para Linguagem Go para Backend
-('Linguagem Go para Backend',             'Introdução ao Go',                        'Fundamentos da linguagem Go e sua configuração para backend.', 1),
-('Linguagem Go para Backend',             'Estruturas de Dados e Concorência',       'Como usar estruturas de dados e concorrência no Go.', 2),
-('Linguagem Go para Backend',             'APIs e Web Servers com Go',               'Desenvolvendo APIs e servidores web com Go.', 3),
-('Linguagem Go para Backend',             'Testes e Deploy de Aplicações Go',        'Como testar e fazer o deploy de suas aplicações Go.', 4),
-
--- Módulos para Sistemas Operacionais na Prática
-('Sistemas Operacionais na Prática',     'Fundamentos dos Sistemas Operacionais',   'Compreendendo os conceitos fundamentais de sistemas operacionais.', 1),
-('Sistemas Operacionais na Prática',     'Gerenciamento de Processos',              'Como gerenciar processos e entender a sua execução no sistema operacional.', 2),
-('Sistemas Operacionais na Prática',     'Memória e Armazenamento',                 'Gerenciando memória e armazenamento em sistemas operacionais.', 3),
-('Sistemas Operacionais na Prática',     'Sistemas de Arquivos e Segurança',        'Como trabalhar com sistemas de arquivos e garantir a segurança no sistema operacional.', 4);
 
 INSERT INTO Aula (nome_modulo, nome, descricao, duracao, tipo, ordem_dentro_modulo) VALUES
 -- Aulas para Módulos de Desenvolvimento Web Completo
