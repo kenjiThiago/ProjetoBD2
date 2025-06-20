@@ -99,6 +99,11 @@ export default function CourseCard({
                   <span>{course.numero_alunos_concluidos.toLocaleString()}</span>
                 </div>
 
+                <div className="flex items-center text-sm text-gray-400 mr-4">
+                  <Clock className="w-4 h-4 mr-1" />
+                  <span>{formatDuration(course.duracao_formatada)}</span>
+                </div>
+
                 <div className="flex gap-2">
                   {renderBadges("list")}
                 </div>
