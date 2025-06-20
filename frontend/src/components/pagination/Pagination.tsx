@@ -31,7 +31,7 @@ export default function Pagination({
       const targetElement = document.getElementById(scrollTargetId)
       if (targetElement) {
         const rect = targetElement.getBoundingClientRect()
-        const offsetTop = window.pageYOffset + rect.top - 100
+        const offsetTop = window.pageYOffset + rect.top - 150
 
         window.scrollTo({
           top: Math.max(0, offsetTop),
