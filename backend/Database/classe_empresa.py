@@ -12,6 +12,7 @@ class Empresa():
             e.descricao,
             e.localizacao,
             e.porte,
+            e.sigla,
             COUNT(DISTINCT v.id) AS numero_vagas
         FROM 
             empresa e

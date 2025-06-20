@@ -16,7 +16,6 @@ class Vaga():
             v.nivel,
             v.modalidade,
             v.salario,
-            v.tempo_aberta,
             v.prazo,
             e.localizacao,
             e.nome AS empresa_nome,
