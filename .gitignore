@@ -1,0 +1,5 @@
+.next/
+node_modules/
+next-env.d.ts
+package-lock.json
+__pycache__
