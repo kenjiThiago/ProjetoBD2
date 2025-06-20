@@ -36,21 +36,25 @@ class Curso():
         filtros = []
 
         if categoria:
-            filtros.append(f"LOWER(c.categoria) LIKE '%{categoria.lower()}%'")
+            filtros.append(f"unaccent(LOWER(c.categoria)) LIKE unaccent('%{categoria.lower()}%')")
+
         if nivel:
-            filtros.append(f"LOWER(c.nivel) LIKE '%{nivel.lower()}%'")
+            filtros.append(f"unaccent(LOWER(c.nivel)) LIKE unaccent('%{nivel.lower()}%')")
+
         if acesso:
-            filtros.append(f"LOWER(c.acesso) LIKE '%{acesso.lower()}%'")
+            filtros.append(f"unaccent(LOWER(c.acesso)) LIKE unaccent('%{acesso.lower()}%')")
+
         if search:
             filtros.append(f"""(
-                LOWER(c.nome) LIKE '%{search.lower()}%' OR
+                unaccent(LOWER(c.nome)) LIKE unaccent('%{search.lower()}%') OR
                 EXISTS (
                     SELECT 1 FROM habilidade_curso hc2
                     JOIN habilidade h2 ON hc2.id_habilidade = h2.id
                     WHERE hc2.nome_curso = c.nome
-                    AND LOWER(h2.nome) LIKE '%{search.lower()}%'
+                    AND unaccent(LOWER(h2.nome)) LIKE unaccent('%{search.lower()}%')
                 )
             )""")
+
 
         if filtros:
             query += " WHERE " + " AND ".join(filtros)
@@ -70,4 +74,39 @@ class Curso():
         query = "SELECT COUNT(*) FROM curso"
         result = self.db.execute_select_one(query)
         return result['count']
+
+
+    def get_ultimos_cursos(self, limite=3):
+        query = f"""
+        SELECT 
+            c.nivel,
+            ARRAY_AGG(DISTINCT h.nome) AS habilidades,
+            c.nome,
+            c.descricao,
+            p.nome AS nome_professor,
+            FLOOR(c.duracao / 60) || 'h ' || (c.duracao % 60) || 'm' AS duracao_formatada,
+            COUNT(DISTINCT e.cpf_aluno) AS numero_alunos_concluidos,
+            c.acesso,
+            TO_CHAR(c.data_lancamento, 'YYYY-MM-DD') AS data_lancamento,
+            c.categoria
+        FROM 
+            curso c
+        LEFT JOIN 
+            estuda e ON c.nome = e.nome_curso
+        LEFT JOIN 
+            habilidade_curso hc ON c.nome = hc.nome_curso
+        LEFT JOIN 
+            habilidade h ON hc.id_habilidade = h.id
+        LEFT JOIN 
+            ministra m ON c.nome = m.nome_curso
+        LEFT JOIN 
+            professor p ON m.email_professor = p.email
+        GROUP BY 
+            c.nome, c.descricao, c.duracao, c.nivel, c.data_lancamento, c.acesso, c.categoria, p.nome
+        ORDER BY 
+            c.data_lancamento DESC
+        LIMIT {limite}
+        """
+        return self.db.execute_select_all(query)
+
 

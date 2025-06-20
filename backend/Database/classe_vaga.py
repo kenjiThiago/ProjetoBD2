@@ -1,10 +1,13 @@
 from Database.conector import DatabaseManager
+from datetime import datetime
 
 class Vaga():
     def __init__(self, db_provider=DatabaseManager()) -> None:
         self.db = db_provider
 
-    def get_vagas(self, id: int = None, nome: str = "", empresa: str = "", requisitos: str = "", ordenar_por: str = "numero_inscritos", ordenar_ordem: str = "DESC", localizacao: str = ""):
+    def get_vagas(self, id: int = None, nome: str = "", empresa: str = "", requisitos: str = "",
+                  ordenar_por: str = "numero_inscritos", ordenar_ordem: str = "DESC", localizacao: str = "",
+                  nivel: str = "", modalidade: str = "", search: str = ""):
         query = """
         SELECT 
             v.id,
@@ -18,7 +21,7 @@ class Vaga():
             e.localizacao,
             e.nome AS empresa_nome,
             COUNT(DISTINCT si.cpf_aluno) AS numero_inscritos,
-            STRING_AGG(DISTINCT h.nome || ': ' || h.nivel, ', ') AS requisitos
+            STRING_AGG(DISTINCT h.nome, ', ') AS requisitos
         FROM 
             vaga v
         LEFT JOIN 
@@ -36,20 +39,30 @@ class Vaga():
         if id is not None:
             filtros.append(f"v.id = {id}")
         if nome:
-            filtros.append(f"LOWER(v.nome) LIKE '%{nome.lower()}%'")
+            filtros.append(f"unaccent(LOWER(v.nome)) LIKE unaccent('%{nome.lower()}%')")
         if empresa:
-            filtros.append(f"LOWER(e.nome) LIKE '%{empresa.lower()}%'")
+            filtros.append(f"unaccent(LOWER(e.nome)) LIKE unaccent('%{empresa.lower()}%')")
         if localizacao:
-            filtros.append(f"LOWER(e.localizacao) LIKE '%{localizacao.lower()}%'")
+            filtros.append(f"unaccent(LOWER(e.localizacao)) LIKE unaccent('%{localizacao.lower()}%')")
+        if nivel:
+            filtros.append(f"unaccent(LOWER(v.nivel)) LIKE unaccent('%{nivel.lower()}%')")
+        if modalidade:
+            filtros.append(f"unaccent(LOWER(v.modalidade)) LIKE unaccent('%{modalidade.lower()}%')")
         if requisitos:
             filtros.append(f"""
             EXISTS (
                 SELECT 1 
                 FROM habilidade_vaga hv
                 JOIN habilidade h ON hv.id_habilidade = h.id
-                WHERE hv.id_vaga = v.id AND LOWER(h.nome) LIKE '%{requisitos.lower()}%'
+                WHERE hv.id_vaga = v.id AND unaccent(LOWER(h.nome)) LIKE unaccent('%{requisitos.lower()}%')
             )
             """)
+        if search:
+            filtros.append(f"""(
+                unaccent(LOWER(e.nome)) LIKE unaccent('%{search.lower()}%') OR
+                unaccent(LOWER(v.nome)) LIKE unaccent('%{search.lower()}%') OR
+                unaccent(LOWER(h.nome)) LIKE unaccent('%{search.lower()}%')
+            )""")
 
         if filtros:
             query += " WHERE " + " AND ".join(filtros)
@@ -61,7 +74,24 @@ class Vaga():
             {ordenar_por} {ordenar_ordem}  
         """
 
-        return self.db.execute_select_all(query)
+        vagas = self.db.execute_select_all(query)
+
+        # formato DD/MM/YYYY
+        for vaga in vagas:
+            if vaga["prazo"]:
+                if isinstance(vaga["prazo"], str):
+                    try:
+                        data = datetime.strptime(vaga["prazo"], "%a, %d %b %Y %H:%M:%S %Z")
+                    except:
+                        try:
+                            data = datetime.fromisoformat(vaga["prazo"])
+                        except:
+                            continue
+                else:
+                    data = vaga["prazo"]
+                vaga["prazo"] = data.strftime("%d/%m/%Y")
+
+        return vagas
 
     def get_numero_vagas(self) -> int:
         query = "SELECT COUNT(*) as count FROM vaga"

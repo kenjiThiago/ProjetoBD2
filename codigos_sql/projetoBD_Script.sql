@@ -2235,3 +2235,6 @@ BEGIN
         END IF;
     END LOOP;
 END $$;
+
+
+CREATE EXTENSION IF NOT EXISTS unaccent;

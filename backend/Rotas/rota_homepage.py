@@ -22,6 +22,8 @@ def dados_homepage():
     n_alunos_inativos = aluno.count_inativos()
     n_professores = professor.get_numero_professores()
 
+    ultimos_cursos = curso.get_ultimos_cursos()
+
     dados_homepage = {
         "num_alunos": n_alunos,
         "num_cursos": n_cursos,
@@ -29,7 +31,8 @@ def dados_homepage():
         "num_vagas": n_vagas,
         "num_alunos_ativos": n_alunos_ativos,
         "num_alunos_inativos": n_alunos_inativos,
-        "num_professores": n_professores
+        "num_professores": n_professores,
+        "cursos_recentes": ultimos_cursos
     }
 
     return jsonify(dados_homepage), 200
