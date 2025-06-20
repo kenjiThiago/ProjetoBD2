@@ -134,7 +134,7 @@ export default function CompanyFilterBar({
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('companyClearFilters'))
                 }}
-                className="text-blue-400 hover:text-blue-300 text-sm flex items-center space-x-1"
+                className="text-blue-400 hover:text-blue-300 text-sm flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-gray-700/50 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

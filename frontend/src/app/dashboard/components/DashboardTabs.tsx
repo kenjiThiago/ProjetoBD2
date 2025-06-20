@@ -4,6 +4,7 @@ import {
   BookOpen,
   BarChart3,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface DashboardTabsProps {
   activeTab: 'overview' | 'courses' | 'achievements' | 'paths'
@@ -17,10 +18,14 @@ export default function DashboardTabs({
     { id: 'courses', label: 'Meus Cursos', icon: BookOpen },
   ]
 
+  const router = useRouter()
+
   const handleTabChange = (tabId: string) => {
     window.dispatchEvent(new CustomEvent('dashboardTabChange', {
       detail: tabId
     }))
+    const href = "dashboard?tab=" + tabId
+    router.push(href)
   }
 
   return (

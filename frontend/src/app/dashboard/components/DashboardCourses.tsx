@@ -148,14 +148,14 @@ export default function DashboardCourses({
                 className="btn-secondary px-6 py-3"
                 onClick={clearAllFilters}
               >
-                Limpar Filtros
+                <span>Limpar Filtros</span>
               </button>
             )}
             <button
               className="btn-primary px-6 py-3"
               onClick={() => window.location.href = '/cursos'}
             >
-              Explorar Cursos
+              <span>Explorar Cursos</span>
             </button>
           </div>
         </motion.div>

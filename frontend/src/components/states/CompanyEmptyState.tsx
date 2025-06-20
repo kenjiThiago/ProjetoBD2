@@ -38,7 +38,7 @@ export default function CompanyEmptyState({ activeTab, searchTerm }: CompanyEmpt
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        Limpar Filtros
+        <span>Limpar Filtros</span>
       </motion.button>
     </motion.div>
   )
