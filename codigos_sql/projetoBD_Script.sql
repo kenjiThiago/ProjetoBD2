@@ -1641,263 +1641,324 @@ INSERT INTO Habilidade_Curso (nome_curso, id_habilidade) VALUES
 
 
 INSERT INTO Aula (nome_curso, nome, descricao, duracao, tipo, ordem_dentro_modulo) VALUES
--- Aulas para Módulos de Desenvolvimento Web Completo
-('Desenvolvimento Web Completo',   'Aula 1: O que é Desenvolvimento Web?', 'Introdução ao conceito de desenvolvimento web e suas áreas.',  30, 'video', 1),
-('Desenvolvimento Web Completo',   'Aula 2: Ferramentas Necessárias',      'Apresentação das ferramentas que serão utilizadas.',           25, 'texto', 2),
+-- Aulas para o Curso de Desenvolvimento Web Completo
+('Desenvolvimento Web Completo', 'Aula 1: Introdução ao HTML5', 'Conceitos básicos e estrutura de um documento HTML5.', 45, 'video', 1),
+('Desenvolvimento Web Completo', 'Aula 2: Estilizando com CSS3', 'Aprenda a estilizar suas páginas com as novidades do CSS3.', 55, 'video', 2),
+('Desenvolvimento Web Completo', 'Aula 3: JavaScript Essencial', 'Fundamentos da linguagem de programação mais popular da web.', 60, 'video', 3),
+('Desenvolvimento Web Completo', 'Aula 4: Responsividade com Media Queries', 'Crie sites que se adaptam a diferentes tamanhos de tela.', 40, 'texto', 4),
+('Desenvolvimento Web Completo', 'Aula 5: Introdução a Frameworks (React)', 'Primeiros passos com a biblioteca React para interfaces dinâmicas.', 65, 'video', 5),
+
+-- Aulas para o Curso de Introdução ao Desenvolvimento Mobile
+('Introdução ao Desenvolvimento Mobile', 'Aula 1: Ecossistemas Mobile (iOS vs Android)', 'Entenda as diferenças e semelhanças entre as principais plataformas.', 35, 'video', 1),
+('Introdução ao Desenvolvimento Mobile', 'Aula 2: Ferramentas de Desenvolvimento', 'Configurando o ambiente para desenvolvimento nativo e híbrido.', 50, 'texto', 2),
+('Introdução ao Desenvolvimento Mobile', 'Aula 3: Construindo a Primeira Tela', 'Criação de uma interface de usuário simples.', 60, 'video', 3),
+('Introdução ao Desenvolvimento Mobile', 'Aula 4: Navegação entre Telas', 'Implementando a lógica para navegar entre diferentes partes do app.', 45, 'video', 4),
+
+-- Aulas para o Curso de Data Science com Python
+('Data Science com Python', 'Aula 1: O que é Ciência de Dados?', 'Visão geral da área e o papel do cientista de dados.', 30, 'video', 1),
+('Data Science com Python', 'Aula 2: Análise de Dados com Pandas', 'Manipulação e análise de dados usando a biblioteca Pandas.', 70, 'video', 2),
+('Data Science com Python', 'Aula 3: Visualização de Dados com Matplotlib', 'Crie gráficos e visualizações para entender seus dados.', 60, 'video', 3),
+('Data Science com Python', 'Aula 4: Introdução ao Machine Learning com Scikit-Learn', 'Seus primeiros modelos de aprendizado de máquina.', 75, 'video', 4),
+('Data Science com Python', 'Aula 5: Coleta de Dados (Web Scraping)', 'Técnicas para extrair dados de websites.', 50, 'texto', 5),
+
+-- Aulas para o Curso de Fundamentos de Inteligência Artificial
+('Fundamentos de Inteligência Artificial', 'Aula 1: História da IA', 'Uma jornada pela evolução da inteligência artificial.', 40, 'texto', 1),
+('Fundamentos de Inteligência Artificial', 'Aula 2: Tipos de IA', 'Diferenças entre IA Fraca, Forte e Superinteligência.', 45, 'video', 2),
+('Fundamentos de Inteligência Artificial', 'Aula 3: Redes Neurais Simplificadas', 'Entendendo o conceito por trás das redes neurais.', 60, 'video', 3),
+('Fundamentos de Inteligência Artificial', 'Aula 4: Aplicações Práticas da IA', 'Veja como a IA está transformando o mundo hoje.', 35, 'video', 4),
+
+-- Aulas para o Curso de DevOps para Iniciantes
+('DevOps para Iniciantes', 'Aula 1: Cultura DevOps', 'O que é DevOps e por que é importante.', 45, 'video', 1),
+('DevOps para Iniciantes', 'Aula 2: Controle de Versão com Git', 'Fundamentos do Git para colaboração.', 55, 'video', 2),
+('DevOps para Iniciantes', 'Aula 3: Integração Contínua (CI)', 'Automatizando a build e os testes do seu código.', 60, 'texto', 3),
+('DevOps para Iniciantes', 'Aula 4: Entrega Contínua (CD)', 'Estratégias para automatizar o deploy de aplicações.', 65, 'video', 4),
+('DevOps para Iniciantes', 'Aula 5: Introdução a Containers com Docker', 'Conceitos básicos de containers.', 50, 'video', 5),
+
+-- Aulas para o Curso de UX/UI Design na Prática
+('UX/UI Design na Prática', 'Aula 1: Diferenciando UX e UI', 'Entenda o papel de cada disciplina no design de produtos.', 30, 'video', 1),
+('UX/UI Design na Prática', 'Aula 2: Pesquisa com Usuários', 'Como conduzir entrevistas e pesquisas para guiar o design.', 50, 'texto', 2),
+('UX/UI Design na Prática', 'Aula 3: Jornada do Usuário e Personas', 'Mapeando a experiência do seu usuário.', 45, 'video', 3),
+('UX/UI Design na Prática', 'Aula 4: Prototipação e Wireframes', 'Criando os primeiros esboços da sua interface.', 60, 'video', 4),
+('UX/UI Design na Prática', 'Aula 5: Testes de Usabilidade', 'Validando suas soluções de design com usuários reais.', 55, 'texto', 5),
+
+-- Aulas para o Curso de Segurança da Informação
+('Segurança da Informação', 'Aula 1: Pilares da Segurança', 'Confidencialidade, Integridade e Disponibilidade.', 40, 'video', 1),
+('Segurança da Informação', 'Aula 2: Tipos de Ameaças Cibernéticas', 'Conheça os principais vetores de ataque.', 50, 'texto', 2),
+('Segurança da Informação', 'Aula 3: Criptografia para Iniciantes', 'Como a criptografia protege nossos dados.', 55, 'video', 3),
+('Segurança da Informação', 'Aula 4: Boas Práticas de Segurança', 'Dicas para se proteger no dia a dia.', 35, 'video', 4),
+
+-- Aulas para o Curso de Banco de Dados com SQL
+('Banco de Dados com SQL', 'Aula 1: Modelagem de Dados Relacional', 'Como estruturar um banco de dados eficiente.', 60, 'video', 1),
+('Banco de Dados com SQL', 'Aula 2: Comandos DDL e DML', 'Criando tabelas e manipulando dados.', 50, 'texto', 2),
+('Banco de Dados com SQL', 'Aula 3: Consultas com SELECT', 'Extraindo informações do seu banco de dados.', 70, 'video', 3),
+('Banco de Dados com SQL', 'Aula 4: Joins e Relacionamentos', 'Combinando dados de múltiplas tabelas.', 65, 'video', 4),
+('Banco de Dados com SQL', 'Aula 5: Funções de Agregação', 'Calculando totais, médias e contagens.', 45, 'texto', 5),
+
+-- Aulas para o Curso de Engenharia de Software
+('Engenharia de Software', 'Aula 1: O que é Engenharia de Software?', 'Introdução aos princípios e práticas.', 40, 'video', 1),
+('Engenharia de Software', 'Aula 2: Ciclo de Vida do Software', 'Modelos como Cascata, Ágil e Espiral.', 50, 'texto', 2),
+('Engenharia de Software', 'Aula 3: Levantamento de Requisitos', 'Técnicas para entender as necessidades do cliente.', 55, 'video', 3),
+('Engenharia de Software', 'Aula 4: Padrões de Projeto (Design Patterns)', 'Soluções reutilizáveis para problemas comuns.', 60, 'video', 4),
+
+-- Aulas para o Curso de Arquitetura de Software
+('Arquitetura de Software', 'Aula 1: O Papel do Arquiteto de Software', 'Responsabilidades e habilidades necessárias.', 45, 'video', 1),
+('Arquitetura de Software', 'Aula 2: Estilos Arquiteturais', 'Monolitos vs. Microsserviços.', 60, 'texto', 2),
+('Arquitetura de Software', 'Aula 3: Padrões Arquiteturais', 'MVC, Camadas, Hexagonal.', 65, 'video', 3),
+('Arquitetura de Software', 'Aula 4: Documentação de Arquitetura', 'Como comunicar suas decisões arquiteturais.', 50, 'texto', 4),
+('Arquitetura de Software', 'Aula 5: Atributos de Qualidade', 'Performance, Segurança, Escalabilidade.', 55, 'video', 5),
+
+-- Aulas para o Curso de Desenvolvimento de Jogos
+('Desenvolvimento de Jogos', 'Aula 1: Introdução ao Game Development', 'Visão geral da indústria e das ferramentas.', 35, 'video', 1),
+('Desenvolvimento de Jogos', 'Aula 2: Lógica de Programação para Jogos', 'Conceitos essenciais para criar mecânicas de jogo.', 60, 'video', 2),
+('Desenvolvimento de Jogos', 'Aula 3: Game Engines (Unity vs Unreal)', 'Comparativo entre as principais engines do mercado.', 50, 'texto', 3),
+('Desenvolvimento de Jogos', 'Aula 4: Criando seu Primeiro Jogo 2D', 'Um projeto prático do início ao fim.', 80, 'video', 4),
+
+-- Aulas para o Curso de Cloud Computing para Iniciantes
+('Cloud Computing para Iniciantes', 'Aula 1: O que é Nuvem?', 'Desmistificando os conceitos de cloud computing.', 30, 'video', 1),
+('Cloud Computing para Iniciantes', 'Aula 2: Modelos de Serviço (IaaS, PaaS, SaaS)', 'Entenda as diferentes ofertas de serviços em nuvem.', 40, 'texto', 2),
+('Cloud Computing para Iniciantes', 'Aula 3: Principais Provedores (AWS, Azure, GCP)', 'Uma visão geral dos líderes de mercado.', 45, 'video', 3),
+('Cloud Computing para Iniciantes', 'Aula 4: Subindo sua Primeira Aplicação na Nuvem', 'Um tutorial prático de deploy.', 60, 'video', 4),
+('Cloud Computing para Iniciantes', 'Aula 5: Vantagens da Computação em Nuvem', 'Elasticidade, Custo e Inovação.', 35, 'texto', 5),
+
+-- Aulas para o Curso de Redes de Computadores
+('Redes de Computadores', 'Aula 1: Fundamentos de Redes', 'O que são redes e como funcionam.', 45, 'video', 1),
+('Redes de Computadores', 'Aula 2: Modelo OSI e TCP/IP', 'As camadas que governam a comunicação.', 60, 'texto', 2),
+('Redes de Computadores', 'Aula 3: Endereçamento IP', 'Entendendo IPs e máscaras de sub-rede.', 55, 'video', 3),
+('Redes de Computadores', 'Aula 4: Equipamentos de Rede', 'Roteadores, Switches e Hubs.', 40, 'video', 4),
+
+-- Aulas para o Curso de Machine Learning com R
+('Machine Learning com R', 'Aula 1: Introdução à Linguagem R', 'Sintaxe e estruturas de dados básicas em R.', 50, 'video', 1),
+('Machine Learning com R', 'Aula 2: Manipulação de Dados com dplyr', 'Ferramentas para preparar seus dados para análise.', 60, 'texto', 2),
+('Machine Learning com R', 'Aula 3: Aprendizado Supervisionado', 'Modelos de Regressão e Classificação.', 70, 'video', 3),
+('Machine Learning com R', 'Aula 4: Aprendizado Não Supervisionado', 'Técnicas de Clusterização.', 65, 'video', 4),
+('Machine Learning com R', 'Aula 5: Avaliando seu Modelo', 'Métricas de performance para modelos de ML.', 55, 'texto', 5),
+
+-- Aulas para o Curso de Processamento de Dados com Apache Spark
+('Processamento de Dados com Apache Spark', 'Aula 1: O que é Big Data e Apache Spark?', 'Introdução ao ecossistema de Big Data.', 40, 'video', 1),
+('Processamento de Dados com Apache Spark', 'Aula 2: Arquitetura do Spark', 'Entendendo RDDs, DataFrames e o Spark Core.', 60, 'texto', 2),
+('Processamento de Dados com Apache Spark', 'Aula 3: Primeiras Operações com PySpark', 'Usando Python para interagir com o Spark.', 70, 'video', 3),
+('Processamento de Dados com Apache Spark', 'Aula 4: Spark SQL', 'Realizando consultas SQL em grandes volumes de dados.', 65, 'video', 4),
+
+-- Aulas para o Curso de Blockchain: Fundamentos e Aplicações
+('Blockchain: Fundamentos e Aplicações', 'Aula 1: A Revolução do Blockchain', 'O que é, como funciona e por que é importante.', 50, 'video', 1),
+('Blockchain: Fundamentos e Aplicações', 'Aula 2: Criptomoedas e Bitcoin', 'O primeiro e mais famoso caso de uso.', 55, 'texto', 2),
+('Blockchain: Fundamentos e Aplicações', 'Aula 3: Contratos Inteligentes (Smart Contracts)', 'Automatizando acordos na blockchain.', 60, 'video', 3),
+('Blockchain: Fundamentos e Aplicações', 'Aula 4: Além das Criptomoedas', 'Outras aplicações do Blockchain.', 45, 'video', 4),
+
+-- Aulas para o Curso de Análise de Dados com Excel
+('Análise de Dados com Excel', 'Aula 1: Fórmulas Essenciais', 'Funções que todo analista deve conhecer.', 50, 'video', 1),
+('Análise de Dados com Excel', 'Aula 2: Tabelas Dinâmicas', 'Resumindo e analisando dados de forma interativa.', 60, 'texto', 2),
+('Análise de Dados com Excel', 'Aula 3: Gráficos para Dashboards', 'Criando visualizações de impacto.', 55, 'video', 3),
+('Análise de Dados com Excel', 'Aula 4: Tratamento e Limpeza de Dados', 'Técnicas para preparar seus dados para análise.', 45, 'video', 4),
+('Análise de Dados com Excel', 'Aula 5: Introdução ao Power Query', 'Automatizando a importação e transformação de dados.', 65, 'texto', 5),
+
+-- Aulas para o Curso de Automação de Testes
+('Automação de Testes', 'Aula 1: Pirâmide de Testes', 'Entendendo os diferentes níveis de teste.', 40, 'video', 1),
+('Automação de Testes', 'Aula 2: Ferramentas de Automação', 'Visão geral de frameworks como Selenium e Cypress.', 50, 'texto', 2),
+('Automação de Testes', 'Aula 3: Escrevendo seu Primeiro Teste Automatizado', 'Um exemplo prático de automação de teste de UI.', 70, 'video', 3),
+('Automação de Testes', 'Aula 4: Testes de API', 'Automatizando a validação de endpoints.', 60, 'video', 4),
+
+-- Aulas para o Curso de Programação para Iniciantes
+('Programação para Iniciantes', 'Aula 1: Lógica de Programação', 'Os blocos fundamentais do pensamento computacional.', 55, 'video', 1),
+('Programação para Iniciantes', 'Aula 2: Variáveis e Tipos de Dados', 'Como armazenar e manipular informações.', 50, 'texto', 2),
+('Programação para Iniciantes', 'Aula 3: Estruturas Condicionais', 'Tomando decisões no seu código (if/else).', 60, 'video', 3),
+('Programação para Iniciantes', 'Aula 4: Laços de Repetição', 'Executando tarefas repetitivas (for/while).', 55, 'video', 4),
+('Programação para Iniciantes', 'Aula 5: Funções', 'Organizando seu código em blocos reutilizáveis.', 45, 'texto', 5),
+
+-- Aulas para o Curso de Desenvolvimento em Java
+('Desenvolvimento em Java', 'Aula 1: Introdução à Plataforma Java', 'JVM, JDK e o ecossistema Java.', 45, 'video', 1),
+('Desenvolvimento em Java', 'Aula 2: Sintaxe Básica e Estruturas de Controle', 'Os fundamentos da linguagem Java.', 60, 'texto', 2),
+('Desenvolvimento em Java', 'Aula 3: Programação Orientada a Objetos com Java', 'Classes, Objetos, Herança e Polimorfismo.', 70, 'video', 3),
+('Desenvolvimento em Java', 'Aula 4: Coleções (Collections Framework)', 'Manipulando listas, conjuntos e mapas.', 65, 'video', 4),
+
+-- Aulas para o Curso de Python para Automação
+('Python para Automação', 'Aula 1: Por que Python para automação?', 'Vantagens e casos de uso da linguagem.', 30, 'video', 1),
+('Python para Automação', 'Aula 2: Manipulação de Arquivos e Pastas', 'Automatizando tarefas com o sistema de arquivos.', 50, 'texto', 2),
+('Python para Automação', 'Aula 3: Web Scraping com BeautifulSoup e Requests', 'Extraindo dados de páginas web.', 60, 'video', 3),
+('Python para Automação', 'Aula 4: Automação de Tarefas com Selenium', 'Controlando o navegador com Python.', 65, 'video', 4),
+('Python para Automação', 'Aula 5: Agendando Scripts', 'Executando suas automações em horários programados.', 40, 'texto', 5),
+
+-- Aulas para o Curso de Introdução ao Power BI
+('Introdução ao Power BI', 'Aula 1: Conhecendo a Interface do Power BI', 'Uma visão geral da ferramenta.', 35, 'video', 1),
+('Introdução ao Power BI', 'Aula 2: Conectando a Fontes de Dados', 'Importando dados de arquivos e bancos de dados.', 45, 'texto', 2),
+('Introdução ao Power BI', 'Aula 3: Tratamento de Dados no Power Query', 'Limpando e transformando seus dados.', 60, 'video', 3),
+('Introdução ao Power BI', 'Aula 4: Criando seu Primeiro Dashboard', 'Construindo visualizações interativas.', 70, 'video', 4),
+
+-- Aulas para o Curso de Kubernetes na Prática
+('Kubernetes na Prática', 'Aula 1: Orquestração de Containers', 'O que é e por que usar Kubernetes.', 45, 'video', 1),
+('Kubernetes na Prática', 'Aula 2: Arquitetura do Kubernetes', 'Pods, Services, Deployments e outros objetos.', 60, 'texto', 2),
+('Kubernetes na Prática', 'Aula 3: Criando seu Primeiro Cluster', 'Configurando um ambiente Kubernetes local.', 70, 'video', 3),
+('Kubernetes na Prática', 'Aula 4: Deploy de uma Aplicação', 'Subindo uma aplicação no seu cluster.', 65, 'video', 4),
+
+-- Aulas para o Curso de Introdução ao Ruby on Rails
+('Introdução ao Ruby on Rails', 'Aula 1: Convenção sobre Configuração', 'A filosofia do framework Rails.', 40, 'video', 1),
+('Introdução ao Ruby on Rails', 'Aula 2: Estrutura MVC no Rails', 'Models, Views e Controllers na prática.', 55, 'texto', 2),
+('Introdução ao Ruby on Rails', 'Aula 3: Criando seu Primeiro CRUD', 'Uma aplicação completa de Create, Read, Update, Delete.', 80, 'video', 3),
+('Introdução ao Ruby on Rails', 'Aula 4: Rotas e Gems', 'Gerenciando URLs e estendendo funcionalidades.', 50, 'video', 4),
+
+-- Aulas para o Curso de JavaScript Avançado
+('JavaScript Avançado', 'Aula 1: Escopo e Closures', 'Conceitos fundamentais para todo dev JS.', 50, 'video', 1),
+('JavaScript Avançado', 'Aula 2: Programação Assíncrona', 'Promises e Async/Await.', 60, 'texto', 2),
+('JavaScript Avançado', 'Aula 3: Programação Funcional em JS', 'Map, Filter e Reduce.', 55, 'video', 3),
+('JavaScript Avançado', 'Aula 4: Módulos em JavaScript', 'Organizando seu código com import/export.', 45, 'video', 4),
+('JavaScript Avançado', 'Aula 5: Padrões de Projeto em JS', 'Aplicando design patterns em JavaScript.', 65, 'texto', 5),
+
+-- Aulas para o Curso de Construção de APIs REST
+('Construção de APIs REST', 'Aula 1: O que é uma API REST?', 'Princípios e boas práticas.', 45, 'video', 1),
+('Construção de APIs REST', 'Aula 2: Verbos HTTP e Status Codes', 'A linguagem da comunicação web.', 55, 'texto', 2),
+('Construção de APIs REST', 'Aula 3: Construindo Endpoints com Node.js e Express', 'Um projeto prático do zero.', 75, 'video', 3),
+('Construção de APIs REST', 'Aula 4: Autenticação e Autorização', 'Protegendo sua API.', 60, 'video', 4),
+
+-- Aulas para o Curso de Angular Básico
+('Angular Básico', 'Aula 1: Introdução ao Ecossistema Angular', 'Componentes, Módulos e Services.', 50, 'video', 1),
+('Angular Básico', 'Aula 2: Configurando o Ambiente', 'Instalando o Angular CLI e criando um projeto.', 45, 'texto', 2),
+('Angular Básico', 'Aula 3: Data Binding e Templates', 'Comunicando a lógica com a visão.', 60, 'video', 3),
+('Angular Básico', 'Aula 4: Roteamento', 'Navegando entre diferentes componentes.', 55, 'video', 4),
+
+-- Aulas para o Curso de React Native para Mobile
+('React Native para Mobile', 'Aula 1: O que é React Native?', 'Desenvolvimento nativo com React.', 40, 'video', 1),
+('React Native para Mobile', 'Aula 2: Componentes e Estilização', 'Construindo a UI com componentes React.', 60, 'texto', 2),
+('React Native para Mobile', 'Aula 3: Navegação entre Telas', 'Utilizando o React Navigation.', 55, 'video', 3),
+('React Native para Mobile', 'Aula 4: Acessando Recursos Nativos', 'Utilizando a câmera, GPS e outros recursos.', 65, 'video', 4),
+
+-- Aulas para o Curso de Big Data com Hadoop
+('Big Data com Hadoop', 'Aula 1: O Ecossistema Hadoop', 'HDFS, MapReduce e YARN.', 50, 'video', 1),
+('Big Data com Hadoop', 'Aula 2: HDFS - O Sistema de Arquivos Distribuído', 'Armazenando grandes volumes de dados.', 55, 'texto', 2),
+('Big Data com Hadoop', 'Aula 3: MapReduce', 'O paradigma de processamento paralelo.', 65, 'video', 3),
+('Big Data com Hadoop', 'Aula 4: Ferramentas do Ecossistema (Hive, Pig)', 'Abstraindo a complexidade do MapReduce.', 60, 'video', 4),
+
+-- Aulas para o Curso de Teste de Software na Prática
+('Teste de Software na Prática', 'Aula 1: Fundamentos do Teste de Software', 'Por que testar é crucial para a qualidade.', 40, 'video', 1),
+('Teste de Software na Prática', 'Aula 2: Tipos de Teste', 'Unitário, Integração, Sistema, Aceitação.', 50, 'texto', 2),
+('Teste de Software na Prática', 'Aula 3: Técnicas de Teste', 'Caixa-Preta vs. Caixa-Branca.', 55, 'video', 3),
+('Teste de Software na Prática', 'Aula 4: Elaborando Casos de Teste', 'Como escrever casos de teste eficazes.', 60, 'video', 4),
+
+-- Aulas para o Curso de Game Development com Unreal Engine
+('Game Development com Unreal Engine', 'Aula 1: Visão Geral da Unreal Engine', 'Conhecendo a interface e as janelas.', 45, 'video', 1),
+('Game Development com Unreal Engine', 'Aula 2: Blueprints - Programação Visual', 'Criando lógicas de jogo sem código.', 70, 'texto', 2),
+('Game Development com Unreal Engine', 'Aula 3: Criando um Personagem e Movimentação', 'Implementando o controle do jogador.', 75, 'video', 3),
+('Game Development com Unreal Engine', 'Aula 4: Iluminação e Materiais', 'Deixando seu jogo visualmente atraente.', 60, 'video', 4),
+
+-- Aulas para o Curso de Introdução ao TypeScript
+('Introdução ao TypeScript', 'Aula 1: Por que usar TypeScript?', 'As vantagens da tipagem estática no JavaScript.', 40, 'video', 1),
+('Introdução ao TypeScript', 'Aula 2: Tipos Básicos e Interfaces', 'Definindo a estrutura dos seus dados.', 55, 'texto', 2),
+('Introdução ao TypeScript', 'Aula 3: Classes e Generics', 'Programação orientada a objetos com TS.', 60, 'video', 3),
+('Introdução ao TypeScript', 'Aula 4: Configurando um Projeto com TypeScript', 'Integrando o TS em um projeto real.', 50, 'video', 4),
+
+-- Aulas para o Curso de Gestão de Produtos Digitais
+('Gestão de Produtos Digitais', 'Aula 1: O Papel do Product Manager (PM)', 'O que faz um gerente de produto.', 45, 'video', 1),
+('Gestão de Produtos Digitais', 'Aula 2: Discovery e Validação de Ideias', 'Como descobrir o produto certo a ser construído.', 60, 'texto', 2),
+('Gestão de Produtos Digitais', 'Aula 3: Roadmaps e Priorização', 'Planejando o futuro do seu produto.', 55, 'video', 3),
+('Gestão de Produtos Digitais', 'Aula 4: Métricas de Produto', 'Medindo o sucesso do seu produto digital.', 50, 'video', 4),
+
+-- Aulas para o Curso de Noções de Docker
+('Noções de Docker', 'Aula 1: O Problema que o Docker Resolve', 'Adeus ao "na minha máquina funciona".', 35, 'video', 1),
+('Noções de Docker', 'Aula 2: Imagens vs. Containers', 'Entendendo os conceitos fundamentais.', 45, 'texto', 2),
+('Noções de Docker', 'Aula 3: Comandos Essenciais do Docker', 'docker run, pull, ps, etc.', 60, 'video', 3),
+('Noções de Docker', 'Aula 4: Escrevendo seu Primeiro Dockerfile', 'Empacotando sua aplicação em uma imagem.', 55, 'video', 4),
+
+-- Aulas para o Curso de Desenvolvimento Backend com Node.js
+('Desenvolvimento Backend com Node.js', 'Aula 1: Introdução ao Node.js', 'JavaScript no servidor.', 40, 'video', 1),
+('Desenvolvimento Backend com Node.js', 'Aula 2: NPM - Gerenciador de Pacotes', 'Utilizando bibliotecas de terceiros.', 45, 'texto', 2),
+('Desenvolvimento Backend com Node.js', 'Aula 3: Criando um Servidor com Express', 'O framework web mais popular para Node.', 65, 'video', 3),
+('Desenvolvimento Backend com Node.js', 'Aula 4: Conectando com Banco de Dados', 'Integrando sua API com MongoDB ou PostgreSQL.', 70, 'video', 4),
+
+-- Aulas para o Curso de Django para Web
+('Django para Web', 'Aula 1: O Framework para Perfeccionistas com Prazos', 'Introdução à filosofia do Django.', 40, 'video', 1),
+('Django para Web', 'Aula 2: Models, Admin e ORM', 'A interação poderosa com o banco de dados.', 60, 'texto', 2),
+('Django para Web', 'Aula 3: Views e Templates', 'Renderizando páginas HTML dinâmicas.', 65, 'video', 3),
+('Django para Web', 'Aula 4: Formulários e Autenticação', 'Lidando com dados do usuário e segurança.', 70, 'video', 4),
+
+-- Aulas para o Curso de Flutter na Prática
+('Flutter na Prática', 'Aula 1: Introdução ao Flutter e Dart', 'O framework de UI do Google.', 50, 'video', 1),
+('Flutter na Prática', 'Aula 2: Widgets, Widgets e mais Widgets', 'A base da construção de UIs no Flutter.', 60, 'texto', 2),
+('Flutter na Prática', 'Aula 3: Layouts com Rows e Columns', 'Organizando seus widgets na tela.', 65, 'video', 3),
+('Flutter na Prática', 'Aula 4: Navegação e Gerenciamento de Estado', 'Criando um app com múltiplas telas.', 75, 'video', 4),
+
+-- Aulas para o Curso de ElasticSearch Básico
+('ElasticSearch Básico', 'Aula 1: O que é ElasticSearch?', 'Busca e análise de dados em escala.', 45, 'video', 1),
+('ElasticSearch Básico', 'Aula 2: Índices, Documentos e Mapeamento', 'A estrutura de dados do ElasticSearch.', 55, 'texto', 2),
+('ElasticSearch Básico', 'Aula 3: Realizando Buscas (Query DSL)', 'Aprenda a fazer consultas poderosas.', 70, 'video', 3),
+('ElasticSearch Básico', 'Aula 4: Agregações', 'Analisando seus dados com agregações.', 60, 'video', 4),
+
+-- Aulas para o Curso de Inteligência Artificial com TensorFlow
+('Inteligência Artificial com TensorFlow', 'Aula 1: Introdução ao TensorFlow', 'Conhecendo a biblioteca de ML do Google.', 50, 'video', 1),
+('Inteligência Artificial com TensorFlow', 'Aula 2: Tensores e Operações', 'A base do TensorFlow.', 60, 'texto', 2),
+('Inteligência Artificial com TensorFlow', 'Aula 3: Construindo uma Rede Neural com Keras', 'A API de alto nível para TensorFlow.', 75, 'video', 3),
+('Inteligência Artificial com TensorFlow', 'Aula 4: Treinando e Avaliando seu Modelo', 'O ciclo de vida de um projeto de ML.', 70, 'video', 4),
+
+-- Aulas para o Curso de Introdução à Ciência de Dados
+('Introdução à Ciência de Dados', 'Aula 1: O que faz um Cientista de Dados?', 'Um dia na vida de um cientista de dados.', 35, 'video', 1),
+('Introdução à Ciência de Dados', 'Aula 2: O Processo de Ciência de Dados', 'Da pergunta de negócio ao deploy do modelo.', 50, 'texto', 2),
+('Introdução à Ciência de Dados', 'Aula 3: Ferramentas do Cientista de Dados', 'Python, R, SQL e outras ferramentas.', 45, 'video', 3),
+('Introdução à Ciência de Dados', 'Aula 4: Tipos de Análise', 'Descritiva, Preditiva e Prescritiva.', 40, 'video', 4),
+
+-- Aulas para o Curso de Marketing Digital para Empresas
+('Marketing Digital para Empresas', 'Aula 1: Funil de Vendas no Digital', 'Atrair, Converter, Relacionar e Vender.', 45, 'video', 1),
+('Marketing Digital para Empresas', 'Aula 2: SEO - Otimização para Buscadores', 'Como aparecer no Google.', 60, 'texto', 2),
+('Marketing Digital para Empresas', 'Aula 3: Marketing de Conteúdo', 'Criando valor para sua audiência.', 55, 'video', 3),
+('Marketing Digital para Empresas', 'Aula 4: Anúncios Pagos (Google Ads e Facebook Ads)', 'Estratégias de tráfego pago.', 65, 'video', 4),
+
+-- Aulas para o Curso de Excel Avançado
+('Excel Avançado', 'Aula 1: Funções de Lógica e Pesquisa Avançadas', 'PROCV, ÍNDICE, CORRESP e outras.', 60, 'video', 1),
+('Excel Avançado', 'Aula 2: Power Query e Transformação de Dados', 'Automatizando a limpeza e preparação de dados.', 70, 'texto', 2),
+('Excel Avançado', 'Aula 3: Introdução a Macros e VBA', 'Automatizando tarefas repetitivas.', 75, 'video', 3),
+('Excel Avançado', 'Aula 4: Dashboards Interativos', 'Criando painéis de controle dinâmicos.', 65, 'video', 4),
+
+-- Aulas para o Curso de PHP para Web
+('PHP para Web', 'Aula 1: Introdução ao PHP', 'Sintaxe e variáveis.', 45, 'video', 1),
+('PHP para Web', 'Aula 2: Lidando com Formulários', 'Recebendo dados via GET e POST.', 55, 'texto', 2),
+('PHP para Web', 'Aula 3: Conectando com o MySQL', 'Interagindo com o banco de dados.', 65, 'video', 3),
+('PHP para Web', 'Aula 4: Sessões e Cookies', 'Gerenciando o estado do usuário.', 50, 'video', 4),
+
+-- Aulas para o Curso de MongoDB na Prática
+('MongoDB na Prática', 'Aula 1: Banco de Dados NoSQL e Modelo de Documentos', 'O que é e quando usar MongoDB.', 40, 'video', 1),
+('MongoDB na Prática', 'Aula 2: CRUD com MongoDB', 'Inserindo, buscando, atualizando e deletando documentos.', 60, 'texto', 2),
+('MongoDB na Prática', 'Aula 3: Consultas Avançadas', 'Filtrando e projetando dados.', 55, 'video', 3),
+('MongoDB na Prática', 'Aula 4: Índices e Performance', 'Otimizando suas consultas.', 50, 'video', 4),
+
+-- Aulas para o Curso de Programação Funcional com Scala
+('Programação Funcional com Scala', 'Aula 1: Introdução a Scala e ao Paradigma Funcional', 'Imutabilidade, Funções Puras e mais.', 55, 'video', 1),
+('Programação Funcional com Scala', 'Aula 2: Tipos e Pattern Matching', 'A base da linguagem Scala.', 60, 'texto', 2),
+('Programação Funcional com Scala', 'Aula 3: Funções de Ordem Superior', 'Funções que recebem ou retornam outras funções.', 70, 'video', 3),
+('Programação Funcional com Scala', 'Aula 4: Coleções e Transformações', 'Map, flatMap e filter na prática.', 65, 'video', 4),
+
+-- Aulas para o Curso de Introdução ao C#
+('Introdução ao C#', 'Aula 1: A Plataforma .NET', 'O ecossistema de desenvolvimento da Microsoft.', 45, 'video', 1),
+('Introdução ao C#', 'Aula 2: Sintaxe Básica e Tipos de Dados', 'Fundamentos da linguagem C#.', 60, 'texto', 2),
+('Introdução ao C#', 'Aula 3: Programação Orientada a Objetos em C#', 'Classes, herança e interfaces.', 70, 'video', 3),
+('Introdução ao C#', 'Aula 4: LINQ - Consultas Integradas à Linguagem', 'Consultando coleções de forma declarativa.', 65, 'video', 4),
+
+-- Aulas para o Curso de Design Thinking para Inovação
+('Design Thinking para Inovação', 'Aula 1: O que é Design Thinking?', 'Uma abordagem para resolver problemas complexos.', 40, 'video', 1),
+('Design Thinking para Inovação', 'Aula 2: Imersão e Empatia', 'Entendendo profundamente o seu usuário.', 55, 'texto', 2),
+('Design Thinking para Inovação', 'Aula 3: Ideação e Brainstorming', 'Técnicas para gerar um grande volume de ideias.', 50, 'video', 3),
+('Design Thinking para Inovação', 'Aula 4: Prototipação e Teste', 'Tornando suas ideias tangíveis e validando-as.', 60, 'video', 4),
+
+-- Aulas para o Curso de Internet das Coisas (IoT)
+('Internet das Coisas (IoT)', 'Aula 1: A Revolução da IoT', 'Conectando o mundo físico ao digital.', 40, 'video', 1),
+('Internet das Coisas (IoT)', 'Aula 2: Hardware para IoT (Arduino, Raspberry Pi)', 'Plataformas para prototipação.', 60, 'texto', 2),
+('Internet das Coisas (IoT)', 'Aula 3: Protocolos de Comunicação (MQTT, HTTP)', 'Como os dispositivos se comunicam.', 55, 'video', 3),
+('Internet das Coisas (IoT)', 'Aula 4: Construindo seu Primeiro Projeto IoT', 'Um exemplo prático de ponta a ponta.', 75, 'video', 4),
+
+-- Aulas para o Curso de Automação com Shell Script
+('Automação com Shell Script', 'Aula 1: Introdução ao Shell', 'Comandos básicos para interagir com o sistema.', 50, 'video', 1),
+('Automação com Shell Script', 'Aula 2: Escrevendo seu Primeiro Script', 'Variáveis, entrada e saída.', 60, 'texto', 2),
+('Automação com Shell Script', 'Aula 3: Estruturas de Controle', 'Condicionais (if) e laços (for, while).', 65, 'video', 3),
+('Automação com Shell Script', 'Aula 4: Automatizando Tarefas do Dia a Dia', 'Exemplos práticos de automação.', 55, 'video', 4),
+
+-- Aulas para o Curso de Linguagem Go para Backend
+('Linguagem Go para Backend', 'Aula 1: Por que Go?', 'Simplicidade, performance e concorrência.', 45, 'video', 1),
+('Linguagem Go para Backend', 'Aula 2: Sintaxe e Tipos de Dados', 'A base da linguagem Go.', 60, 'texto', 2),
+('Linguagem Go para Backend', 'Aula 3: Concorrência com Goroutines e Channels', 'O grande diferencial do Go.', 75, 'video', 3),
+('Linguagem Go para Backend', 'Aula 4: Construindo uma API REST com Go', 'Um projeto prático de backend.', 80, 'video', 4),
+
+-- Aulas para o Curso de Sistemas Operacionais na Prática
+('Sistemas Operacionais na Prática', 'Aula 1: O que é um Sistema Operacional?', 'O gerente dos recursos do seu computador.', 40, 'video', 1),
+('Sistemas Operacionais na Prática', 'Aula 2: Gerenciamento de Processos e Threads', 'Como o SO executa múltiplos programas.', 60, 'texto', 2),
+('Sistemas Operacionais na Prática', 'Aula 3: Gerenciamento de Memória', 'Memória Virtual, Paginação e Segmentação.', 65, 'video', 3),
+('Sistemas Operacionais na Prática', 'Aula 4: Sistemas de Arquivos', 'Como os dados são organizados no disco.', 50, 'video', 4);
 
-('Desenvolvimento Web Completo',  'Aula 3: Estrutura Básica do HTML', 'Aprenda sobre a estrutura básica de um documento HTML.',   40, 'video', 3),
-('Desenvolvimento Web Completo',  'Aula 4: Estilizando com CSS',      'Introdução ao CSS e como aplicá-lo ao HTML.',              35, 'texto', 4),
-
-('Desenvolvimento Web Completo',   'Aula 5: Introdução ao JavaScript', 'Conceitos fundamentais do JavaScript.',        50, 'video', 5),
-('Desenvolvimento Web Completo',   'Aula 6: Manipulando o DOM',        'Como interagir com o DOM usando JavaScript.',  45, 'texto', 6),
-
--- Aulas para Módulos de Introdução ao Desenvolvimento Mobile
-('Introdução ao Desenvolvimento Mobile',    'Aula 1: O que é Desenvolvimento Mobile?',  'Fundamentos do desenvolvimento para dispositivos móveis.',         30, 'video', 1),
-('Introdução ao Desenvolvimento Mobile',    'Aula 2: Principais Plataformas',           'Comparação entre as principais plataformas de desenvolvimento.',   25, 'texto', 2),
-
-('Introdução ao Desenvolvimento Mobile',  'Aula 3: Configuração do Ambiente Android', 'Como configurar o ambiente de desenvolvimento para Android.',  40, 'video', 3),
-('Introdução ao Desenvolvimento Mobile',  'Aula 4: Primeira Aplicação Android',       'Desenvolvendo sua primeira aplicação Android.',                35, 'texto', 4),
-
-('Introdução ao Desenvolvimento Mobile',  'Aula 5: Introdução ao Xcode',              'Fundamentos do uso do Xcode para desenvolvimento iOS.',    50, 'video', 5),
-('Introdução ao Desenvolvimento Mobile',  'Aula 6: Criando uma Aplicação iOS',        'Passo a passo para criar uma aplicação simples em iOS.',   45, 'texto', 6),
-
--- Aulas para Módulos de Data Science com Python
-('Data Science com Python',   'Aula 1: O que é Ciência de Dados?',        'Conceitos básicos sobre ciência de dados e suas aplicações.',  30, 'video', 1),
-('Data Science com Python',   'Aula 2: Ferramentas de Ciência de Dados',  'Principais ferramentas utilizadas na ciência de dados.',       25, 'texto', 2),
-
-('Data Science com Python', 'Aula 3: Introdução ao Pandas', 'Fundamentos da biblioteca Pandas.',    40, 'video', 3),
-('Data Science com Python', 'Aula 4: Limpeza de Dados',     'Como limpar dados utilizando Pandas.', 35, 'texto', 4),
-
-('Data Science com Python',    'Aula 5: Criando Gráficos Simples', 'Aprenda a criar gráficos simples com Matplotlib.', 50, 'video', 5),
-('Data Science com Python',    'Aula 6: Gráficos Avançados',       'Explorando gráficos avançados e personalização.',  45, 'texto', 6),
-
--- Aulas para Módulos de Fundamentos de Inteligência Artificial
-('Fundamentos de Inteligência Artificial', 'Aula 1: História da IA',   'Breve história da inteligência artificial.',   30, 'video', 1),
-('Fundamentos de Inteligência Artificial', 'Aula 2: Aplicações da IA', 'Casos de uso da inteligência artificial.',     25, 'texto', 2),
-
-('Fundamentos de Inteligência Artificial',  'Aula 3: O que é Aprendizado de Máquina?',  'Conceitos básicos do aprendizado de máquina.',                 40, 'video', 3),
-('Fundamentos de Inteligência Artificial',  'Aula 4: Tipos de Algoritmos',              'Entendendo os diferentes tipos de algoritmos de aprendizado.', 35, 'texto', 4),
-
-('Fundamentos de Inteligência Artificial',   'Aula 5: Introdução às Redes Neurais',      'Conceitos fundamentais sobre redes neurais.',              50, 'video', 5),
-('Fundamentos de Inteligência Artificial',   'Aula 6: Como Funcionam as Redes Neurais',  'Explorando o funcionamento interno das redes neurais.',    45, 'texto', 6),
-
--- Aulas para Módulos de DevOps para Iniciantes
-('DevOps para Iniciantes',   'Aula 1: O que é DevOps?',  'Conceitos e princípios de DevOps.',    30, 'video', 1),
-('DevOps para Iniciantes',   'Aula 2: Cultura DevOps',   'A importância da cultura no DevOps.',  25, 'texto', 2),
-
-('DevOps para Iniciantes', 'Aula 3: Ferramentas de Automação', 'Principais ferramentas para automação de infraestrutura.', 40, 'video', 3),
-('DevOps para Iniciantes', 'Aula 4: Implantação Contínua',     'Conceitos de implantação contínua.',                       35, 'texto', 4),
-
-('DevOps para Iniciantes', 'Aula 5: Introdução ao Monitoramento',  'Fundamentos do monitoramento em DevOps.',      50, 'video', 5),
-('DevOps para Iniciantes', 'Aula 6: Ferramentas de Monitoramento', 'Ferramentas populares para monitoramento.',    45, 'texto', 6),
-
--- Aulas para Módulos de UX/UI Design na Prática
-('UX/UI Design na Prática',    'Aula 1: Teoria das Cores', 'Introdução à teoria das cores no design.',             30, 'video', 1),
-('UX/UI Design na Prática',    'Aula 2: Tipografia',       'Fundamentos de tipografia no design de interfaces.',   25, 'texto', 2),
-
-('UX/UI Design na Prática',   'Aula 3: Introdução ao Figma',  'Como usar o Figma para design de interfaces.', 40, 'video', 3),
-('UX/UI Design na Prática',   'Aula 4: Prototipagem',         'Criando protótipos no Figma.',                 35, 'texto', 4),
-
-('UX/UI Design na Prática',   'Aula 5: O que é Teste de Usabilidade?',    'Conceitos e importância dos testes de usabilidade.',   50, 'video', 5),
-('UX/UI Design na Prática',   'Aula 6: Métodos de Teste',                 'Explorando métodos de testes de usabilidade.',         45, 'texto', 6),
-
--- Aulas para Módulos de Segurança da Informação
-('Segurança da Informação',  'Aula 1: Importância da Segurança da Informação',   'Por que a segurança da informação é essencial?',       30, 'video', 1),
-('Segurança da Informação',  'Aula 2: Princípios da Segurança',                  'Princípios fundamentais de segurança da informação.',  25, 'texto', 2),
-
-('Segurança da Informação',    'Aula 3: Phishing', 'O que é phishing e como se proteger.',     40, 'video',    3),
-('Segurança da Informação',    'Aula 4: Malware',  'Tipos de malware e suas consequências.',   35, 'texto',    4),
-
-('Segurança da Informação',   'Aula 5: Criptografia', 'Conceitos básicos sobre criptografia.',                50, 'video', 5),
-('Segurança da Informação',   'Aula 6: Autenticação', 'Métodos de autenticação em segurança da informação.',  45, 'texto', 6),
-
--- Aulas para Módulos de Banco de Dados com SQL
-('Banco de Dados com SQL',    'Aula 1: O que é SQL?',         'Conceitos básicos sobre SQL.', 30, 'video', 1),
-('Banco de Dados com SQL',    'Aula 2: Instalando o MySQL',   'Como instalar o MySQL.',       25, 'texto', 2),
-
-('Banco de Dados com SQL', 'Aula 3: SELECT e WHERE',   'Como usar SELECT e WHERE em consultas SQL.',   40, 'video', 3),
-('Banco de Dados com SQL', 'Aula 4: ORDER BY e LIMIT', 'Organizando resultados com ORDER BY e LIMIT.', 35, 'texto', 4),
-
-('Banco de Dados com SQL', 'Aula 5: INNER JOIN',   'Entendendo INNER JOIN em SQL.',            50, 'video', 5),
-('Banco de Dados com SQL', 'Aula 6: OUTER JOIN',   'Diferença entre INNER JOIN e OUTER JOIN.', 45, 'texto', 6),
-
--- Aulas para Módulos de Engenharia de Software
-('Engenharia de Software',   'Aula 1: O que é o Ciclo de Vida do Software?', 'Fundamentos do ciclo de vida do software.',                    30, 'video', 1),
-('Engenharia de Software',   'Aula 2: Modelos de Desenvolvimento',           'Comparação entre os principais modelos de desenvolvimento.',   25, 'texto', 2),
-
-('Engenharia de Software',  'Aula 3: O que são Metodologias Ágeis?',    'Conceitos básicos sobre metodologias ágeis.',  40, 'video', 3),
-('Engenharia de Software',  'Aula 4: Scrum',                            'Como funciona o Scrum na prática.',            35, 'texto', 4),
-
--- Aulas para Python para Automação
-('Python para Automação', 'Aula 1: Introdução ao Python', 'Fundamentos da linguagem Python.', 40, 'video', 1),
-
-('Python para Automação', 'Aula 2: Automação de Tarefas', 'Automatize tarefas repetitivas utilizando Python.', 45, 'texto', 2),
-
-('Python para Automação', 'Aula 3: Manipulação de Arquivos', 'Como ler, escrever e modificar arquivos com Python.', 35, 'video', 3),
-
--- Aulas para Introdução ao Power BI
-('Introdução ao Power BI', 'Aula 1: Fundamentos do Power BI', 'Introdução às ferramentas e interface do Power BI.', 30, 'video', 1),
-
-('Introdução ao Power BI', 'Aula 2: Criação de Relatórios', 'Aprenda a criar relatórios básicos no Power BI.', 35, 'texto', 2),
-
-('Introdução ao Power BI', 'Aula 3: Dashboards Interativos', 'Como criar dashboards dinâmicos e interativos.', 40, 'video', 3),
-
--- Aulas para Kubernetes na Prática
-('Kubernetes na Prática', 'Aula 1: Introdução ao Kubernetes', 'Fundamentos do Kubernetes e arquitetura de contêineres.', 45, 'video', 1),
-
-('Kubernetes na Prática', 'Aula 2: Gerenciamento de Pods', 'Como gerenciar Pods e Deployments no Kubernetes.', 50, 'texto', 2),
-
-('Kubernetes na Prática', 'Aula 3: Escalabilidade e Monitoramento', 'Escalando aplicações e monitorando o Kubernetes.', 55, 'video', 3),
-
--- Aulas para Introdução ao Ruby on Rails
-('Introdução ao Ruby on Rails', 'Aula 1: Fundamentos do Ruby on Rails', 'Introdução ao framework Ruby on Rails e sua estrutura.', 40, 'video', 1),
-
-('Introdução ao Ruby on Rails', 'Aula 2: Modelos, Visões e Controladores', 'MVC no Ruby on Rails: Como organizar suas aplicações.', 45, 'texto', 2),
-
-('Introdução ao Ruby on Rails', 'Aula 3: Construção de uma Aplicação Web', 'Desenvolvendo uma aplicação web completa com Rails.', 50, 'video', 3),
-
--- Aulas para JavaScript Avançado
-('JavaScript Avançado', 'Aula 1: Funções Avançadas e Closures', 'Conceitos avançados de funções e closures no JavaScript.', 40, 'video', 1),
-
-('JavaScript Avançado', 'Aula 2: Manipulação Assíncrona com Promises', 'Como trabalhar com Promises e funções assíncronas.', 45, 'texto', 2),
-
-('JavaScript Avançado', 'Aula 3: Frameworks JavaScript', 'Introdução aos principais frameworks JavaScript (React, Vue, etc.).', 50, 'video', 3),
-
--- Aulas para Construção de APIs REST
-('Construção de APIs REST', 'Aula 1: Introdução a APIs REST', 'Conceitos fundamentais de APIs RESTful e HTTP.', 40, 'video', 1),
-
-('Construção de APIs REST', 'Aula 2: Autenticação e Autorização', 'Implementando autenticação e autorização em APIs REST.', 45, 'texto', 2),
-
-('Construção de APIs REST', 'Aula 3: Desenvolvimento e Testes de APIs', 'Desenvolvendo e testando APIs RESTful com ferramentas modernas.', 50, 'video', 3),
-
-('Construção de APIs REST', 'Aula 4: Deploy e Escalabilidade', 'Como realizar o deploy e escalar suas APIs.', 55, 'texto', 4),
-
--- Aulas para Angular Básico
-('Angular Básico', 'Aula 1: Introdução ao Angular', 'Fundamentos do framework Angular para aplicações web.', 40, 'video', 1),
-
-('Angular Básico', 'Aula 2: Componentes e Templates', 'Como criar e usar componentes e templates no Angular.', 45, 'texto', 2),
-
-('Angular Básico', 'Aula 3: Diretivas e Serviços', 'Introdução a diretivas e serviços no Angular.', 50, 'video', 3),
-
--- Aulas para React Native para Mobile
-('React Native para Mobile', 'Aula 1: Introdução ao React Native', 'Fundamentos do React Native e criação de aplicações móveis.', 40, 'video', 1),
-
-('React Native para Mobile', 'Aula 2: Componentes e Navegação', 'Trabalhando com componentes e navegação em React Native.', 45, 'texto', 2),
-
-('React Native para Mobile', 'Aula 3: Acesso a APIs e Armazenamento Local', 'Integrando APIs e usando armazenamento local em apps móveis.', 50, 'video', 3),
-
-('React Native para Mobile', 'Aula 4: Publicação no Google Play e App Store', 'Como publicar aplicativos móveis em lojas de apps.', 55, 'texto', 4),
-
--- Aulas para Big Data com Hadoop
-('Big Data com Hadoop', 'Aula 1: Introdução ao Big Data e Hadoop', 'Conceitos de Big Data e a arquitetura do Hadoop.', 45, 'video', 1),
-
-('Big Data com Hadoop', 'Aula 2: Processamento de Dados com MapReduce', 'Como utilizar MapReduce para processar dados no Hadoop.', 50, 'texto', 2),
-
-('Big Data com Hadoop', 'Aula 3: Armazenamento e Análise de Dados', 'Trabalhando com HDFS e realizando análises de dados em larga escala.', 55, 'video', 3),
-
--- Aulas para Teste de Software na Prática
-('Teste de Software na Prática', 'Aula 1: Introdução aos Testes de Software', 'Fundamentos do teste de software e a importância dos testes.', 40, 'video', 1),
-('Teste de Software na Prática', 'Aula 2: Testes Manuais', 'Como realizar testes manuais em diferentes tipos de software.', 45, 'texto', 2),
-('Teste de Software na Prática', 'Aula 3: Testes Automatizados', 'Introdução aos testes automatizados usando ferramentas populares.', 50, 'video', 3),
-
--- Aulas para Game Development com Unreal Engine
-('Game Development com Unreal Engine', 'Aula 1: Introdução ao Unreal Engine', 'Fundamentos da Unreal Engine e criação do seu primeiro jogo.', 45, 'video', 1),
-
-('Game Development com Unreal Engine', 'Aula 2: Criação de Personagens e Animações', 'Como criar e animar personagens dentro da Unreal Engine.', 50, 'texto', 2),
-
-('Game Development com Unreal Engine', 'Aula 3: Programação de Jogo com Blueprints', 'Aprenda a programar jogos utilizando Blueprints na Unreal Engine.', 55, 'video', 3),
-
-('Game Development com Unreal Engine', 'Aula 4: Desenvolvimento de IA para Jogos', 'Como implementar inteligência artificial para jogos.', 60, 'texto', 4),
-
-('Game Development com Unreal Engine', 'Aula 5: Otimizando e Publicando seu Jogo', 'Técnicas de otimização e publicação de jogos na Unreal Engine.', 65, 'video', 5),
-
--- Aulas para Introdução ao TypeScript
-('Introdução ao TypeScript', 'Aula 1: Fundamentos do TypeScript', 'Entendendo os tipos e a sintaxe básica do TypeScript.', 40, 'video', 1),
-
-('Introdução ao TypeScript', 'Aula 2: Tipos Avançados e Generics', 'Aprofundando-se em tipos avançados e generics no TypeScript.', 45, 'texto', 2),
-
-('Introdução ao TypeScript', 'Aula 3: Integrando TypeScript com JavaScript', 'Como integrar TypeScript em projetos JavaScript existentes.', 50, 'video', 3),
-
--- Aulas para Gestão de Produtos Digitais
-('Gestão de Produtos Digitais', 'Aula 1: Introdução à Gestão de Produtos Digitais', 'Conceitos fundamentais de gestão de produtos no ambiente digital.', 40, 'video', 1),
-
-('Gestão de Produtos Digitais', 'Aula 2: Metodologias Ágeis', 'Como utilizar metodologias ágeis como Scrum e Kanban na gestão de produtos.', 45, 'texto', 2),
-
-('Gestão de Produtos Digitais', 'Aula 3: Ferramentas de Gestão de Produtos', 'Ferramentas essenciais para o gerenciamento de produtos digitais.', 50, 'video', 3),
-
--- Aulas para Noções de Docker
-('Noções de Docker', 'Aula 1: Introdução ao Docker', 'Fundamentos do Docker e como funciona o conceito de contêineres.', 40, 'video', 1),
-
-('Noções de Docker', 'Aula 2: Criando e Gerenciando Contêineres', 'Como criar, gerenciar e rodar contêineres Docker.', 45, 'texto', 2),
-
-('Noções de Docker', 'Aula 3: Docker Compose e Orquestração', 'Como usar o Docker Compose para orquestrar contêineres.', 50, 'video', 3),
-
--- Aulas para Desenvolvimento Backend com Node.js
-('Desenvolvimento Backend com Node.js', 'Aula 1: Fundamentos do Node.js', 'Introdução ao Node.js e como configurar o ambiente de desenvolvimento.', 45, 'video', 1),
-
-('Desenvolvimento Backend com Node.js', 'Aula 2: Criação de Servidores com Express.js', 'Como criar servidores robustos utilizando Express.js no Node.js.', 50, 'texto', 2),
-
-('Desenvolvimento Backend com Node.js', 'Aula 3: Trabalhando com Banco de Dados', 'Como integrar bancos de dados, como MongoDB, com Node.js.', 55, 'video', 3),
-
-('Desenvolvimento Backend com Node.js', 'Aula 4: Autenticação e Segurança', 'Implementando autenticação e segurança em APIs com Node.js.', 60, 'texto', 4),
-
-('Desenvolvimento Backend com Node.js', 'Aula 5: Deploy de Aplicações Backend', 'Como realizar o deploy de aplicações backend com Node.js.', 65, 'video', 5),
-
--- Aulas para Django para Web
-('Django para Web', 'Aula 1: Introdução ao Django', 'Fundamentos do framework Django e configuração inicial.', 40, 'video', 1),
-
-('Django para Web', 'Aula 2: Trabalhando com Modelos', 'Como criar e gerenciar modelos no Django.', 45, 'texto', 2),
-
-('Django para Web', 'Aula 3: Views e Templates', 'Como criar views dinâmicas e utilizar templates no Django.', 50, 'video', 3),
-
-('Django para Web', 'Aula 4: Formulários e Validação', 'Criando e validando formulários com Django.', 55, 'texto', 4),
-
-('Django para Web', 'Aula 5: Deploy e Segurança', 'Como fazer deploy de aplicativos Django e garantir a segurança.', 60, 'video', 5),
-
--- Aulas para Flutter na Prática
-('Flutter na Prática', 'Aula 1: Introdução ao Flutter', 'Fundamentos do Flutter e configuração de ambiente para apps móveis.', 40, 'video', 1),
-
-('Flutter na Prática', 'Aula 2: Widgets e Layouts', 'Como trabalhar com widgets e criar layouts no Flutter.', 45, 'texto', 2),
-
-('Flutter na Prática', 'Aula 3: Gerenciamento de Estado', 'Como gerenciar o estado de um aplicativo Flutter.', 50, 'video', 3),
-
-('Flutter na Prática', 'Aula 4: Acesso a APIs e Armazenamento Local', 'Integrando APIs e utilizando armazenamento local no Flutter.', 55, 'texto', 4),
-
-('Flutter na Prática', 'Aula 5: Publicação de Apps Flutter', 'Como publicar aplicativos Flutter nas lojas de apps.', 60, 'video', 5),
-
--- Aulas para ElasticSearch Básico
-('ElasticSearch Básico', 'Aula 1: Introdução ao ElasticSearch', 'Fundamentos do ElasticSearch e sua configuração inicial.', 40, 'video', 1),
-
-('ElasticSearch Básico', 'Aula 2: Índices e Documentos', 'Como criar e gerenciar índices e documentos no ElasticSearch.', 45, 'texto', 2),
-
-('ElasticSearch Básico', 'Aula 3: Consultas e Busca', 'Como realizar consultas e buscas no ElasticSearch.', 50, 'video', 3),
-
--- Aulas para Inteligência Artificial com TensorFlow
-('Inteligência Artificial com TensorFlow', 'Aula 1: Introdução ao TensorFlow', 'Fundamentos do TensorFlow e configuração do ambiente de IA.', 45, 'video', 1),
-
-('Inteligência Artificial com TensorFlow', 'Aula 2: Redes Neurais com TensorFlow', 'Como criar e treinar redes neurais com TensorFlow.', 50, 'texto', 2),
-
-('Inteligência Artificial com TensorFlow', 'Aula 3: Deep Learning e Transfer Learning', 'Técnicas avançadas de Deep Learning e Transfer Learning no TensorFlow.', 55, 'video', 3),
-
-('Inteligência Artificial com TensorFlow', 'Aula 4: Modelos de Produção com TensorFlow', 'Como levar modelos de IA para produção com TensorFlow.', 60, 'texto', 4),
-
--- Aulas para Introdução à Ciência de Dados
-('Introdução à Ciência de Dados', 'Aula 1: Fundamentos da Ciência de Dados', 'Compreendendo os principais conceitos de Ciência de Dados.', 40, 'video', 1),
-
-('Introdução à Ciência de Dados', 'Aula 2: Exploração de Dados e Pré-processamento', 'Como explorar e preparar dados para análise e modelagem.', 45, 'texto', 2),
-
-('Introdução à Ciência de Dados', 'Aula 3: Introdução ao Machine Learning', 'Fundamentos de Machine Learning e como implementar modelos simples.', 50, 'video', 3),
-
-('Introdução à Ciência de Dados', 'Aula 4: Visualização de Dados', 'Como utilizar ferramentas para visualizar dados de forma eficaz.', 55, 'texto', 4),
-
--- Aulas para Marketing Digital para Empresas
-('Marketing Digital para Empresas', 'Aula 1: Introdução ao Marketing Digital', 'Fundamentos e estratégias iniciais de marketing digital para empresas.', 40, 'video', 1),
-
-('Marketing Digital para Empresas', 'Aula 2: SEO e SEM', 'Estratégias de otimização para motores de busca (SEO) e marketing de busca (SEM).', 45, 'texto', 2),
-
-('Marketing Digital para Empresas', 'Aula 3: Redes Sociais e Marketing de Conteúdo', 'Como utilizar redes sociais e criar conteúdo estratégico para engajamento.', 50, 'video', 3),
-
-('Marketing Digital para Empresas', 'Aula 4: E-mail Marketing e Automação', 'Como criar campanhas de e-mail marketing e automatizar processos de comunicação.', 55, 'texto', 4);
 
 INSERT INTO Empresa (nome, localizacao, setor, descricao, porte, sigla) VALUES
 ('Tech Solutions',          'São Paulo, SP',        'Tecnologia da Informação', 'Consultoria em TI e desenvolvimento de software', 'Médio', 'TS'),
@@ -1953,22 +2014,45 @@ INSERT INTO Vaga (id, nome, descricao, empresa, nivel, modalidade, salario, temp
 (29,    'Coordenador de Desenv. de Software',     'Supervisionar equipes de desenvolvimento.',                                        'Software Dynamics',    'Senior',       'Presencial',   'R$10.800 - R$12.800', 11,  '2024-11-12'),
 (30,    'Estágio em IoT',                         'Desenvolver soluções para dispositivos conectados.',                               'Innovatech',           'Estagiário',   'Híbrido',      'R$1.000 - R$1.400',   50,  '2025-03-01');
 
--- Inserção controlada na tabela Estuda - cada aluno se inscreve em 5-8 cursos aleatórios
+
+-- Script para distribuir os alunos entre todos os cursos disponíveis
 INSERT INTO Estuda (cpf_aluno, nome_curso, data_conclusao, nota)
-SELECT DISTINCT
-    A.cpf,
-    C.nome,
-    '2021-01-01'::DATE + (FLOOR(RANDOM() * ('2024-12-31'::DATE - '2021-01-01'::DATE + 1)))::INTEGER AS data_conclusao,
-    ROUND((5 + RANDOM() * 5)::NUMERIC, 1) AS nota -- Nota entre 5.0 e 10.0 com uma casa decimal
-FROM
-    Aluno A
-    CROSS JOIN LATERAL (
-        SELECT nome
-        FROM Curso
-        ORDER BY RANDOM()
-        LIMIT (5 + FLOOR(RANDOM() * 4))::INTEGER -- Cada aluno estuda entre 5 e 8 cursos
-    ) C
-ON CONFLICT (cpf_aluno, nome_curso) DO NOTHING; -- Ignora duplicatas caso existam
+WITH alunos_num_cursos AS (
+    SELECT 
+        cpf,
+        -- Determina um número aleatório de cursos para cada aluno (entre 5 e 8)
+        5 + FLOOR(RANDOM() * 4)::INTEGER AS num_cursos
+    FROM 
+        Aluno
+),
+cursos_por_aluno AS (
+    SELECT 
+        a.cpf,
+        c.nome AS nome_curso,
+        -- Gera uma data de conclusão aleatória entre 2021-01-01 e 2024-12-31
+        '2021-01-01'::DATE + (FLOOR(RANDOM() * ('2024-12-31'::DATE - '2021-01-01'::DATE + 1)))::INTEGER AS data_conclusao,
+        -- Gera uma nota aleatória entre 5.0 e 10.0 com uma casa decimal
+        ROUND((5 + RANDOM() * 5)::NUMERIC, 1) AS nota,
+        -- Gera uma ordem aleatória diferente para cada aluno
+        ROW_NUMBER() OVER (
+            PARTITION BY a.cpf 
+            ORDER BY (RANDOM() * LENGTH(c.nome) * LENGTH(a.cpf))
+        ) AS rank_curso
+    FROM 
+        alunos_num_cursos a
+    CROSS JOIN 
+        Curso c
+)
+SELECT 
+    cpf,
+    nome_curso,
+    data_conclusao,
+    nota
+FROM 
+    cursos_por_aluno cpa
+WHERE 
+    rank_curso <= (SELECT num_cursos FROM alunos_num_cursos WHERE cpf = cpa.cpf);
+
 
 INSERT INTO Ministra (email_professor, nome_curso) VALUES
 ('marcossilva@gmail.com',           'Desenvolvimento Web Completo'),
@@ -2023,20 +2107,41 @@ INSERT INTO Ministra (email_professor, nome_curso) VALUES
 ('patriciaoliveira@hotmail.com',    'Linguagem Go para Backend'),
 ('robertopereira@gmail.com',        'Sistemas Operacionais na Prática');
 
--- Inserção controlada na tabela Se_Inscreve - cada aluno se inscreve em 3-10 vagas aleatórias
+
+
+-- Script para distribuir os alunos entre todas as vagas
 INSERT INTO Se_Inscreve (cpf_aluno, id_vaga)
-SELECT DISTINCT
-    A.cpf,
-    V.id
-FROM
-    Aluno A
-    CROSS JOIN LATERAL (
-        SELECT id
-        FROM Vaga
-        ORDER BY RANDOM()
-        LIMIT (3 + FLOOR(RANDOM() * 8))::INTEGER -- Cada aluno se inscreve em 3 a 10 vagas
-    ) V
-ON CONFLICT (cpf_aluno, id_vaga) DO NOTHING; -- Ignora duplicatas caso existam
+WITH alunos_num_vagas AS (
+    SELECT 
+        cpf,
+        -- Determina um número aleatório de vagas para cada aluno (entre 5 e 10)
+        5 + FLOOR(RANDOM() * 6)::INTEGER AS num_vagas
+    FROM 
+        Aluno
+),
+vagas_por_aluno AS (
+    SELECT 
+        a.cpf,
+        v.id AS id_vaga,
+        a.num_vagas,
+        -- Gera uma ordem aleatória diferente para cada aluno
+        ROW_NUMBER() OVER (
+            PARTITION BY a.cpf 
+            ORDER BY (RANDOM() * v.id * LENGTH(a.cpf))
+        ) AS rank_vaga
+    FROM 
+        alunos_num_vagas a
+    CROSS JOIN 
+        Vaga v
+)
+SELECT 
+    cpf,
+    id_vaga
+FROM 
+    vagas_por_aluno
+WHERE 
+    rank_vaga <= num_vagas;
+
 
 INSERT INTO Habilidade_Vaga (id_vaga, id_habilidade) VALUES
 (1,     1),
@@ -2077,27 +2182,56 @@ INSERT INTO Habilidade_Vaga (id_vaga, id_habilidade) VALUES
 (30,    50),
 (30,    48);
 
--- Script para popular a tabela Assiste
--- Insere registros de aulas assistidas baseado nos cursos que cada aluno está estudando
+-- Este script PL/pgSQL popula a tabela 'Assiste' com base nos cursos
+-- em que os alunos estão matriculados na tabela 'Estuda'.
+-- Ele simula o progresso do aluno assistindo a um número aleatório de aulas
+-- para cada curso em que está inscrito.
 
-INSERT INTO Assiste (cpf_aluno, nome_aula, data_conclusao)
-SELECT DISTINCT
-    e.cpf_aluno,
-    a.nome,
-    -- Gera data de conclusão aleatória entre a data de início dos estudos e a data de conclusão do curso
-    (e.data_conclusao - INTERVAL '90 days' +
-     (RANDOM() * INTERVAL '90 days'))::DATE as data_conclusao
-FROM
-    Estuda e
-    INNER JOIN Aula a ON e.nome_curso = a.nome_curso
-    -- Simula que cada aluno assiste entre 30% e 90% das aulas de cada curso
-    CROSS JOIN LATERAL (
-        SELECT CASE
-            WHEN RANDOM() < (0.3 + RANDOM() * 0.6) THEN 1
-            ELSE 0
-        END as deve_assistir
-    ) simulacao
-WHERE
-    simulacao.deve_assistir = 1
-    -- Garante que a data de conclusão da aula seja anterior ou igual à conclusão do curso
-    AND (e.data_conclusao - INTERVAL '90 days' + (RANDOM() * INTERVAL '90 days'))::DATE <= e.data_conclusao;
+DO $$
+DECLARE
+    -- Variável para armazenar cada registro da tabela 'Estuda' (matrícula)
+    rec_estuda RECORD;
+    -- Variável para armazenar cada registro da tabela 'Aula'
+    rec_aula RECORD;
+    -- Variável para contar o total de aulas em um curso
+    total_aulas INTEGER;
+    -- Variável para definir o número de aulas que o aluno terá assistido
+    aulas_a_inserir INTEGER;
+BEGIN
+
+    -- Loop principal para iterar sobre cada registro da tabela 'Estuda'
+    FOR rec_estuda IN
+        SELECT cpf_aluno, nome_curso FROM Estuda
+    LOOP
+        -- Para cada matrícula, conta o número total de aulas do curso correspondente
+        SELECT count(*) INTO total_aulas FROM Aula WHERE nome_curso = rec_estuda.nome_curso;
+
+        -- Se o curso tiver aulas (total_aulas > 0), prossegue
+        IF total_aulas > 0 THEN
+            -- Define um número aleatório de aulas que serão marcadas como assistidas
+            -- O valor será entre 1 e o número total de aulas do curso
+            aulas_a_inserir := floor(random() * total_aulas) + 1;
+
+            -- Loop secundário para buscar e inserir as aulas que serão marcadas como assistidas
+            -- A busca é ordenada pela 'ordem_dentro_modulo' para simular um progresso linear
+            -- e limitada pelo número aleatório gerado ('aulas_a_inserir')
+            FOR rec_aula IN
+                SELECT nome FROM Aula
+                WHERE nome_curso = rec_estuda.nome_curso
+                ORDER BY ordem_dentro_modulo
+                LIMIT aulas_a_inserir
+            LOOP
+                -- Tenta inserir o registro na tabela 'Assiste'
+                INSERT INTO Assiste (cpf_aluno, nome_aula, data_conclusao)
+                VALUES (
+                    rec_estuda.cpf_aluno,
+                    rec_aula.nome,
+                    -- Define uma data de conclusão aleatória dentro dos últimos 365 dias
+                    CURRENT_DATE - (floor(random() * 365) + 1)::integer
+                )
+                -- Se o par (cpf_aluno, nome_aula) já existir, ignora a inserção para evitar erros de chave primária duplicada
+                ON CONFLICT (cpf_aluno, nome_aula) DO NOTHING;
+            END LOOP;
+        END IF;
+    END LOOP;
+END $$;
