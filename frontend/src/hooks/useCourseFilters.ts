@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Course } from '@/data/mockData'
 import { getCourses, type CourseFilters } from '@/services/courseService'
 
@@ -7,19 +7,24 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalCount, setTotalCount] = useState(0)
 
-  // filtros
+  // Refs para controle de requisições
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const isInitialLoad = useRef(true)
+
+  // Filtros
   const [selectedCategory, setSelectedCategory] = useState("Categoria")
   const [selectedLevel, setSelectedLevel] = useState("Nível")
   const [selectedAccess, setSelectedAccess] = useState("Acesso")
   const [sortBy, setSortBy] = useState("Ordenação")
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
 
-  // Busca cursos do backend sempre que filtros mudam
-  const fetchCourses = useCallback(async () => {
+  // Função para buscar cursos
+  const fetchCourses = useCallback(async (signal?: AbortSignal) => {
     setLoading(true)
     setError(null)
+
     try {
       const data = await getCourses({
         search: searchTerm,
@@ -27,27 +32,79 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
         level: selectedLevel,
         access: selectedAccess,
         sortBy,
-      })
-      setCourses(data.cursos)
-      setTotalCount(data.total_cursos)
-      setCurrentPage(1) // volta para a primeira página sempre que filtra
+      }, signal)
+
+      // Só atualizar se a requisição não foi cancelada
+      if (!signal?.aborted) {
+        setCourses(data.cursos)
+        setCurrentPage(1) // Reset para primeira página
+      }
     } catch (err: any) {
-      setError(err.message || 'Erro ao carregar cursos')
-      setCourses([])
+      // Só mostrar erro se não foi cancelamento
+      if (!signal?.aborted && err.name !== 'AbortError') {
+        console.error('Erro ao buscar cursos:', err)
+        setError(err.message || 'Erro ao carregar cursos')
+        setCourses([])
+      }
     } finally {
-      setLoading(false)
+      // Só parar loading se não foi cancelada
+      if (!signal?.aborted) {
+        setLoading(false)
+      }
     }
   }, [searchTerm, selectedCategory, selectedLevel, selectedAccess, sortBy])
 
+  // Effect com debounce e controle de cancelamento
   useEffect(() => {
-    fetchCourses()
+    // Cancelar requisição anterior se existir
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    // Cancelar timeout anterior se existir
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current)
+    }
+
+    // Para o carregamento inicial, fazer requisição imediatamente
+    const delay = isInitialLoad.current ? 0 : 500
+
+    debounceTimeoutRef.current = setTimeout(() => {
+      const abortController = new AbortController()
+      abortControllerRef.current = abortController
+
+      fetchCourses(abortController.signal)
+      isInitialLoad.current = false
+    }, delay)
+
+    // Cleanup
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
   }, [fetchCourses])
+
+  // Cleanup quando component desmonta
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Paginação apenas no frontend
   const indexOfLastCourse = currentPage * coursesPerPage
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage
   const paginatedCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse)
-  const totalPages = Math.ceil(totalCount / coursesPerPage)
+  const totalPages = Math.ceil(courses.length / coursesPerPage)
 
   const clearAllFilters = () => {
     setSearchTerm("")
@@ -62,7 +119,7 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
     courses: paginatedCourses,
     loading,
     error,
-    totalCount: totalCount,
+    totalCount: courses.length,
     totalPages,
     currentPage,
     searchTerm,

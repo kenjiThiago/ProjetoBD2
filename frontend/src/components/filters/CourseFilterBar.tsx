@@ -15,7 +15,7 @@ interface FilterBarProps {
 
 const categories = ["Categoria", "Frontend", "Backend", "Data Science", "Mobile", "DevOps", "Design", "Cloud"]
 const levels = ["Nível", "Iniciante", "Intermediário", "Avançado"]
-const accessTypeOptions = ["Acesso", "Grátis", "Assinatura"]
+const accessTypeOptions = ["Acesso", "Grátis", "Pago"]
 const sortOptions = ["Ordenação", "Mais Recentes"]
 
 export default function FilterBar({
