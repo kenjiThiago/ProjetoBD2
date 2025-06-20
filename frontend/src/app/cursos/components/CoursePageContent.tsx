@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import { useSearchParams } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CoursesHero from '@/app/cursos/components/CoursesHero'
@@ -10,22 +9,16 @@ import FilterBar from '@/components/filters/CourseFilterBar'
 import CourseCard from '@/components/cards/CourseCard'
 import Pagination from '@/components/pagination/Pagination'
 import EmptyState from '@/components/states/CourseEmptyState'
-import { useSearch } from '@/hooks/useSearch'
 import { useCourseFilters } from '@/hooks/useCourseFilters'
 
-export default function CursosPageContent() {
+function CursosContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
   const coursesPerPage = 6
 
-  const searchParams = useSearchParams()
-  const urlSearchTerm = searchParams.get('search') || ''
-  const { globalSearchTerm, setGlobalSearchTerm } = useSearch()
-
-  // Custom hook para filtros
+  // Custom hook para filtros com URL sync (removido initialSearchTerm)
   const {
     courses,
-    loading,
     error,
     totalCount,
     totalPages,
@@ -42,16 +35,7 @@ export default function CursosPageContent() {
     setSortBy,
     setCurrentPage,
     clearAllFilters
-  } = useCourseFilters(urlSearchTerm || globalSearchTerm || '', coursesPerPage)
-
-  useEffect(() => {
-    if (urlSearchTerm) {
-      setSearchTerm(urlSearchTerm)
-      setGlobalSearchTerm(urlSearchTerm)
-    } else {
-      setSearchTerm("")
-    }
-  }, [urlSearchTerm, setGlobalSearchTerm, setSearchTerm])
+  } = useCourseFilters(coursesPerPage)
 
   // Event listeners para comunicação entre componentes
   useEffect(() => {
@@ -63,10 +47,7 @@ export default function CursosPageContent() {
     const handleViewModeChange = (e: any) => setViewMode(e.detail)
     const handleToggleFilters = () => setShowFilters(v => !v)
     const handlePageChange = (e: any) => setCurrentPage(e.detail)
-    const handleClearFilters = () => {
-      clearAllFilters()
-      setGlobalSearchTerm("")
-    }
+    const handleClearFilters = () => clearAllFilters()
 
     window.addEventListener('searchChange', handleSearchChange as EventListener)
     window.addEventListener('categoryChange', handleCategoryChange as EventListener)
@@ -89,44 +70,18 @@ export default function CursosPageContent() {
       window.removeEventListener('pageChange', handlePageChange as EventListener)
       window.removeEventListener('clearFilters', handleClearFilters)
     }
-  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedAccess, setSortBy, setCurrentPage, clearAllFilters, setGlobalSearchTerm])
+  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedAccess, setSortBy, setCurrentPage, clearAllFilters])
 
-  // Loading state
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-950">
-        <Header />
-        <main>
-          <CoursesHero
-            searchTerm={searchTerm}
-            totalCourses={totalCount}
-          />
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
-  // Error state
   if (error) {
     return (
       <div className="min-h-screen bg-gray-950">
         <Header />
         <main>
-          <CoursesHero
-            searchTerm={searchTerm}
-            totalCourses={0}
-          />
+          <CoursesHero searchTerm={searchTerm} totalCourses={0} />
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <p className="text-red-500 mb-4">Erro ao carregar cursos: {error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="btn-primary px-6 py-3"
-              >
+              <button onClick={() => window.location.reload()} className="btn-primary px-6 py-3">
                 Tentar Novamente
               </button>
             </div>
@@ -140,15 +95,8 @@ export default function CursosPageContent() {
   return (
     <div className="min-h-screen bg-gray-950">
       <Header />
-
       <main>
-        {/* Hero Section */}
-        <CoursesHero
-          searchTerm={searchTerm}
-          totalCourses={courses.length}
-        />
-
-        {/* Filters and Controls */}
+        <CoursesHero searchTerm={searchTerm} totalCourses={courses.length} />
         <FilterBar
           selectedCategory={selectedCategory}
           selectedLevel={selectedLevel}
@@ -158,8 +106,6 @@ export default function CursosPageContent() {
           showFilters={showFilters}
           filteredCount={totalCount}
         />
-
-        {/* Content */}
         <section id="content-area" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {totalCount > 0 ? (
@@ -175,16 +121,9 @@ export default function CursosPageContent() {
                   key={`${viewMode}-${currentPage}`}
                 >
                   {courses.map((course, index) => (
-                    <CourseCard
-                      key={index}
-                      index={index}
-                      course={course}
-                      layout={viewMode}
-                    />
+                    <CourseCard key={index} index={index} course={course} layout={viewMode} />
                   ))}
                 </motion.div>
-
-                {/* Pagination */}
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
@@ -194,16 +133,24 @@ export default function CursosPageContent() {
                 />
               </>
             ) : (
-                /* Empty State */
-                <EmptyState
-                  searchTerm={searchTerm}
-                />
-              )}
+              <EmptyState searchTerm={searchTerm} />
+            )}
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
+  )
+}
+
+export default function CursosPageContent() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    }>
+      <CursosContent />
+    </Suspense>
   )
 }

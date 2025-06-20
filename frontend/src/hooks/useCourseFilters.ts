@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Course } from '@/data/mockData'
-import { getCourses, type CourseFilters } from '@/services/courseService'
+import { getCourses } from '@/services/courseService'
+import { useUrlParams } from './useUrlParams'
+import { useSearch } from './useSearch'
 
-export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage: number = 6) {
+export function useCourseFilters(coursesPerPage: number = 6) {
   const [courses, setCourses] = useState<Course[]>([])
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -12,17 +13,39 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
   const abortControllerRef = useRef<AbortController | null>(null)
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isInitialLoad = useRef(true)
+  const isUpdatingFromUrl = useRef(false)
 
-  // Filtros
-  const [selectedCategory, setSelectedCategory] = useState("Categoria")
-  const [selectedLevel, setSelectedLevel] = useState("Nível")
-  const [selectedAccess, setSelectedAccess] = useState("Acesso")
-  const [sortBy, setSortBy] = useState("Ordenação")
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
+  // Hook para gerenciar URL params e search global
+  const { updateUrlParams, getUrlParam } = useUrlParams()
+  const { globalSearchTerm, setGlobalSearchTerm } = useSearch()
+
+  // Inicializar filtros a partir da URL
+  const [selectedCategory, setSelectedCategory] = useState(() =>
+    getUrlParam('category', 'Categoria')
+  )
+  const [selectedLevel, setSelectedLevel] = useState(() =>
+    getUrlParam('level', 'Nível')
+  )
+  const [selectedAccess, setSelectedAccess] = useState(() =>
+    getUrlParam('access', 'Acesso')
+  )
+  const [sortBy, setSortBy] = useState(() =>
+    getUrlParam('sortBy', 'Ordenação')
+  )
+
+  // O searchTerm vem sempre da URL/globalSearchTerm
+  const searchTerm = globalSearchTerm
+
+  // Sincronizar globalSearchTerm com URL quando componente carrega
+  useEffect(() => {
+    const urlSearchTerm = getUrlParam('search', '')
+    if (urlSearchTerm !== globalSearchTerm) {
+      setGlobalSearchTerm(urlSearchTerm)
+    }
+  }, []) // Executar apenas uma vez
 
   // Função para buscar cursos
   const fetchCourses = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true)
     setError(null)
 
     try {
@@ -34,39 +57,45 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
         sortBy,
       }, signal)
 
-      // Só atualizar se a requisição não foi cancelada
       if (!signal?.aborted) {
         setCourses(data.cursos)
-        setCurrentPage(1) // Reset para primeira página
+        if (!isUpdatingFromUrl.current) {
+          setCurrentPage(1)
+        }
       }
     } catch (err: any) {
-      // Só mostrar erro se não foi cancelamento
       if (!signal?.aborted && err.name !== 'AbortError') {
         console.error('Erro ao buscar cursos:', err)
         setError(err.message || 'Erro ao carregar cursos')
         setCourses([])
       }
-    } finally {
-      // Só parar loading se não foi cancelada
-      if (!signal?.aborted) {
-        setLoading(false)
-      }
     }
   }, [searchTerm, selectedCategory, selectedLevel, selectedAccess, sortBy])
 
-  // Effect com debounce e controle de cancelamento
+  // Effect para sincronizar com URL sempre que filtros mudarem
   useEffect(() => {
-    // Cancelar requisição anterior se existir
+    if (!isInitialLoad.current && !isUpdatingFromUrl.current) {
+      updateUrlParams({
+        search: searchTerm,
+        category: selectedCategory,
+        level: selectedLevel,
+        access: selectedAccess,
+        sortBy: sortBy,
+        page: currentPage > 1 ? currentPage.toString() : null
+      })
+    }
+  }, [searchTerm, selectedCategory, selectedLevel, selectedAccess, sortBy, currentPage, updateUrlParams])
+
+  // Effect para buscar cursos com debounce
+  useEffect(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
     }
 
-    // Cancelar timeout anterior se existir
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current)
     }
 
-    // Para o carregamento inicial, fazer requisição imediatamente
     const delay = isInitialLoad.current ? 0 : 500
 
     debounceTimeoutRef.current = setTimeout(() => {
@@ -74,10 +103,13 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
       abortControllerRef.current = abortController
 
       fetchCourses(abortController.signal)
-      isInitialLoad.current = false
+
+      if (isInitialLoad.current) {
+        isInitialLoad.current = false
+        isUpdatingFromUrl.current = false
+      }
     }, delay)
 
-    // Cleanup
     return () => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current)
@@ -87,6 +119,14 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
       }
     }
   }, [fetchCourses])
+
+  // Effect para sincronizar página da URL
+  useEffect(() => {
+    const pageFromUrl = parseInt(getUrlParam('page', '1'))
+    if (pageFromUrl !== currentPage && pageFromUrl > 0) {
+      setCurrentPage(pageFromUrl)
+    }
+  }, [getUrlParam])
 
   // Cleanup quando component desmonta
   useEffect(() => {
@@ -100,24 +140,58 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
     }
   }, [])
 
-  // Paginação apenas no frontend
+  // Paginação
   const indexOfLastCourse = currentPage * coursesPerPage
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage
   const paginatedCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse)
   const totalPages = Math.ceil(courses.length / coursesPerPage)
 
-  const clearAllFilters = () => {
-    setSearchTerm("")
+  // Funções de atualização dos filtros
+  const handleSetSearchTerm = useCallback((value: string) => {
+    setGlobalSearchTerm(value)
+    setCurrentPage(1)
+  }, [setGlobalSearchTerm])
+
+  const handleSetSelectedCategory = useCallback((value: string) => {
+    setSelectedCategory(value)
+    setCurrentPage(1)
+  }, [])
+
+  const handleSetSelectedLevel = useCallback((value: string) => {
+    setSelectedLevel(value)
+    setCurrentPage(1)
+  }, [])
+
+  const handleSetSelectedAccess = useCallback((value: string) => {
+    setSelectedAccess(value)
+    setCurrentPage(1)
+  }, [])
+
+  const handleSetSortBy = useCallback((value: string) => {
+    setSortBy(value)
+    setCurrentPage(1)
+  }, [])
+
+  const clearAllFilters = useCallback(() => {
+    setGlobalSearchTerm("")
     setSelectedCategory("Categoria")
     setSelectedLevel("Nível")
     setSelectedAccess("Acesso")
     setSortBy("Ordenação")
     setCurrentPage(1)
-  }
+
+    updateUrlParams({
+      search: null,
+      category: null,
+      level: null,
+      access: null,
+      sortBy: null,
+      page: null
+    })
+  }, [setGlobalSearchTerm, updateUrlParams])
 
   return {
     courses: paginatedCourses,
-    loading,
     error,
     totalCount: courses.length,
     totalPages,
@@ -127,11 +201,11 @@ export function useCourseFilters(initialSearchTerm: string = '', coursesPerPage:
     selectedLevel,
     selectedAccess,
     sortBy,
-    setSearchTerm,
-    setSelectedCategory,
-    setSelectedLevel,
-    setSelectedAccess,
-    setSortBy,
+    setSearchTerm: handleSetSearchTerm,
+    setSelectedCategory: handleSetSelectedCategory,
+    setSelectedLevel: handleSetSelectedLevel,
+    setSelectedAccess: handleSetSelectedAccess,
+    setSortBy: handleSetSortBy,
     setCurrentPage,
     clearAllFilters
   }
