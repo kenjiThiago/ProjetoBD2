@@ -12,12 +12,10 @@ import Pagination from '@/components/pagination/Pagination'
 import EmptyState from '@/components/states/CourseEmptyState'
 import { useSearch } from '@/hooks/useSearch'
 import { useCourseFilters } from '@/hooks/useCourseFilters'
-import { courses } from '@/data/mockData'
 
 export default function CursosPageContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
   const coursesPerPage = 6
 
   const searchParams = useSearchParams()
@@ -26,75 +24,42 @@ export default function CursosPageContent() {
 
   // Custom hook para filtros
   const {
-    filteredCourses,
+    courses,
+    loading,
+    error,
+    totalCount,
+    totalPages,
+    currentPage,
     searchTerm,
     selectedCategory,
     selectedLevel,
     selectedAccess,
     sortBy,
-    totalItems,
     setSearchTerm,
     setSelectedCategory,
     setSelectedLevel,
     setSelectedAccess,
     setSortBy,
+    setCurrentPage,
     clearAllFilters
-  } = useCourseFilters(urlSearchTerm || globalSearchTerm || '')
-
-  // Aplicar termo de busca da URL ao carregar
-  useEffect(() => {
-    if (urlSearchTerm) {
-      setSearchTerm(urlSearchTerm)
-      setGlobalSearchTerm(urlSearchTerm)
-    }
-  }, [urlSearchTerm, setGlobalSearchTerm, setSearchTerm])
-
-  // Reset página quando filtros mudarem
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [filteredCourses])
+  } = useCourseFilters(globalSearchTerm, coursesPerPage)
+  console.log(courses)
 
   // Event listeners para comunicação entre componentes
   useEffect(() => {
-    const handleSearchChange = (e: CustomEvent) => {
-      setSearchTerm(e.detail)
-      setGlobalSearchTerm(e.detail)
-    }
-
-    const handleCategoryChange = (e: CustomEvent) => {
-      setSelectedCategory(e.detail)
-    }
-
-    const handleLevelChange = (e: CustomEvent) => {
-      setSelectedLevel(e.detail)
-    }
-
-    const handleAccessChange = (e: CustomEvent) => {
-      setSelectedAccess(e.detail)
-    }
-
-    const handleSortChange = (e: CustomEvent) => {
-      setSortBy(e.detail)
-    }
-
-    const handleViewModeChange = (e: CustomEvent) => {
-      setViewMode(e.detail)
-    }
-
-    const handleToggleFilters = () => {
-      setShowFilters(!showFilters)
-    }
-
-    const handlePageChange = (e: CustomEvent) => {
-      setCurrentPage(e.detail)
-    }
-
+    const handleSearchChange = (e: any) => setSearchTerm(e.detail)
+    const handleCategoryChange = (e: any) => setSelectedCategory(e.detail)
+    const handleLevelChange = (e: any) => setSelectedLevel(e.detail)
+    const handleAccessChange = (e: any) => setSelectedAccess(e.detail)
+    const handleSortChange = (e: any) => setSortBy(e.detail)
+    const handleViewModeChange = (e: any) => setViewMode(e.detail)
+    const handleToggleFilters = () => setShowFilters(v => !v)
+    const handlePageChange = (e: any) => setCurrentPage(e.detail)
     const handleClearFilters = () => {
       clearAllFilters()
       setGlobalSearchTerm("")
     }
 
-    // Add event listeners
     window.addEventListener('searchChange', handleSearchChange as EventListener)
     window.addEventListener('categoryChange', handleCategoryChange as EventListener)
     window.addEventListener('levelChange', handleLevelChange as EventListener)
@@ -105,7 +70,6 @@ export default function CursosPageContent() {
     window.addEventListener('pageChange', handlePageChange as EventListener)
     window.addEventListener('clearFilters', handleClearFilters)
 
-    // Cleanup
     return () => {
       window.removeEventListener('searchChange', handleSearchChange as EventListener)
       window.removeEventListener('categoryChange', handleCategoryChange as EventListener)
@@ -117,13 +81,53 @@ export default function CursosPageContent() {
       window.removeEventListener('pageChange', handlePageChange as EventListener)
       window.removeEventListener('clearFilters', handleClearFilters)
     }
-  })
+  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedAccess, setSortBy, setCurrentPage, clearAllFilters, setGlobalSearchTerm])
 
-  // Paginação
-  const indexOfLastCourse = currentPage * coursesPerPage
-  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage
-  const currentCourses = filteredCourses.slice(indexOfFirstCourse, indexOfLastCourse)
-  const totalPages = Math.ceil(filteredCourses.length / coursesPerPage)
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-950">
+        <Header />
+        <main>
+          <CoursesHero
+            searchTerm={searchTerm}
+            totalCourses={totalCount}
+          />
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-950">
+        <Header />
+        <main>
+          <CoursesHero
+            searchTerm={searchTerm}
+            totalCourses={0}
+          />
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center">
+              <p className="text-red-500 mb-4">Erro ao carregar cursos: {error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="btn-primary px-6 py-3"
+              >
+                Tentar Novamente
+              </button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -144,13 +148,13 @@ export default function CursosPageContent() {
           sortBy={sortBy}
           viewMode={viewMode}
           showFilters={showFilters}
-          filteredCount={filteredCourses.length}
+          filteredCount={totalCount}
         />
 
         {/* Content */}
         <section id="content-area" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {filteredCourses.length > 0 ? (
+            {totalCount > 0 ? (
               <>
                 <motion.div
                   className={viewMode === 'grid'
@@ -162,9 +166,10 @@ export default function CursosPageContent() {
                   transition={{ duration: 0.6 }}
                   key={`${viewMode}-${currentPage}`}
                 >
-                  {currentCourses.map((course) => (
+                  {courses.map((course, index) => (
                     <CourseCard
-                      key={course.id}
+                      key={index}
+                      index={index}
                       course={course}
                       layout={viewMode}
                     />
@@ -175,7 +180,7 @@ export default function CursosPageContent() {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  totalItems={totalItems}
+                  totalItems={coursesPerPage}
                   itemsPerPage={6}
                   scrollTargetId="content-area"
                 />

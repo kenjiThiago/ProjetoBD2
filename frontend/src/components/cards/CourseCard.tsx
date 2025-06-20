@@ -11,19 +11,29 @@ import { isCourseNew } from "@/utils/courseUtils"
 
 interface CourseCardProps {
   course: Course
+  index: number
   variants?: any
   size?: 'small' | 'medium' | 'large'
   showActions?: boolean
   layout?: 'grid' | 'list'
 }
 
+function formatDuration(duracao: string): string {
+  return duracao
+    .replace(/^0h\s+/, '') // Remove "0h " do início
+    .replace(/\s+0m$/, '') // Remove " 0m" do final
+    || '0m'; // Fallback se string ficar vazia
+}
+
 export default function CourseCard({
   course,
+  index,
   showActions = true,
   layout = 'grid'
 }: CourseCardProps) {
 
   const isNew = isCourseNew(course)
+  const isFree = course.acesso == "Grátis"
 
   const getLevelColor = (level: string) => {
     switch (level) {
@@ -42,7 +52,7 @@ export default function CourseCard({
       "grid": "rounded-full"
     }
 
-    if (course.isFree) {
+    if (isFree) {
       badges.push(
         <span
           key={1}
@@ -75,17 +85,18 @@ export default function CourseCard({
         <div className="flex space-x-4 items-center">
           <Thumbnail
             course={course}
+            index={index}
             type="list"
           />
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-2 flex-wrap">
               <h4 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors">
-                {course.title}
+                {course.nome}
               </h4>
               <div className="flex gap-2 items-center flex-wrap">
                 <div className="flex items-center text-sm text-gray-400 mr-4">
                   <Users className="w-4 h-4 mr-1" />
-                  <span>{course.students.toLocaleString()}</span>
+                  <span>{course.numero_alunos_concluidos.toLocaleString()}</span>
                 </div>
 
                 <div className="flex gap-2">
@@ -95,22 +106,22 @@ export default function CourseCard({
             </div>
 
             <p className="text-gray-400 text-sm mb-3 line-clamp-2">
-              {course.description}
+              {course.descricao}
             </p>
             <div className="flex items-center gap-4 flex-wrap">
-              <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.level)}`}>
-                {course.level}
+              <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.nivel)}`}>
+                {course.nivel}
               </span>
 
-              {course.tags.length > 0 && (
+              {course.habilidades.length > 0 && (
                 <div className="flex items-center gap-1 flex-wrap">
-                  {course.tags.slice(0, 3).map(tag => (
+                  {course.habilidades.slice(0, 3).map(tag => (
                     <span key={tag} className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
                       {tag}
                     </span>
                   ))}
-                  {course.tags.length > 3 && (
-                    <span className="text-xs text-gray-400">+{course.tags.length - 3}</span>
+                  {course.habilidades.length > 3 && (
+                    <span className="text-xs text-gray-400">+{course.habilidades.length - 3}</span>
                   )}
                 </div>
               )}
@@ -142,53 +153,60 @@ export default function CourseCard({
       {/* Thumbnail */}
       <Thumbnail
         course={course}
+        index={index}
         type="grid"
       />
 
       {/* Content */}
       <div className="space-y-3">
         <div className="flex flex-col justify-center items-start gap-2">
-          <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.level)}`}>
-            {course.level}
+          <span className={`text-xs font-semibold px-2 py-1 rounded border ${getLevelColor(course.nivel)}`}>
+            {course.nivel}
           </span>
-          {course.tags.length > 0 && (
+          {course.habilidades.length > 0 && (
             <div className="flex items-center gap-1 flex-wrap">
-              {course.tags.slice(0, 3).map(tag => (
+              {course.habilidades.slice(0, 3).map(tag => (
                 <span key={tag} className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
                   {tag}
                 </span>
               ))}
-              {course.tags.length > 3 && (
-                <span className="text-xs text-gray-400">+{course.tags.length - 3}</span>
+              {course.habilidades.length > 3 && (
+                <span className="text-xs text-gray-400">+{course.habilidades.length - 3}</span>
               )}
             </div>
           )}
         </div>
 
         <h3 className={`text-md font-semibold text-white group-hover:text-purple-300 transition-colors line-clamp-2`}>
-          {course.title}
+          {course.nome}
         </h3>
 
         <p className="text-gray-400 text-sm line-clamp-2">
-          {course.description}
+          {course.descricao}
         </p>
 
 
         <div className="flex items-center text-gray-400 text-sm">
           <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full mr-2 flex items-center justify-center text-xs text-white font-bold">
-            {course.instructorAvatar}
+            {course.nome_professor
+              .split(' ')
+              .map(name => name.charAt(0))
+              .join('')
+              .toUpperCase()
+              .slice(0, 2)
+            }
           </div>
-          <span>{course.instructor}</span>
+          <span>{course.nome_professor}</span>
         </div>
 
         <div className="flex items-center justify-between text-sm text-gray-400">
           <div className="flex items-center">
             <Clock className="w-4 h-4 mr-1" />
-            <span>{course.duration}</span>
+            <span>{formatDuration(course.duracao_formatada)}</span>
           </div>
           <div className="flex items-center">
             <Users className="w-4 h-4 mr-1" />
-            <span>{course.students.toLocaleString()}</span>
+            <span>{course.numero_alunos_concluidos.toLocaleString()}</span>
           </div>
         </div>
 
