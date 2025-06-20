@@ -10,9 +10,14 @@ class Vaga():
             v.id,
             v.nome AS vaga_nome,
             v.descricao,
+            v.nivel,
+            v.modalidade,
+            v.salario,
+            v.tempo_aberta,
+            v.prazo,
             e.localizacao,
             e.nome AS empresa_nome,
-            COUNT(DISTINCT si.email_aluno) AS numero_inscritos,
+            COUNT(DISTINCT si.cpf_aluno) AS numero_inscritos,
             STRING_AGG(DISTINCT h.nome || ': ' || h.nivel, ', ') AS requisitos
         FROM 
             vaga v
@@ -49,34 +54,40 @@ class Vaga():
         if filtros:
             query += " WHERE " + " AND ".join(filtros)
 
-        query += """
+        query += f"""
         GROUP BY 
-            v.id, v.nome, v.descricao, e.localizacao, e.nome
+            v.id, v.nome, v.descricao, v.nivel, v.modalidade, v.salario, v.tempo_aberta, v.prazo, e.localizacao, e.nome
         ORDER BY 
             {ordenar_por} {ordenar_ordem}  
-        """.format(ordenar_por=ordenar_por, ordenar_ordem=ordenar_ordem)
+        """
 
         return self.db.execute_select_all(query)
 
-
-
     def get_numero_vagas(self) -> int:
-        query = "SELECT COUNT(*) FROM vaga"
+        query = "SELECT COUNT(*) as count FROM vaga"
         result = self.db.execute_select_one(query)
         return result['count']
     
     def get_vagas_inscritas_por_aluno(self, email_aluno: str, vaga_nome: str = "", empresa_nome: str = "", localizacao: str = "", requisitos: str = "", ordenar_por: str = "numero_inscritos", ordenar_ordem: str = "DESC"):
-        aluno_query = f"""
-        SELECT nome AS aluno_nome
+        # Primeiro, descobrir o CPF do aluno pelo email
+        cpf_query = f"""
+        SELECT cpf, nome AS aluno_nome
         FROM aluno
         WHERE email = '{email_aluno}'
         """
-        aluno_nome = self.db.execute_select_one(aluno_query)['aluno_nome']
+        aluno_info = self.db.execute_select_one(cpf_query)
+        cpf_aluno = aluno_info['cpf']
+        aluno_nome = aluno_info['aluno_nome']
 
         vagas_query = f"""
         SELECT 
             v.id AS vaga_id, 
             v.nome AS vaga_nome,
+            v.nivel,
+            v.modalidade,
+            v.salario,
+            v.tempo_aberta,
+            v.prazo,
             e.nome AS empresa_nome,
             e.localizacao,
             (
@@ -85,7 +96,7 @@ class Vaga():
                 WHERE si_sub.id_vaga = v.id
             ) AS numero_inscritos,
             json_agg(
-                DISTINCT (h.nome || ': ' || h.nivel)  -- Alteração: concatenando habilidade e nível com ": " entre eles
+                DISTINCT (h.nome || ': ' || h.nivel)
             ) AS requisitos
         FROM 
             se_inscreve si
@@ -98,7 +109,7 @@ class Vaga():
         LEFT JOIN 
             habilidade h ON hv.id_habilidade = h.id
         WHERE 
-            si.email_aluno = '{email_aluno}'
+            si.cpf_aluno = '{cpf_aluno}'
         """
 
         if vaga_nome:
@@ -123,7 +134,7 @@ class Vaga():
 
         vagas_query += f"""
         GROUP BY 
-            v.id, v.nome, e.nome, e.localizacao
+            v.id, v.nome, v.nivel, v.modalidade, v.salario, v.tempo_aberta, v.prazo, e.nome, e.localizacao
         ORDER BY 
             {ordenar_por} {ordenar_ordem}
         """
@@ -140,7 +151,7 @@ class Vaga():
         INNER JOIN 
             habilidade h ON hc.id_habilidade = h.id
         WHERE 
-            e.email_aluno = '{email_aluno}'
+            e.cpf_aluno = '{cpf_aluno}'
         """
         
         habilidades_aluno = self.db.execute_select_all(habilidades_query)
@@ -150,3 +161,4 @@ class Vaga():
             "habilidades_aluno": [{"habilidade": habilidades_aluno[0]['habilidade']}],
             "vagas_inscritas": vagas_inscritas if vagas_inscritas else []  
         }
+

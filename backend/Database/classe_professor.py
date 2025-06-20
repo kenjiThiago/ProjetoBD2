@@ -5,8 +5,14 @@ class Professor():
         self.db = db_provider
     
     def get_professores(self, nome: str = "", especializacao: str = "", email: str = ""):
-        
-        query = "SELECT * FROM professor"
+        query = """
+        SELECT 
+            email,
+            nome,
+            especializacao
+        FROM 
+            professor
+        """
         filtros = []
         
         if nome:
@@ -29,3 +35,4 @@ class Professor():
         query = "SELECT COUNT(*) as count FROM professor"
         result = self.db.execute_select_one(query)
         return result['count']
+

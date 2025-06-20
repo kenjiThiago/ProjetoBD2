@@ -5,20 +5,18 @@ curso_blueprint = Blueprint("curso", __name__)
 
 @curso_blueprint.route("/cursos", methods=["GET"])
 def get_cursos():
-    nome = request.args.get("nome", "")
-    duracao = request.args.get("duracao", None)
+    categoria = request.args.get("categoria", "")
     nivel = request.args.get("nivel", "")
-    habilidade = request.args.get("habilidade", "")
-    
-    duracao = int(duracao) if duracao else None
+    acesso = request.args.get("acesso", "")
+    search = request.args.get("search", "")
 
     curso_model = Curso()
-    cursos = curso_model.get_cursos(nome, duracao, nivel, habilidade)
+    cursos = curso_model.get_cursos(categoria=categoria, nivel=nivel, acesso=acesso, search=search)
     total_cursos = curso_model.get_numero_cursos()
 
     response_data = {
-        "cursos": cursos,
-        "total_cursos": total_cursos
+        "total_cursos": total_cursos,
+        "cursos": cursos
     }
-
     return jsonify(response_data), 200
+

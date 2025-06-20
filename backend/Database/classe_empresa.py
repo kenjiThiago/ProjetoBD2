@@ -10,6 +10,9 @@ class Empresa():
             e.nome AS empresa_nome,
             e.localizacao,
             e.setor,
+            e.descricao,
+            e.porte,
+            e.sigla,
             COUNT(v.id) AS numero_vagas
         FROM 
             empresa e
@@ -30,7 +33,7 @@ class Empresa():
 
         query += """
         GROUP BY 
-            e.nome, e.localizacao, e.setor
+            e.nome, e.localizacao, e.setor, e.descricao, e.porte, e.sigla
         ORDER BY 
             e.nome ASC
         """
@@ -38,8 +41,7 @@ class Empresa():
         return self.db.execute_select_all(query)
     
     def get_numero_empresas(self) -> int:
-        query = "SELECT COUNT(*) FROM empresa"
+        query = "SELECT COUNT(*) as count FROM empresa"
         result = self.db.execute_select_one(query)
         return result['count']
-    
-    
+
