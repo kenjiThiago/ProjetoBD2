@@ -42,8 +42,16 @@ export default function CursosPageContent() {
     setSortBy,
     setCurrentPage,
     clearAllFilters
-  } = useCourseFilters(globalSearchTerm, coursesPerPage)
-  console.log(courses)
+  } = useCourseFilters(urlSearchTerm || globalSearchTerm || '', coursesPerPage)
+
+  useEffect(() => {
+    if (urlSearchTerm) {
+      setSearchTerm(urlSearchTerm)
+      setGlobalSearchTerm(urlSearchTerm)
+    } else {
+      setSearchTerm("")
+    }
+  }, [urlSearchTerm, setGlobalSearchTerm, setSearchTerm])
 
   // Event listeners para comunicação entre componentes
   useEffect(() => {
