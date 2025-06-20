@@ -17,6 +17,7 @@ import type { Course } from '@/data/mockData'
 
 export default function Thumbnail({
   course,
+  index,
   type="grid",
   className="",
 }) {
@@ -56,8 +57,8 @@ export default function Thumbnail({
 
   // Função para obter ícone baseado na categoria ou tags
   const getCourseIcon = (course: Course) => {
-    const category = course.category.toLowerCase()
-    const tags = course.tags.map(tag => tag.toLowerCase())
+    const category = course.categoria.toLowerCase()
+    const tags = course.habilidades.map(tag => tag.toLowerCase())
 
     // Prioridade por tags específicas
     if (tags.includes('react')) return <Layers className="w-8 h-8" />
@@ -88,7 +89,7 @@ export default function Thumbnail({
   }
 
   return (
-      <div className={`bg-gradient-to-br ${getCourseGradient(course.id)} rounded-lg relative flex items-center justify-center ${cardType} ${className}`}>
+      <div className={`bg-gradient-to-br ${getCourseGradient(index)} rounded-lg relative flex items-center justify-center ${cardType} ${className}`}>
         {/* Ícone baseado na tecnologia */}
         <div className="text-white opacity-90 group-hover:opacity-100 transition-opacity">
           {getCourseIcon(course)}
