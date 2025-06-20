@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -11,7 +11,7 @@ import Pagination from '@/components/pagination/Pagination'
 import EmptyState from '@/components/states/CourseEmptyState'
 import { useCourseFilters } from '@/hooks/useCourseFilters'
 
-function CursosContent() {
+export default function CursosContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
   const coursesPerPage = 6
@@ -127,7 +127,7 @@ function CursosContent() {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  totalItems={coursesPerPage}
+                  totalItems={totalCount}
                   itemsPerPage={6}
                   scrollTargetId="content-area"
                 />
@@ -140,17 +140,5 @@ function CursosContent() {
       </main>
       <Footer />
     </div>
-  )
-}
-
-export default function CursosPageContent() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-      </div>
-    }>
-      <CursosContent />
-    </Suspense>
   )
 }
