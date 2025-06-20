@@ -118,10 +118,6 @@ export default function JobCard({ job, variants }: JobCardProps) {
                     <Users className="w-4 h-4 mr-1" />
                     <span>{job.applicants} candidatos</span>
                   </div>
-                  <div className="flex items-center">
-                    <Clock className="w-4 h-4 mr-1" />
-                    <span>Há {daysAgo} dia{daysAgo !== 1 ? 's' : ''}</span>
-                  </div>
                 </div>
               </div>
             </div>
