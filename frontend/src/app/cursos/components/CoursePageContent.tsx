@@ -70,7 +70,7 @@ export default function CursosContent() {
       window.removeEventListener('pageChange', handlePageChange as EventListener)
       window.removeEventListener('clearFilters', handleClearFilters)
     }
-  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedAccess, setSortBy, setCurrentPage, clearAllFilters])
+  }, [clearAllFilters])
 
   if (error) {
     return (

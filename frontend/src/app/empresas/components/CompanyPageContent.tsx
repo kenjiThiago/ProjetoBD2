@@ -12,45 +12,62 @@ import JobCard from '@/components/cards/JobCard'
 import Pagination from '@/components/pagination/Pagination'
 import CompanyEmptyState from '@/components/states/CompanyEmptyState'
 import { useCompanyFilters } from '@/hooks/useCompanyFilters'
+import { useJobFilters } from '@/hooks/useJobFilters'
 
-export default function EmpresasPage() {
+export default function CompanyPageContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
   const [activeTab, setActiveTab] = useState<'companies' | 'jobs'>('companies')
   const itemsPerPage = 6
 
-  // Custom hook para filtros
-  const {
-    companies,
-    error,
-    totalCount,
-    totalPages,
-    currentPage,
-    searchTerm,
-    selectedLocation,
-    selectedIndustry,
-    selectedSize,
-    setSearchTerm,
-    setSelectedLocation,
-    setSelectedIndustry,
-    setSelectedSize,
-    setCurrentPage,
-    clearAllFilters,
-  } = useCompanyFilters()
+  // Hook para empresas (sempre ativo)
+  const companyFilters = useCompanyFilters(itemsPerPage)
+
+  // Hook para vagas (ativo apenas quando necessário)
+  const jobFilters = useJobFilters(itemsPerPage)
+
+  // Effect para controlar quando ativar/desativar o hook de vagas
+  useEffect(() => {
+    if (activeTab === 'jobs') {
+      jobFilters.activate()
+    } else {
+      jobFilters.deactivate()
+    }
+  }, [activeTab, jobFilters])
+
+  // Determinar qual hook usar baseado na aba ativa
+  const activeFilters = activeTab === 'companies' ? companyFilters : jobFilters
+  const currentItems = activeTab === 'companies' ? companyFilters.companies : jobFilters.jobs
 
   // Event listeners para comunicação entre componentes
   useEffect(() => {
-    const handleSearchChange      = (e: CustomEvent) => { setSearchTerm(e.detail) }
-    const handleTabChange         = (e: CustomEvent) => { setActiveTab(e.detail) }
-    const handleIndustryChange    = (e: CustomEvent) => { setSelectedIndustry(e.detail) }
-    const handleSizeChange        = (e: CustomEvent) => { setSelectedSize(e.detail) }
-    const handleLocationChange    = (e: CustomEvent) => { setSelectedLocation(e.detail) }
-    // const handleJobTypeChange     = (e: CustomEvent) => { setSelectedJobType(e.detail) }
-    // const handleJobLevelChange    = (e: CustomEvent) => { setSelectedJobLevel(e.detail) }
-    const handleViewModeChange    = (e: CustomEvent) => { setViewMode(e.detail) }
-    const handleToggleFilters     = () => { setShowFilters(!showFilters) }
-    const handlePageChange        = (e: CustomEvent) => { setCurrentPage(e.detail) }
-    const handleClearFilters      = () => { clearAllFilters() }
+    const handleSearchChange = (e: CustomEvent) => { activeFilters.setSearchTerm(e.detail) }
+    const handleTabChange = (e: CustomEvent) => { setActiveTab(e.detail) }
+    const handleIndustryChange = (e: CustomEvent) => {
+      if (activeTab === 'companies') {
+        companyFilters.setSelectedIndustry(e.detail)
+      }
+    }
+    const handleSizeChange = (e: CustomEvent) => {
+      if (activeTab === 'companies') {
+        companyFilters.setSelectedSize(e.detail)
+      }
+    }
+    const handleLocationChange = (e: CustomEvent) => { activeFilters.setSelectedLocation(e.detail) }
+    const handleJobTypeChange = (e: CustomEvent) => {
+      if (activeTab === 'jobs') {
+        jobFilters.setSelectedJobType(e.detail)
+      }
+    }
+    const handleJobLevelChange = (e: CustomEvent) => {
+      if (activeTab === 'jobs') {
+        jobFilters.setSelectedJobLevel(e.detail)
+      }
+    }
+    const handleViewModeChange = (e: CustomEvent) => { setViewMode(e.detail) }
+    const handleToggleFilters = () => { setShowFilters(!showFilters) }
+    const handlePageChange = (e: CustomEvent) => { activeFilters.setCurrentPage(e.detail) }
+    const handleClearFilters = () => { activeFilters.clearAllFilters() }
 
     // Add event listeners
     window.addEventListener('companySearchChange', handleSearchChange as EventListener)
@@ -58,8 +75,8 @@ export default function EmpresasPage() {
     window.addEventListener('companyIndustryChange', handleIndustryChange as EventListener)
     window.addEventListener('companySizeChange', handleSizeChange as EventListener)
     window.addEventListener('companyLocationChange', handleLocationChange as EventListener)
-    // window.addEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
-    // window.addEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
+    window.addEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
+    window.addEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
     window.addEventListener('companyViewModeChange', handleViewModeChange as EventListener)
     window.addEventListener('companyToggleFilters', handleToggleFilters)
     window.addEventListener('pageChange', handlePageChange as EventListener)
@@ -72,14 +89,14 @@ export default function EmpresasPage() {
       window.removeEventListener('companyIndustryChange', handleIndustryChange as EventListener)
       window.removeEventListener('companySizeChange', handleSizeChange as EventListener)
       window.removeEventListener('companyLocationChange', handleLocationChange as EventListener)
-      // window.removeEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
-      // window.removeEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
+      window.removeEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
+      window.removeEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
       window.removeEventListener('companyViewModeChange', handleViewModeChange as EventListener)
       window.removeEventListener('companyToggleFilters', handleToggleFilters)
       window.removeEventListener('pageChange', handlePageChange as EventListener)
       window.removeEventListener('companyClearFilters', handleClearFilters)
     }
-  }, [setSearchTerm, setSelectedIndustry, setSelectedSize, setSelectedLocation, setCurrentPage, clearAllFilters])
+  }, [activeTab, activeFilters, companyFilters, jobFilters])
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -87,9 +104,7 @@ export default function EmpresasPage() {
 
       <main>
         {/* Hero Section */}
-        <CompaniesHero
-          searchTerm={searchTerm}
-        />
+        <CompaniesHero searchTerm={activeFilters.searchTerm} />
 
         {/* Tabs */}
         <CompanyTabs
@@ -99,20 +114,20 @@ export default function EmpresasPage() {
         {/* Filters and Controls */}
         <CompanyFilterBar
           activeTab={activeTab}
-          selectedIndustry={selectedIndustry}
-          selectedSize={selectedSize}
-          selectedLocation={selectedLocation}
-          //selectedJobType={selectedJobType}
-          //selectedJobLevel={selectedJobLevel}
+          selectedIndustry={activeTab === 'companies' ? companyFilters.selectedIndustry : 'Setores'}
+          selectedSize={activeTab === 'companies' ? companyFilters.selectedSize : 'Porte'}
+          selectedLocation={activeFilters.selectedLocation}
+          selectedJobType={activeTab === 'jobs' ? jobFilters.selectedJobType : 'Modalidade'}
+          selectedJobLevel={activeTab === 'jobs' ? jobFilters.selectedJobLevel : 'Nível'}
           viewMode={viewMode}
           showFilters={showFilters}
-          filteredCount={totalCount}
+          filteredCount={activeFilters.totalCount}
         />
 
         {/* Content */}
         <section id="company-content" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {companies.length > 0 ? (
+            {currentItems.length > 0 ? (
               <>
                 {activeTab === 'companies' ? (
                   <motion.div
@@ -123,9 +138,9 @@ export default function EmpresasPage() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    key={`companies-${currentPage}-${viewMode}`}
+                    key={`companies-${activeFilters.currentPage}-${viewMode}`}
                   >
-                    {companies.map((company, index) => (
+                    {currentItems.map((company, index) => (
                       <CompanyCard
                         key={index}
                         index={index}
@@ -135,29 +150,27 @@ export default function EmpresasPage() {
                     ))}
                   </motion.div>
                 ) : (
-                  // <motion.div
-                  //   className="space-y-6"
-                  //   initial={{ opacity: 0, y: 30 }}
-                  //   animate={{ opacity: 1, y: 0 }}
-                  //   transition={{ duration: 0.6 }}
-                  //   key={`jobs-${currentPage}`}
-                  // >
-                  //   {currentPageItems.map((job) => (
-                  //     <JobCard
-                  //       key={job.id}
-                  //       job={job as any}
-                  //     />
-                  //   ))}
-                  // </motion.div>
-                  <>
-                  </>
+                   <motion.div
+                     className="space-y-6"
+                     initial={{ opacity: 0, y: 30 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.6 }}
+                     key={`jobs-${activeFilters.currentPage}`}
+                   >
+                     {currentItems.map((job) => (
+                       <JobCard
+                         key={job.id}
+                         job={job as any}
+                       />
+                     ))}
+                   </motion.div>
                 )}
 
                 {/* Pagination */}
                 <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  totalItems={totalCount}
+                  currentPage={activeFilters.currentPage}
+                  totalPages={activeFilters.totalPages}
+                  totalItems={activeFilters.totalCount}
                   itemsPerPage={itemsPerPage}
                   scrollTargetId="company-content"
                 />
@@ -166,7 +179,7 @@ export default function EmpresasPage() {
               /* Empty State */
               <CompanyEmptyState
                 activeTab={activeTab}
-                searchTerm={searchTerm}
+                searchTerm={activeFilters.searchTerm}
               />
             )}
           </div>

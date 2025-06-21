@@ -1,46 +1,4 @@
-import {
-  Briefcase,
-  Code,
-  Brain,
-  Cloud,
-  Database,
-  Settings,
-  Smartphone,
-  Palette,
-  TrendingUp,
-  Users,
-  Shield,
-  Target,
-  Monitor,
-  Server,
-  Layers,
-  Terminal,
-  Box,
-  HeartHandshake,
-  BarChart3,
-  Wrench
-} from "lucide-react"
-
-interface Job {
-  id: number
-  title: string
-  company: string
-  companyLogo: string
-  location: string
-  type: 'Remoto' | 'Presencial' | 'Híbrido'
-  level: 'Júnior' | 'Pleno' | 'Sênior' | 'Estágio'
-  salaryRange: string
-  description: string
-  requirements: string[]
-  technologies: string[]
-  benefits: string[]
-  postedAt: string
-  deadline: string
-  applicants: number
-  isUrgent?: boolean
-  isNew?: boolean
-  isFeatured?: boolean
-}
+import { Job } from "@/data/mockData"
 
 interface JobThumbnailProps {
   job: Job
@@ -91,7 +49,7 @@ export default function JobThumbnail({
     <div className={`bg-gradient-to-br ${getJobGradient(job.id)} rounded-lg relative flex items-center justify-center ${cardType} ${className}`}>
       {/* Ícone baseado no título/tecnologias */}
       <div className="text-white text-2xl font-bold opacity-90 group-hover:opacity-100 transition-opacity">
-        {job.companyLogo}
+        {"A"}
       </div>
 
       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors rounded-lg" />

@@ -28,13 +28,13 @@ export interface Job {
   id: number
   vaga_nome: string
   empresa_nome: string
-  companyLogo: string
+  sigla: string
   localizacao: string
   modalidade: 'Remoto' | 'Presencial' | 'Híbrido'
   nivel: 'Júnior' | 'Pleno' | 'Sênior' | 'Estágio'
   salario: string
   descricao: string
-  requisitos: string[]
+  requisitos: string
   prazo: string
   numero_inscritos: number
 }
