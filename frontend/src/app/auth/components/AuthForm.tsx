@@ -177,11 +177,7 @@ export default function AuthForm({ mode, plan }: AuthFormProps) {
       }))
 
       // Redirecionar baseado no plano
-      if (plan === 'free') {
-        router.push('/dashboard?welcome=true')
-      } else {
-        router.push('/checkout?plan=' + plan)
-      }
+      router.push('/dashboard?welcome=true')
     } else {
       // Login
       router.push('/dashboard')

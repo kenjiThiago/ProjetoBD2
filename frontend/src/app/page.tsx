@@ -1,5 +1,5 @@
 'use client'
-
+import { Suspense } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Hero from '@/app/components/Hero'
@@ -7,7 +7,7 @@ import FeaturedCourses from '@/app/components/FeaturedCourses'
 import Features from './components/Features'
 import { useHomepageData } from '@/hooks/useHomepageData'
 
-export default function HomePage() {
+function HomePageContent() {
   const smartRound = (num: number): number => {
     if (num < 10) return num; // Números menores que 10 não arredondam
 
@@ -53,3 +53,21 @@ export default function HomePage() {
     </div>
   )
 }
+
+// Loading fallback
+function HomeLoading() {
+  return (
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500"></div>
+    </div>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<HomeLoading />}>
+      <HomePageContent />
+    </Suspense>
+  )
+}
+
