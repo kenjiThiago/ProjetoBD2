@@ -30,7 +30,7 @@ export function useHomepageData() {
       }
     } catch (err: any) {
       if (!signal?.aborted && err.name !== 'AbortError') {
-        console.error('Erro ao buscar cursos:', err)
+        console.error('Erro na Home Page:', err)
         setCourses([])
       }
     }
