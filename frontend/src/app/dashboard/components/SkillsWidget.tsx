@@ -90,8 +90,8 @@ export default function SkillsWidget({ skills }: SkillsWidgetProps) {
   }
 
   const getSkillColor = (skill: string) => {
-    if (skill.includes(': avançado')) return 'text-red-400 bg-red-500/10 border-red-500/20'
-    if (skill.includes(': intermediário')) return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20'
+    if (skill.includes(': Avançado')) return 'text-red-400 bg-red-500/10 border-red-500/20'
+    if (skill.includes(': Intermediário')) return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20'
     return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
   }
 
@@ -125,9 +125,9 @@ export default function SkillsWidget({ skills }: SkillsWidgetProps) {
                     <div
                       key={i}
                       className={`w-2 h-2 rounded-full mx-0.5 ${
-                        (level === 'avançado' && i < 3) ||
-                        (level === 'intermediário' && i < 2) ||
-                        (level === 'iniciante' && i < 1)
+                        (level === 'Avançado' && i < 3) ||
+                        (level === 'Intermediário' && i < 2) ||
+                        (level === 'Iniciante' && i < 1)
                           ? 'bg-current'
                           : 'bg-gray-600'
                       }`}

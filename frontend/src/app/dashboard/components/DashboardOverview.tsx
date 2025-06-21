@@ -4,12 +4,12 @@ import { motion } from 'framer-motion'
 import {
   Award,
 } from 'lucide-react'
-import { Course } from '@/data/mockData'
+import { InProgressCourse } from '@/data/mockData'
 import SkillsWidget from './SkillsWidget'
 import ContinueLearning from './ContinueLearning'
 
 interface DashboardOverviewProps {
-  coursesInProgress?: Course[]
+  coursesInProgress?: InProgressCourse[]
   skills?: string[]
 }
 

@@ -1,9 +1,9 @@
 import Thumbnail from "@/components/Thumbnail"
-import { Course } from "@/data/mockData"
+import { InProgressCourse } from "@/data/mockData"
 import { BookOpen, Play } from "lucide-react"
 
 interface ContinueLearningProps {
-  coursesInProgress?: Course[]
+  coursesInProgress?: InProgressCourse[]
 }
 
 export default function ContinueLearning({
@@ -13,37 +13,34 @@ export default function ContinueLearning({
     <div>
       {coursesInProgress.length > 0 ? (
         <div className="grid grid-cols-1 gap-6">
-          {coursesInProgress.slice(0, 3).map((course: Course) => (
+          {coursesInProgress.slice(0, 3).map((course: InProgressCourse, index) => (
             <div
-              key={course.id}
+              key={index}
               className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
             >
               <div className="flex items-start space-x-4">
                 <Thumbnail
+                  index={index}
                   course={course}
                   type={"list"}
                 />
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-purple-300 transition-colors">
-                    {course.title}
+                    {course.nome}
                   </h3>
-                  <p className="text-gray-400 text-sm mb-3">
-                    Próxima aula: {course.nextLesson || 'Primeira aula'}
-                  </p>
-
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-gray-400">
-                      {course.completedLessons || 0}/{course.lessons} aulas
+                      {course.aulas_concluidas || 0}/{course.total_aulas} aulas
                     </span>
                     <span className="text-sm font-semibold text-purple-400">
-                      {course.progress || 0}%
+                      {(course.aulas_concluidas / course.total_aulas) * 100 || 0}%
                     </span>
                   </div>
 
                   <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
                     <div
                       className="bg-gradient-to-r from-purple-500 to-orange-500 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${course.progress || 0}%` }}
+                      style={{ width: `${((course.aulas_concluidas * 100) / course.total_aulas) || 0}%` }}
                     />
                   </div>
 

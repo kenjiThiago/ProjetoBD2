@@ -235,10 +235,10 @@ export default function DonutChart({
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-full p-5 border border-emerald-500/20 shadow-xl">
+          <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-full p-5 border border-gray-500/20 shadow-xl">
             <div className="text-center">
               <motion.div
-                className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent mb-1"
+                className="text-2xl bg-gray-400 bg-clip-text text-transparent mb-1"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
@@ -246,7 +246,7 @@ export default function DonutChart({
               >
                 {centerText.value}
               </motion.div>
-              <div className="text-xs text-emerald-300 font-medium uppercase tracking-wider">
+              <div className="text-xs text-gray-300 font-medium uppercase tracking-wider">
                 {centerText.label}
               </div>
             </div>

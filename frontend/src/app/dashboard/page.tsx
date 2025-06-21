@@ -15,7 +15,9 @@ function CursosLoading() {
 export default function CursosPage() {
   return (
     <Suspense fallback={<CursosLoading />}>
-      <DashboardPageContent />
+      <DashboardPageContent
+        cpf={"410.567.398-00"}
+      />
     </Suspense>
   )
 }
