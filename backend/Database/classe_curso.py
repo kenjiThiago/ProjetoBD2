@@ -109,30 +109,3 @@ class Curso():
         """
         return self.db.execute_select_all(query)
 
-
-    def get_ultimos_cursos(self):
-        query = """
-        SELECT 
-            c.nome,
-            c.descricao,
-            c.nivel,
-            c.categoria,
-            c.acesso,
-            TO_CHAR(c.data_lancamento, 'YYYY-MM-DD') AS data_lancamento,
-            CONCAT(FLOOR(SUM(a.duracao) / 60), 'h ', MOD(SUM(a.duracao), 60), 'm') AS duracao_total,
-            COALESCE(p.nome, 'Desconhecido') AS nome_professor,
-            COUNT(DISTINCT e.cpf_aluno) AS num_alunos_inscritos,
-            ARRAY_AGG(DISTINCT h.nome) FILTER (WHERE h.nome IS NOT NULL) AS habilidades
-        FROM curso c
-        LEFT JOIN aula a ON a.nome_curso = c.nome
-        LEFT JOIN estuda e ON e.nome_curso = c.nome
-        LEFT JOIN ministra m ON m.nome_curso = c.nome
-        LEFT JOIN professor p ON p.email = m.email_professor
-        LEFT JOIN habilidade_curso hc ON hc.nome_curso = c.nome
-        LEFT JOIN habilidade h ON h.id = hc.id_habilidade
-        GROUP BY c.nome, c.descricao, c.nivel, c.categoria, c.acesso, c.data_lancamento, p.nome
-        ORDER BY c.data_lancamento DESC
-        LIMIT 3
-        """
-        return self.db.execute_select_all(query)
-
