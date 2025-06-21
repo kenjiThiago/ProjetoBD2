@@ -8,35 +8,16 @@ import {
   Shield
 } from 'lucide-react'
 import CompanyThumbnail from '@/components/CompanyThumbnail'
-
-interface Company {
-  id: number
-  name: string
-  logo: string
-  description: string
-  industry: string
-  size: string
-  location: string
-  website: string
-  rating: number
-  employees: string
-  founded: string
-  isPartner: boolean
-  isPremium: boolean
-  activeJobs: number
-  totalHires: number
-  benefits: string[]
-  technologies: string[]
-  culture: string[]
-}
+import { Company } from '@/data/mockData'
 
 interface CompanyCardProps {
   company: Company
+  index: number
   viewMode: 'grid' | 'list'
   variants?: any
 }
 
-export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
+export default function CompanyCard({ company, viewMode, index }: CompanyCardProps) {
   if (viewMode === 'list') {
     return (
       <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
@@ -44,6 +25,7 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
           {/* Thumbnail */}
           <CompanyThumbnail
             company={company}
+            index={index}
             type="list"
             className=""
           />
@@ -53,38 +35,36 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
             <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
-                  {company.isPartner && (
-                    <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded border border-blue-500/30 flex items-center space-x-1">
-                      <Shield className="w-3 h-3" />
-                      <span>Parceira</span>
-                    </span>
-                  )}
+                  <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded border border-blue-500/30 flex items-center space-x-1">
+                    <Shield className="w-3 h-3" />
+                    <span>Parceira</span>
+                  </span>
                   <span className="bg-purple-500/20 text-purple-400 text-xs font-semibold px-2 py-1 rounded border border-purple-500/30">
-                    {company.industry}
+                    {company.setor}
                   </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
-                  {company.name}
+                  {company.nome}
                 </h3>
 
                 <p className="text-gray-400 mb-3 line-clamp-2">
-                  {company.description}
+                  {company.descricao}
                 </p>
 
                 <div className="flex items-center text-gray-400 text-sm mb-3 flex-wrap gap-4">
                   <div className="flex items-center">
                     <MapPin className="w-4 h-4 mr-1" />
-                    <span>{company.location}</span>
+                    <span>{company.localizacao}</span>
                   </div>
                   <div className="flex items-center">
                     <Users className="w-4 h-4 mr-1" />
-                    <span>{company.size.split(' ')[0]}</span>
+                    <span>{company.porte}</span>
                   </div>
                   <div className="flex items-center space-x-4 text-sm text-gray-400">
                     <div className="flex items-center">
                       <Briefcase className="w-4 h-4 mr-1" />
-                      <span>{company.activeJobs} vagas ativas</span>
+                      <span>{company.numero_vagas} vagas ativas</span>
                     </div>
                   </div>
                 </div>
@@ -114,45 +94,44 @@ export default function CompanyCard({ company, viewMode }: CompanyCardProps) {
       {/* Thumbnail */}
       <CompanyThumbnail
         company={company}
+        index={index}
         type="grid"
       />
 
       {/* Content */}
       <div className="flex items-center gap-2 mb-3">
-        {company.isPartner && (
-          <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded border border-blue-500/30 flex items-center space-x-1">
-            <Shield className="w-3 h-3" />
-            <span>Parceira</span>
-          </span>
-        )}
+        <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded border border-blue-500/30 flex items-center space-x-1">
+          <Shield className="w-3 h-3" />
+          <span>Parceira</span>
+        </span>
         <span className="bg-purple-500/20 text-purple-400 text-xs font-semibold px-2 py-1 rounded border border-purple-500/30">
-          {company.industry}
+          {company.setor}
         </span>
       </div>
 
       <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors line-clamp-1">
-        {company.name}
+        {company.nome}
       </h3>
 
       <p className="text-gray-400 mb-3 text-sm line-clamp-2">
-        {company.description}
+        {company.descricao}
       </p>
 
       <div className="flex items-center justify-between mb-3 text-sm text-gray-400">
         <div className="flex items-center">
           <MapPin className="w-4 h-4 mr-1" />
-          <span className="truncate">{company.location}</span>
+          <span className="truncate">{company.localizacao}</span>
         </div>
       </div>
 
       <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
         <div className="flex items-center">
           <Briefcase className="w-4 h-4 mr-1" />
-          <span>{company.activeJobs} vagas</span>
+          <span>{company.numero_vagas} vagas</span>
         </div>
         <div className="flex items-center">
           <Users className="w-4 h-4 mr-1" />
-          <span>{company.size.split(' ')[0]}</span>
+          <span>{company.porte}</span>
         </div>
       </div>
 

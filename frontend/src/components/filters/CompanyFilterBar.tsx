@@ -16,7 +16,7 @@ interface CompanyFilterBarProps {
 }
 
 const industries = ["Setores", "Tecnologia", "Data Science", "Cloud Computing", "FinTech", "Gaming", "Venture Capital"]
-const companySizes = ["Porte", "Pequena (10-50)", "Média (100-500)", "Grande (500+)"]
+const companySizes = ["Porte", "Pequeno", "Médio", "Grande"]
 const locations = ["Localização", "São Paulo, SP", "Rio de Janeiro, RJ", "Florianópolis, SC", "Belo Horizonte, MG", "Curitiba, PR"]
 const jobTypes = ["Modalidade", "Remoto", "Presencial", "Híbrido"]
 const jobLevels = ["Nível", "Estágio", "Júnior", "Pleno", "Sênior"]

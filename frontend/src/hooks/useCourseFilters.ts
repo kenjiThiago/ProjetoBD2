@@ -16,7 +16,7 @@ export function useCourseFilters(coursesPerPage: number = 6) {
   const isUpdatingFromUrl = useRef(false)
 
   // Hook para gerenciar URL params e search global
-  const { updateUrlParams, getUrlParam } = useUrlParams()
+  const { updateCourseUrlParams, getUrlParam } = useUrlParams()
   const { globalSearchTerm, setGlobalSearchTerm } = useSearch()
 
   // Inicializar filtros a partir da URL
@@ -75,7 +75,7 @@ export function useCourseFilters(coursesPerPage: number = 6) {
   // Effect para sincronizar com URL sempre que filtros mudarem
   useEffect(() => {
     if (!isInitialLoad.current && !isUpdatingFromUrl.current) {
-      updateUrlParams({
+      updateCourseUrlParams({
         search: searchTerm,
         category: selectedCategory,
         level: selectedLevel,
@@ -84,7 +84,7 @@ export function useCourseFilters(coursesPerPage: number = 6) {
         page: currentPage > 1 ? currentPage.toString() : null
       })
     }
-  }, [searchTerm, selectedCategory, selectedLevel, selectedAccess, sortBy, currentPage, updateUrlParams])
+  }, [searchTerm, selectedCategory, selectedLevel, selectedAccess, sortBy, currentPage, updateCourseUrlParams])
 
   // Effect para buscar cursos com debounce
   useEffect(() => {
@@ -180,7 +180,7 @@ export function useCourseFilters(coursesPerPage: number = 6) {
     setSortBy("Ordenação")
     setCurrentPage(1)
 
-    updateUrlParams({
+    updateCourseUrlParams({
       search: null,
       category: null,
       level: null,
@@ -188,7 +188,7 @@ export function useCourseFilters(coursesPerPage: number = 6) {
       sortBy: null,
       page: null
     })
-  }, [setGlobalSearchTerm, updateUrlParams])
+  }, [setGlobalSearchTerm, updateCourseUrlParams])
 
   return {
     courses: paginatedCourses,

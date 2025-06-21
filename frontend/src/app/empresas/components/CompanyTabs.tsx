@@ -4,14 +4,10 @@ import { Building2, Briefcase } from 'lucide-react'
 
 interface CompanyTabsProps {
   activeTab: 'companies' | 'jobs'
-  totalCompanies: number
-  totalJobs: number
 }
 
 export default function CompanyTabs({
   activeTab,
-  totalCompanies,
-  totalJobs
 }: CompanyTabsProps) {
   return (
     <section className="bg-gray-900/50 border-b border-gray-800/50 sticky top-14 z-40 backdrop-blur-lg">
@@ -31,7 +27,7 @@ export default function CompanyTabs({
               }}
             >
               <Building2 className="w-5 h-5" />
-              <span>Empresas ({totalCompanies})</span>
+              <span>Empresas</span>
             </button>
             <button
               className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
@@ -46,7 +42,7 @@ export default function CompanyTabs({
               }}
             >
               <Briefcase className="w-5 h-5" />
-              <span>Vagas ({totalJobs})</span>
+              <span>Vagas</span>
             </button>
           </div>
         </div>

@@ -2,12 +2,14 @@ import { Company } from "@/data/mockData"
 
 interface CompanyThumbnailProps {
   company: Company
+  index: number
   type?: 'grid' | 'list'
   className?: string
 }
 
 export default function CompanyThumbnail({
   company,
+  index,
   type = "grid",
   className = "",
 }: CompanyThumbnailProps) {
@@ -46,10 +48,10 @@ export default function CompanyThumbnail({
   }
 
   return (
-    <div className={`bg-gradient-to-br ${getCompanyGradient(company.id)} rounded-lg relative flex items-center justify-center ${cardType} ${className}`}>
+    <div className={`bg-gradient-to-br ${getCompanyGradient(index)} rounded-lg relative flex items-center justify-center ${cardType} ${className}`}>
       {/* Ícone baseado na indústria/tecnologia */}
       <div className="text-white text-2xl font-bold opacity-90 group-hover:opacity-100 transition-opacity">
-        {company.logo}
+        {company.sigla}
       </div>
 
       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors rounded-lg" />
