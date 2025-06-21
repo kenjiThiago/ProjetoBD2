@@ -42,9 +42,10 @@ export default function FeaturedCourses({
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          {courses.map((course) => (
+          {courses.map((course, index) => (
             <CourseCard
-              key={course.id}
+              key={course.nome}
+              index={index}
               course={course}
             />
           ))}

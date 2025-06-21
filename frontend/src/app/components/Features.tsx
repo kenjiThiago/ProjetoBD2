@@ -4,33 +4,38 @@ import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import { Users, BookOpen, GraduationCap, Building, Award, Zap, Heart, Briefcase } from 'lucide-react'
 
-export default function Stats() {
+export default function Stats({
+  numStudents,
+  numCourses,
+  numCompanies,
+  numTeachers,
+}) {
   const ref = useRef(null)
 
   const stats = [
     {
-      number: 50000,
+      number: numStudents,
       suffix: "+",
       label: "Estudantes Ativos",
       icon: Users,
       gradient: "from-blue-500 to-cyan-400"
     },
     {
-      number: 500,
+      number: numCourses,
       suffix: "+",
       label: "Cursos Disponíveis",
       icon: BookOpen,
       gradient: "from-green-500 to-emerald-400"
     },
     {
-      number: 50,
+      number: numTeachers,
       suffix: "+",
       label: "Instrutores Especialistas",
       icon: GraduationCap,
       gradient: "from-purple-500 to-pink-400"
     },
     {
-      number: 30,
+      number: numCompanies,
       suffix: "+",
       label: "Empresas Parceiras",
       icon: Building,
