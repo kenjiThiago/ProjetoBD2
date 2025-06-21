@@ -5,31 +5,10 @@ import {
   MapPin,
   DollarSign,
   Users,
-  Clock,
   ExternalLink,
 } from 'lucide-react'
 import JobThumbnail from '@/components/JobThumbnail'
-
-interface Job {
-  id: number
-  title: string
-  company: string
-  companyLogo: string
-  location: string
-  type: 'Remoto' | 'Presencial' | 'Híbrido'
-  level: 'Júnior' | 'Pleno' | 'Sênior' | 'Estágio'
-  salaryRange: string
-  description: string
-  requirements: string[]
-  technologies: string[]
-  benefits: string[]
-  postedAt: string
-  deadline: string
-  applicants: number
-  isUrgent?: boolean
-  isNew?: boolean
-  isFeatured?: boolean
-}
+import { Job } from '@/data/mockData'
 
 interface JobCardProps {
   job: Job
@@ -56,7 +35,7 @@ export default function JobCard({ job, variants }: JobCardProps) {
     }
   }
 
-  const daysAgo = Math.floor((new Date().getTime() - new Date(job.postedAt).getTime()) / (1000 * 3600 * 24))
+  const requisitos = job.requisitos.split(", ")
 
   return (
     <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
@@ -73,38 +52,38 @@ export default function JobCard({ job, variants }: JobCardProps) {
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3 flex-wrap">
-                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getJobLevelColor(job.level)}`}>
-                  {job.level}
+                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getJobLevelColor(job.nivel)}`}>
+                  {job.nivel}
                 </span>
-                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getJobTypeColor(job.type)}`}>
-                  {job.type}
+                <span className={`text-xs font-semibold px-2 py-1 rounded border ${getJobTypeColor(job.modalidade)}`}>
+                  {job.modalidade}
                 </span>
               </div>
 
               <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
-                {job.title}
+                {job.vaga_nome}
               </h3>
 
               <div className="flex items-center text-gray-400 text-sm mb-3">
                 <Building2 className="w-4 h-4 mr-2" />
-                <span className="font-medium text-white">{job.company}</span>
+                <span className="font-medium text-white">{job.empresa_nome}</span>
                 <span className="mx-2">•</span>
                 <MapPin className="w-4 h-4 mr-1" />
-                <span>{job.location}</span>
+                <span>{job.localizacao}</span>
               </div>
 
               <p className="text-gray-400 mb-3 line-clamp-2">
-                {job.description}
+                {job.descricao}
               </p>
 
               <div className="flex flex-wrap gap-1 mb-4">
-                {job.technologies.slice(0, 4).map((tech, index) => (
+                {requisitos.slice(0, 4).map((tech, index) => (
                   <span key={index} className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded font-mono">
                     {tech}
                   </span>
                 ))}
-                {job.technologies.length > 4 && (
-                  <span className="text-xs text-gray-400">+{job.technologies.length - 4}</span>
+                {requisitos.length > 4 && (
+                  <span className="text-xs text-gray-400">+{requisitos.length - 4}</span>
                 )}
               </div>
 
@@ -112,11 +91,11 @@ export default function JobCard({ job, variants }: JobCardProps) {
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center">
                     <DollarSign className="w-4 h-4 mr-1" />
-                    <span className="text-white font-semibold">{job.salaryRange}</span>
+                    <span className="text-white font-semibold">{job.salario}</span>
                   </div>
                   <div className="flex items-center">
                     <Users className="w-4 h-4 mr-1" />
-                    <span>{job.applicants} candidatos</span>
+                    <span>{job.numero_inscritos} candidatos</span>
                   </div>
                 </div>
               </div>
@@ -129,7 +108,7 @@ export default function JobCard({ job, variants }: JobCardProps) {
                 <span>Candidatar-se</span>
               </button>
               <div className="text-xs text-gray-400 text-right">
-                Prazo: {new Date(job.deadline).toLocaleDateString('pt-BR')}
+                Prazo: {new Date(job.prazo).toLocaleDateString('pt-BR')}
               </div>
             </div>
           </div>

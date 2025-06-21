@@ -19,7 +19,7 @@ const industries = ["Setores", "Tecnologia", "Data Science", "Cloud Computing", 
 const companySizes = ["Porte", "Pequeno", "Médio", "Grande"]
 const locations = ["Localização", "São Paulo, SP", "Rio de Janeiro, RJ", "Florianópolis, SC", "Belo Horizonte, MG", "Curitiba, PR"]
 const jobTypes = ["Modalidade", "Remoto", "Presencial", "Híbrido"]
-const jobLevels = ["Nível", "Estágio", "Júnior", "Pleno", "Sênior"]
+const jobLevels = ["Nível", "Estagiário", "Júnior", "Pleno", "Sênior"]
 
 export default function CompanyFilterBar({
   activeTab,
