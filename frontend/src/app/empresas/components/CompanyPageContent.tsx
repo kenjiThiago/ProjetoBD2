@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CompaniesHero from '@/app/empresas/components/CompaniesHero'
@@ -17,8 +18,17 @@ import { useJobFilters } from '@/hooks/useJobFilters'
 export default function CompanyPageContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
-  const [activeTab, setActiveTab] = useState<'companies' | 'jobs'>('companies')
   const itemsPerPage = 6
+
+  // Adicionar hooks para navegação e query params
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const tabFromUrl = searchParams.get('tab')
+
+  // Tab inicial baseado na URL
+  const [activeTab, setActiveTab] = useState<'companies' | 'jobs'>(
+    (tabFromUrl as 'companies' | 'jobs') || 'companies'
+  )
 
   // Hook para empresas (sempre ativo)
   const companyFilters = useCompanyFilters(itemsPerPage)
@@ -26,12 +36,21 @@ export default function CompanyPageContent() {
   // Hook para vagas (ativo apenas quando necessário)
   const jobFilters = useJobFilters(itemsPerPage)
 
+  // Effect para sincronizar a aba com a URL
+  useEffect(() => {
+    if (tabFromUrl && ['companies', 'jobs'].includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl as 'companies' | 'jobs')
+    }
+  }, [tabFromUrl])
+
   // Effect para controlar quando ativar/desativar o hook de vagas
   useEffect(() => {
     if (activeTab === 'jobs') {
       jobFilters.activate()
+      companyFilters.deactivate()
     } else {
       jobFilters.deactivate()
+      companyFilters.activate()
     }
   }, [activeTab, jobFilters])
 
@@ -42,7 +61,14 @@ export default function CompanyPageContent() {
   // Event listeners para comunicação entre componentes
   useEffect(() => {
     const handleSearchChange = (e: CustomEvent) => { activeFilters.setSearchTerm(e.detail) }
-    const handleTabChange = (e: CustomEvent) => { setActiveTab(e.detail) }
+    const handleTabChange = (e: CustomEvent) => {
+      const newTab = e.detail
+      setActiveTab(newTab)
+
+      // Atualizar a URL quando a aba mudar
+      const href = `/empresas?tab=${newTab}`
+      router.push(href)
+    }
     const handleIndustryChange = (e: CustomEvent) => {
       if (activeTab === 'companies') {
         companyFilters.setSelectedIndustry(e.detail)

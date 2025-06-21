@@ -7,6 +7,7 @@ export function useCompanyFilters(companiesPerPage: number = 6) {
   const [companies, setCompanies] = useState<Company[]>([])
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [isActive, setIsActive] = useState(false) // Controla se deve fazer requests
 
   // Refs para controle de requisições
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -33,6 +34,7 @@ export function useCompanyFilters(companiesPerPage: number = 6) {
 
   // Função para buscar empresas
   const fetchCompanies = useCallback(async (signal?: AbortSignal) => {
+    if (!isActive) return // Não faz request se não estiver ativo
     setError(null)
 
     try {
@@ -56,7 +58,7 @@ export function useCompanyFilters(companiesPerPage: number = 6) {
         setCompanies([])
       }
     }
-  }, [searchTerm, selectedLocation, selectedIndustry, selectedSize])
+  }, [searchTerm, selectedLocation, selectedIndustry, selectedSize, isActive])
 
   // Effect para sincronizar com URL sempre que filtros mudarem
   useEffect(() => {
@@ -73,6 +75,8 @@ export function useCompanyFilters(companiesPerPage: number = 6) {
 
   // Effect para buscar empresas com debounce
   useEffect(() => {
+    if (!isActive) return
+
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
     }
@@ -131,6 +135,14 @@ export function useCompanyFilters(companiesPerPage: number = 6) {
   const paginatedCompanies = companies.slice(indexOfFirstCompany, indexOfLastCompany)
   const totalPages = Math.ceil(companies.length / companiesPerPage)
 
+  const activate = useCallback(() => {
+    setIsActive(true)
+  }, [])
+
+  const deactivate = useCallback(() => {
+    setIsActive(false)
+  }, [])
+
   // Funções de atualização dos filtros
   const handleSetSearchTerm = useCallback((value: string) => {
     setSearchTerm(value)
@@ -184,5 +196,8 @@ export function useCompanyFilters(companiesPerPage: number = 6) {
     setSelectedSize: handleSetSelectedSize,
     setCurrentPage,
     clearAllFilters,
+    activate,
+    deactivate,
+    isActive
   }
 }
