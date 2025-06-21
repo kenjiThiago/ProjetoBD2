@@ -8,6 +8,7 @@ export function useJobFilters(jobsPerPage: number = 6) {
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [isActive, setIsActive] = useState(false) // Controla se deve fazer requests
+  const [shouldUpdateUrl, setShouldUpdateUrl] = useState(false) // Nova flag para controlar atualização da URL
 
   // Refs para controle de requisições
   const abortControllerRef = useRef<AbortController | null>(null)
@@ -56,6 +57,19 @@ export function useJobFilters(jobsPerPage: number = 6) {
       }
     }
   }, [searchTerm, selectedLocation, selectedType, selectedLevel, isActive])
+
+  // Effect para atualizar URL quando filtros mudam (apenas quando ativo E shouldUpdateUrl for true)
+  useEffect(() => {
+    if (!isActive || !shouldUpdateUrl) return
+
+    updateJobUrlParams({
+      search: searchTerm || null,
+      location: selectedLocation === 'Localização' ? null : selectedLocation,
+      type: selectedType === 'Modalidade' ? null : selectedType,
+      level: selectedLevel === 'Nível' ? null : selectedLevel,
+      page: currentPage > 1 ? currentPage.toString() : null
+    })
+  }, [searchTerm, selectedLocation, selectedType, selectedLevel, currentPage, isActive, shouldUpdateUrl, updateJobUrlParams])
 
   // Effect para buscar vagas com debounce (só quando ativo)
   useEffect(() => {
@@ -106,10 +120,15 @@ export function useJobFilters(jobsPerPage: number = 6) {
   // Função para ativar/desativar o hook
   const activate = useCallback(() => {
     setIsActive(true)
+    // Aguardar um pouco antes de permitir atualizações de URL para evitar conflitos
+    setTimeout(() => {
+      setShouldUpdateUrl(true)
+    }, 100)
   }, [])
 
   const deactivate = useCallback(() => {
     setIsActive(false)
+    setShouldUpdateUrl(false)
   }, [])
 
   // Funções de atualização dos filtros
@@ -133,6 +152,11 @@ export function useJobFilters(jobsPerPage: number = 6) {
     setCurrentPage(1)
   }, [])
 
+  // Função para atualizar página
+  const handleSetCurrentPage = useCallback((page: number) => {
+    setCurrentPage(page)
+  }, [])
+
   const clearAllFilters = useCallback(() => {
     setSearchTerm("")
     setSelectedLocation("Localização")
@@ -140,14 +164,16 @@ export function useJobFilters(jobsPerPage: number = 6) {
     setSelectedLevel("Nível")
     setCurrentPage(1)
 
-    updateJobUrlParams({
-      search: null,
-      location: null,
-      type: null,
-      level: null,
-      page: null
-    })
-  }, [updateJobUrlParams])
+    if (shouldUpdateUrl) {
+      updateJobUrlParams({
+        search: null,
+        location: null,
+        type: null,
+        level: null,
+        page: null
+      })
+    }
+  }, [updateJobUrlParams, shouldUpdateUrl])
 
   return {
     jobs: paginatedJobs,
@@ -163,7 +189,7 @@ export function useJobFilters(jobsPerPage: number = 6) {
     setSelectedLocation: handleSetSelectedLocation,
     setSelectedJobType: handleSetSelectedJobType,
     setSelectedJobLevel: handleSetSelectedJobLevel,
-    setCurrentPage,
+    setCurrentPage: handleSetCurrentPage,
     clearAllFilters,
     activate,
     deactivate,

@@ -67,7 +67,7 @@ export default function CompanyPageContent() {
 
       // Atualizar a URL quando a aba mudar
       const href = `/empresas?tab=${newTab}`
-      router.push(href)
+      router.push(href, { scroll: false })
     }
     const handleIndustryChange = (e: CustomEvent) => {
       if (activeTab === 'companies') {
