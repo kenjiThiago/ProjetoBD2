@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 #from Rotas.rota_homepage import homepage_blueprint
-#from Rotas.rota_aluno import aluno_blueprint
+from Rotas.rota_aluno import aluno_blueprint
 from Rotas.rota_curso import curso_blueprint
 from Rotas.rota_empresa import empresa_blueprint
 #from Rotas.rota_professor import professor_blueprint
@@ -18,7 +18,7 @@ app = Flask(__name__)
 CORS(app, origins="*")
 
 #app.register_blueprint(homepage_blueprint)
-#app.register_blueprint(aluno_blueprint)
+app.register_blueprint(aluno_blueprint)
 app.register_blueprint(curso_blueprint)
 app.register_blueprint(empresa_blueprint)
 #app.register_blueprint(professor_blueprint)
