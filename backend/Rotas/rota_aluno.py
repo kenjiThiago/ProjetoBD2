@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from Database.classe_aluno import Aluno
+from Database.classe_curso import Curso
 
 aluno_blueprint = Blueprint("aluno", __name__)
 @aluno_blueprint.route("/alunos", methods=["GET"])
@@ -32,5 +33,8 @@ def get_alunos():
         visao_geral = aluno_model.get_visao_geral_cursos_nao_concluidos(cpf_aluno)
         aluno["visao_geral"] = visao_geral
 
-    return jsonify({"alunos": alunos}), 200
+    curso_model = Curso()
+    total_cursos = curso_model.get_numero_cursos()
+
+    return jsonify({"alunos": alunos, "total_cursos": total_cursos}), 200
 

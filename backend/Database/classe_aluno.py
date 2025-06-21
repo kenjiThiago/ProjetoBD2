@@ -9,14 +9,17 @@ class Aluno():
         current_date = datetime.now().date()
 
         query = f"""
-        SELECT 
+        SELECT
             a.cpf,
             a.nome,
-            a.email,
-            TO_CHAR(a.data_nascimento, 'YYYY-MM-DD') AS data_nascimento,
+            (
+                SELECT ARRAY_AGG(DISTINCT h.nome || ': ' || h.nivel)
+                FROM estuda e2
+                JOIN habilidade_curso hc2 ON hc2.nome_curso = e2.nome_curso
+                JOIN habilidade h ON h.id = hc2.id_habilidade
+                WHERE e2.cpf_aluno = '{cpf}' AND e2.data_conclusao IS NOT NULL
+            ) AS habilidades_aluno,
             a.plano,
-            a.forma_pagamento,
-
             -- Número de vagas inscritas
             (SELECT COUNT(*) FROM se_inscreve si WHERE si.cpf_aluno = a.cpf) AS num_vagas_inscritas,
 
@@ -35,7 +38,7 @@ class Aluno():
 
             -- Número de horas de estudo
             COALESCE((
-                SELECT SUM(c.duracao) 
+                SELECT SUM(c.duracao)
                 FROM estuda e
                 JOIN curso c ON c.nome = e.nome_curso
                 WHERE e.cpf_aluno = a.cpf AND e.data_conclusao IS NOT NULL
@@ -56,12 +59,8 @@ class Aluno():
             ) AS num_cursos_andamento,
 
             -- Total de cursos
-            (SELECT COUNT(DISTINCT nome_curso) FROM estuda e WHERE e.cpf_aluno = a.cpf) AS total_cursos,
-
-            -- Idade (opcional, você já estava usando)
-            DATE_PART('year', AGE('{current_date}', a.data_nascimento))::INT AS idade
-
-        FROM 
+            (SELECT COUNT(DISTINCT nome_curso) FROM estuda e WHERE e.cpf_aluno = a.cpf) AS total_cursos
+        FROM
             aluno a
         """
 
@@ -82,7 +81,7 @@ class Aluno():
             query += " WHERE " + " AND ".join(filtros)
 
         query += """
-        ORDER BY 
+        ORDER BY
             a.nome ASC
         """
 
@@ -93,12 +92,13 @@ class Aluno():
         status: str = "", search: str = ""
     ):
         query = f"""
-        SELECT 
+        SELECT
             c.nome AS nome,
             c.nivel,
+            ARRAY_AGG(DISTINCT h.nome) AS habilidades,
+            c.categoria,
             p.nome AS professor,
             CONCAT(FLOOR(SUM(a.duracao) / 60), 'h ', MOD(SUM(a.duracao), 60), 'm') AS duracao_total,
-            STRING_AGG(DISTINCT h.nome, ', ') AS habilidades,
             COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN a.nome END) AS aulas_concluidas,
             COUNT(DISTINCT a.nome) AS total_aulas
         FROM curso c
@@ -133,14 +133,14 @@ class Aluno():
         GROUP BY c.nome, c.nivel, p.nome
         """
 
-        if status.lower() == "concluidos":
+        if status.lower() == "concluídos":
             query += """
-        HAVING COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN a.nome END) = 
+        HAVING COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN a.nome END) =
                COUNT(DISTINCT a.nome)
             """
         elif status.lower() == "em andamento":
             query += """
-        HAVING COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN a.nome END) < 
+        HAVING COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN a.nome END) <
                COUNT(DISTINCT a.nome)
             """
 
@@ -153,26 +153,23 @@ class Aluno():
 
     def get_visao_geral_cursos_nao_concluidos(self, cpf_aluno: str):
         query = f"""
-        SELECT 
+        SELECT
             c.nome,
+            c.categoria,
+            ARRAY_AGG(DISTINCT h.nome) AS habilidades,
             c.descricao,
             COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN aul.nome END) AS aulas_concluidas,
-            COUNT(DISTINCT aul.nome) AS total_aulas,
-            (
-                SELECT STRING_AGG(DISTINCT h.nome || ': ' || h.nivel, ', ')
-                FROM estuda e2
-                JOIN habilidade_curso hc2 ON hc2.nome_curso = e2.nome_curso
-                JOIN habilidade h ON h.id = hc2.id_habilidade
-                WHERE e2.cpf_aluno = '{cpf_aluno}' AND e2.data_conclusao IS NOT NULL
-            ) AS habilidades_aluno
+            COUNT(DISTINCT aul.nome) AS total_aulas
         FROM curso c
         INNER JOIN estuda e ON e.nome_curso = c.nome AND e.cpf_aluno = '{cpf_aluno}'
         LEFT JOIN aula aul ON aul.nome_curso = c.nome
         LEFT JOIN assiste ass ON ass.nome_aula = aul.nome AND ass.cpf_aluno = '{cpf_aluno}'
+        LEFT JOIN habilidade_curso hc ON hc.nome_curso = c.nome
+        LEFT JOIN habilidade h ON hc.id_habilidade = h.id
         GROUP BY c.nome, c.descricao
         HAVING COUNT(DISTINCT CASE WHEN ass.data_conclusao IS NOT NULL THEN aul.nome END) < COUNT(DISTINCT aul.nome)
         ORDER BY c.nome
-        LIMIT 3
+        LIMIT 3;
         """
         return self.db.execute_select_all(query)
 
