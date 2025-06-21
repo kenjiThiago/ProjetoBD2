@@ -176,3 +176,8 @@ class Aluno():
         """
         return self.db.execute_select_all(query)
 
+    def count_total(self):
+        query = "SELECT COUNT(*) AS total FROM aluno"
+        result = self.db.execute_select_one(query)
+        return result["total"]
+
