@@ -28,6 +28,28 @@ export function useUrlParams() {
     router.push(`${pathname}${query}`, { scroll: false })
   }, [router, pathname, searchParams])
 
+  const updateDashboardUrlParams = useCallback((params: Record<string, string | null>) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()))
+
+    // Atualizar ou remover parâmetros
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null || value === '' ||
+          value === 'Categorias' || value === 'Níveis' ||
+          value === 'Status') {
+        current.delete(key)
+      } else {
+        current.set(key, value)
+      }
+    })
+
+    // Construir nova URL
+    const search = current.toString()
+    const query = search ? `?${search}` : ''
+
+    // Navegar para nova URL sem recarregar a página
+    router.push(`${pathname}${query}`, { scroll: false })
+  }, [router, pathname, searchParams])
+
   const updateCompanyUrlParams = useCallback((params: Record<string, string | null>) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()))
 
@@ -76,5 +98,5 @@ export function useUrlParams() {
     return searchParams.get(key) || defaultValue
   }, [searchParams])
 
-  return { updateJobUrlParams, updateCompanyUrlParams, updateCourseUrlParams, getUrlParam }
+  return { updateDashboardUrlParams, updateJobUrlParams, updateCompanyUrlParams, updateCourseUrlParams, getUrlParam }
 }

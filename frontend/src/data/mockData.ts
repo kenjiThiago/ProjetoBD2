@@ -13,6 +13,26 @@ export interface Course {
   numero_alunos_concluidos: number
 }
 
+export interface DashboardCourse {
+  nome: string
+  aulas_concluidas: number
+  duracao_total: string
+  nivel: "Iniciante" | "Intermediário" | "Avançado"
+  categoria: string
+  habilidades: string[]
+  total_aulas: number
+  nome_professor: string
+}
+
+export interface InProgressCourse {
+  aulas_concluidas: number
+  descricao: string
+  categoria: string
+  habilidades: string[]
+  nome: string
+  total_aulas: number
+}
+
 export interface Company {
   nome: string
   sigla: string
@@ -37,4 +57,17 @@ export interface Job {
   requisitos: string
   prazo: string
   numero_inscritos: number
+}
+
+export interface User {
+  name: string
+  avatar: string
+  completedCourses: number
+  inProgressCourses: number
+  certificates: number
+  studyTime: number
+  planStatus: string
+  skills: string[]
+  appliedJobs: number
+  totalCourses: number
 }

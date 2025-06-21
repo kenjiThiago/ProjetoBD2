@@ -56,7 +56,7 @@ export default function Thumbnail({
   }
 
   // Função para obter ícone baseado na categoria ou tags
-  const getCourseIcon = (course: Course) => {
+  const getCourseIcon = (course: any) => {
     const category = course.categoria.toLowerCase()
     const tags = course.habilidades.map(tag => tag.toLowerCase())
 

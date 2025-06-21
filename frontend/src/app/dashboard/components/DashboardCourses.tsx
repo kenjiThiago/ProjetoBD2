@@ -1,85 +1,35 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect } from 'react'
 import CourseCard from '@/components/cards/DashboardCourseCard'
 import DashboardCourseFilters from '@/components/filters/DashboardCourseFilters'
 import DashboardPagination from '@/components/pagination/DashboardPagination'
-import { useDashboardCourseFilters } from '@/hooks/useDashboardCourseFilters'
-import { Course } from '@/data/mockData'
+import { DashboardCourse } from '@/data/mockData'
 import {
   BookOpen,
 } from 'lucide-react'
 
 interface DashboardCoursesProps {
-  courses: Course[]
+  courses: DashboardCourse[]
+  searchTerm: string
+  selectedCategory: string
+  selectedLevel: string
+  selectedStatus: string
+  totalItems: number
+  currentPage: number
+  totalPages: number
 }
 
 export default function DashboardCourses({
   courses,
+  searchTerm,
+  selectedCategory,
+  selectedLevel,
+  selectedStatus,
+  totalItems,
+  currentPage,
+  totalPages
 }: DashboardCoursesProps) {
-  const {
-    searchTerm,
-    selectedCategory,
-    selectedLevel,
-    selectedStatus,
-    currentPage,
-    totalPages,
-    paginatedCourses,
-    totalItems,
-    setSearchTerm,
-    setSelectedCategory,
-    setSelectedLevel,
-    setSelectedStatus,
-    clearAllFilters,
-    goToPage
-  } = useDashboardCourseFilters({ courses, itemsPerPage: 6 })
-
-  // Event listeners for dashboard events
-  useEffect(() => {
-    const handleSearchChange = (e: CustomEvent) => {
-      setSearchTerm(e.detail)
-    }
-
-    const handleCategoryChange = (e: CustomEvent) => {
-      setSelectedCategory(e.detail)
-    }
-
-    const handleLevelChange = (e: CustomEvent) => {
-      setSelectedLevel(e.detail)
-    }
-
-    const handleStatusChange = (e: CustomEvent) => {
-      setSelectedStatus(e.detail)
-    }
-
-    const handleClearFilters = () => {
-      clearAllFilters()
-    }
-
-    const handlePageChange = (e: CustomEvent) => {
-      goToPage(e.detail)
-    }
-
-    // Add event listeners
-    window.addEventListener('dashboardSearchChange', handleSearchChange as EventListener)
-    window.addEventListener('dashboardCategoryChange', handleCategoryChange as EventListener)
-    window.addEventListener('dashboardLevelChange', handleLevelChange as EventListener)
-    window.addEventListener('dashboardStatusChange', handleStatusChange as EventListener)
-    window.addEventListener('dashboardClearFilters', handleClearFilters)
-    window.addEventListener('dashboardPageChange', handlePageChange as EventListener)
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('dashboardSearchChange', handleSearchChange as EventListener)
-      window.removeEventListener('dashboardCategoryChange', handleCategoryChange as EventListener)
-      window.removeEventListener('dashboardLevelChange', handleLevelChange as EventListener)
-      window.removeEventListener('dashboardStatusChange', handleStatusChange as EventListener)
-      window.removeEventListener('dashboardClearFilters', handleClearFilters)
-      window.removeEventListener('dashboardPageChange', handlePageChange as EventListener)
-    }
-  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedStatus, clearAllFilters, goToPage])
-
   return (
     <motion.div
       id="content-area"
@@ -100,22 +50,20 @@ export default function DashboardCourses({
       />
 
       {/* Courses Grid */}
-      {paginatedCourses.length > 0 ? (
+      {courses.length > 0 ? (
         <>
-          <motion.div
+          <div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             key={`courses-${currentPage}-${searchTerm}-${selectedCategory}-${selectedLevel}-${selectedStatus}`}
           >
-            {paginatedCourses.map((course) => (
+            {courses.map((course, index) => (
               <CourseCard
-                key={course.id}
+                key={index}
+                index={index}
                 course={course}
               />
             ))}
-          </motion.div>
+          </div>
 
           {/* Pagination */}
           <DashboardPagination
@@ -146,7 +94,9 @@ export default function DashboardCourses({
             {(searchTerm || selectedCategory !== "Categorias" || selectedLevel !== "Níveis" || selectedStatus !== "Status") && (
               <button
                 className="btn-secondary px-6 py-3"
-                onClick={clearAllFilters}
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('dashboardClearFilters'))
+                }}
               >
                 <span>Limpar Filtros</span>
               </button>

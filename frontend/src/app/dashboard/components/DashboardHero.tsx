@@ -10,24 +10,11 @@ import {
   Clock,
 } from 'lucide-react'
 import DonutChart from './DonutChart'
-
-interface User {
-  name: string
-  avatar: string
-  level: string
-  joinDate: string
-  completedCourses: number
-  inProgressCourses: number
-  studyTime: string
-  status: string
-  certificates: number
-  totalCourses: number
-  appliedJobs: number
-  statusPlano?: string
-}
+import { User } from '@/data/mockData'
 
 interface DashboardHeroProps {
   user: User
+  totalCoursesGlobal: number
 }
 
 // Função para formatar o status do plano
@@ -45,7 +32,7 @@ const getPlanDisplayInfo = (statusPlano: string) => {
   }
 
   return {
-    text: 'Gratuito',
+    text: 'Grátis',
     icon: Star,
     color: 'text-blue-400',
     bgColor: 'from-blue-500/20 to-purple-500/20',
@@ -108,13 +95,12 @@ const StatCard = ({
 
 export default function DashboardHero({
   user,
+  totalCoursesGlobal
 }: DashboardHeroProps) {
-  const planInfo = getPlanDisplayInfo(user.statusPlano || 'gratuito')
+  const planInfo = getPlanDisplayInfo(user.planStatus || 'gratuito')
 
   // Calcular algumas métricas adicionais
   const completionRate = user.totalCourses > 0 ? Math.round((user.completedCourses / user.totalCourses) * 100) : 0
-  const avgStudyHours = user.studyTime ? parseInt(user.studyTime.replace('h', '')) : 0
-  const studyLevel = avgStudyHours > 150 ? 'Intensivo' : avgStudyHours > 50 ? 'Regular' : 'Iniciante'
 
   return (
     <section className="bg-gradient-to-br from-gray-900 via-purple-950/20 to-gray-900 py-12 relative overflow-hidden">
@@ -170,7 +156,6 @@ export default function DashboardHero({
                   icon={Clock}
                   label="Tempo de Estudo"
                   value={user.studyTime}
-                  subtitle={`Nível: ${studyLevel}`}
                   color="text-blue-400"
                   bgGradient="from-blue-500/10 to-cyan-500/10"
                   borderColor="border-blue-500/30"
@@ -199,7 +184,7 @@ export default function DashboardHero({
                   bgGradient={planInfo.bgColor}
                   borderColor={planInfo.borderColor}
                   hasAnimation={planInfo.text === 'Premium'}
-                  onClick={() => planInfo.text === 'Gratuito' && console.log('Navegar para planos')}
+                  onClick={() => planInfo.text === 'Grátis' && console.log('Navegar para planos')}
                 />
               </div>
             </div>
@@ -208,7 +193,7 @@ export default function DashboardHero({
               <DonutChart
                 completedCourses={user.completedCourses}
                 inProgressCourses={user.inProgressCourses}
-                totalCourses={user.totalCourses}
+                totalCourses={totalCoursesGlobal}
               />
             </div>
           </div>

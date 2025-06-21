@@ -8,15 +8,81 @@ import DashboardHero from '@/app/dashboard/components/DashboardHero'
 import DashboardTabs from '@/app/dashboard/components/DashboardTabs'
 import DashboardOverview from '@/app/dashboard/components/DashboardOverview'
 import DashboardCourses from '@/app/dashboard/components/DashboardCourses'
-import {
-  getCoursesInProgress,
-  getCompletedCourses,
-  getCoursesWithCertificates
-} from '@/utils/courseUtils'
-import { courses, } from '@/data/mockData'
 import WelcomeModal from './WelcomeModal'
+import { useDashboardInfo } from '@/hooks/useDashboardInfo'
+import { User } from '@/data/mockData'
 
-export default function DashboardPage() {
+export default function DashboardPage({ cpf }) {
+  const {
+    courses,
+    error,
+    totalPages,
+    currentPage,
+    searchTerm,
+    selectedCategory,
+    selectedLevel,
+    selectedStatus,
+    setSearchTerm,
+    setSelectedCategory,
+    setSelectedStatus,
+    setSelectedLevel,
+    setCurrentPage,
+    name,
+    skills,
+    certificateCount,
+    inProgressCoursesCount,
+    studyHours,
+    applicationCount,
+    subscriptionPlan,
+    totalCourses,
+    totalCoursesGlobal,
+    overview,
+    clearAllFilters
+  } = useDashboardInfo(6, cpf)
+  // Event listeners for dashboard events
+  useEffect(() => {
+    const handleSearchChange = (e: CustomEvent) => {
+      setSearchTerm(e.detail)
+    }
+
+    const handleCategoryChange = (e: CustomEvent) => {
+      setSelectedCategory(e.detail)
+    }
+
+    const handleLevelChange = (e: CustomEvent) => {
+      setSelectedLevel(e.detail)
+    }
+
+    const handleStatusChange = (e: CustomEvent) => {
+      setSelectedStatus(e.detail)
+    }
+
+    const handleClearFilters = () => {
+      clearAllFilters()
+    }
+
+    const handlePageChange = (e: any) => setCurrentPage(e.detail)
+
+    // Add event listeners
+    window.addEventListener('dashboardSearchChange', handleSearchChange as EventListener)
+    window.addEventListener('dashboardCategoryChange', handleCategoryChange as EventListener)
+    window.addEventListener('dashboardLevelChange', handleLevelChange as EventListener)
+    window.addEventListener('dashboardStatusChange', handleStatusChange as EventListener)
+    window.addEventListener('dashboardClearFilters', handleClearFilters)
+    window.addEventListener('dashboardPageChange', handlePageChange as EventListener)
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('dashboardSearchChange', handleSearchChange as EventListener)
+      window.removeEventListener('dashboardCategoryChange', handleCategoryChange as EventListener)
+      window.removeEventListener('dashboardLevelChange', handleLevelChange as EventListener)
+      window.removeEventListener('dashboardStatusChange', handleStatusChange as EventListener)
+      window.removeEventListener('dashboardClearFilters', handleClearFilters)
+      window.removeEventListener('dashboardPageChange', handlePageChange as EventListener)
+    }
+  }, [setSearchTerm, setSelectedCategory, setSelectedLevel, setSelectedStatus, clearAllFilters, setCurrentPage])
+
+
   // Searchparams
   const searchParams = useSearchParams()
   const tabFromUrl = searchParams.get('tab')
@@ -25,12 +91,6 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'courses' | 'achievements' | 'paths'>(
     (tabFromUrl as 'overview' | 'courses' | 'achievements' | 'paths') || 'overview'
   )
-
-  // Dados centralizados
-  const coursesInProgress = getCoursesInProgress(courses)
-  const completedCourses = getCompletedCourses(courses)
-  const coursesWithCertificates = getCoursesWithCertificates(courses)
-  const allCourses = coursesInProgress.concat(completedCourses)
 
   // Tab quando url mudar
   useEffect(() => {
@@ -54,22 +114,18 @@ export default function DashboardPage() {
     }
   }, [])
 
-  const user = {
-    name: "kenjiThiago",
-    avatar: "KT",
-    level: "Desenvolvedor Intermediário",
-    joinDate: "Janeiro 2025",
-    completedCourses: completedCourses.length,
-    inProgressCourses: coursesInProgress.length,
-    certificates: coursesWithCertificates.length,
-    studyTime: "200h",
-    status: "ativo",
-    skills: ["React: avançado", "Python: intermediário", "c : avançado", "css: basico", "java: basico", "node: avançado", "figma: basico", "javascript: intermediário", "go: basico"],
-    totalCourses: courses.length,
-    appliedJobs: 3,
+  const user: User  = {
+    name: name,
+    avatar: "A",
+    completedCourses: totalCourses - inProgressCoursesCount,
+    inProgressCourses: inProgressCoursesCount,
+    certificates: certificateCount,
+    studyTime: studyHours,
+    planStatus: subscriptionPlan,
+    skills: skills,
+    totalCourses: totalCourses,
+    appliedJobs: applicationCount,
   }
-
-  const skills = user.skills
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -80,6 +136,7 @@ export default function DashboardPage() {
         {/* Hero/Welcome Section */}
         <DashboardHero
           user={user}
+          totalCoursesGlobal={totalCoursesGlobal}
         />
 
         {/* Navigation Tabs */}
@@ -92,14 +149,21 @@ export default function DashboardPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {activeTab === 'overview' && (
               <DashboardOverview
-                coursesInProgress={coursesInProgress}
-                skills={skills}
+                coursesInProgress={overview}
+                skills={user.skills}
               />
             )}
 
             {activeTab === 'courses' && (
               <DashboardCourses
-                courses={allCourses}
+                courses={courses}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                searchTerm={searchTerm}
+                selectedStatus={selectedStatus}
+                selectedLevel={selectedLevel}
+                selectedCategory={selectedCategory}
+                totalItems={totalCourses}
               />
             )}
           </div>
