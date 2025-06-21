@@ -1,106 +1,188 @@
-import { useState, useEffect } from 'react'
-import { companies, jobs } from '@/data/mockData'
-import type { Company, Job } from '@/data/mockData'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import type { Company } from '@/data/mockData'
+import { useUrlParams } from './useUrlParams'
+import { getCompanies } from '@/services/companyService'
 
-export function useCompanyFilters() {
-  const [filteredCompanies, setFilteredCompanies] = useState<Company[]>(companies)
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>(jobs)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedIndustry, setSelectedIndustry] = useState("Setores")
-  const [selectedSize, setSelectedSize] = useState("Porte")
-  const [selectedLocation, setSelectedLocation] = useState("Localização")
-  const [selectedJobType, setSelectedJobType] = useState("Modalidade")
-  const [selectedJobLevel, setSelectedJobLevel] = useState("Nível")
-  const [activeTab, setActiveTab] = useState<'companies' | 'jobs'>('companies')
+export function useCompanyFilters(companiesPerPage: number = 6) {
+  const [companies, setCompanies] = useState<Company[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
 
-  // Filter companies
-  useEffect(() => {
-    if (activeTab === 'companies') {
-      let filtered = companies
+  // Refs para controle de requisições
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const isInitialLoad = useRef(true)
+  const isUpdatingFromUrl = useRef(false)
 
-      if (searchTerm) {
-        filtered = filtered.filter(company =>
-          company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          company.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          company.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()))
-        )
+  // Hook para gerenciar URL params
+  const { updateCompanyUrlParams, getUrlParam } = useUrlParams()
+
+  // Inicializar filtros a partir da URL
+  const [searchTerm, setSearchTerm] = useState(() =>
+    getUrlParam('search', '')
+  )
+  const [selectedLocation, setSelectedLocation] = useState(() =>
+    getUrlParam('location', 'Localização')
+  )
+  const [selectedIndustry, setSelectedIndustry] = useState(() =>
+    getUrlParam('industry', 'Setores')
+  )
+  const [selectedSize, setSelectedSize] = useState(() =>
+    getUrlParam('size', 'Porte')
+  )
+
+  // Função para buscar empresas
+  const fetchCompanies = useCallback(async (signal?: AbortSignal) => {
+    setError(null)
+
+    try {
+      const data = await getCompanies({
+        search: searchTerm,
+        location: selectedLocation,
+        industry: selectedIndustry,
+        size: selectedSize,
+      }, signal)
+
+      if (!signal?.aborted) {
+        setCompanies(data.empresas)
+        if (!isUpdatingFromUrl.current) {
+          setCurrentPage(1)
+        }
       }
-
-      if (selectedIndustry !== "Setores") {
-        filtered = filtered.filter(company => company.industry === selectedIndustry)
+    } catch (err: any) {
+      if (!signal?.aborted && err.name !== 'AbortError') {
+        console.error('Erro ao buscar empresas:', err)
+        setError(err.message || 'Erro ao carregar empresas')
+        setCompanies([])
       }
-
-      if (selectedSize !== "Porte") {
-        filtered = filtered.filter(company => company.size.includes(selectedSize.split(' ')[0]))
-      }
-
-      if (selectedLocation !== "Localização") {
-        filtered = filtered.filter(company => company.location === selectedLocation)
-      }
-
-      setFilteredCompanies(filtered)
     }
-  }, [searchTerm, selectedIndustry, selectedSize, selectedLocation, companies, activeTab])
+  }, [searchTerm, selectedLocation, selectedIndustry, selectedSize])
 
-  // Filter jobs
+  // Effect para sincronizar com URL sempre que filtros mudarem
   useEffect(() => {
-    if (activeTab === 'jobs') {
-      let filtered = jobs
-
-      if (searchTerm) {
-        filtered = filtered.filter(job =>
-          job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          job.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()))
-        )
-      }
-
-      if (selectedJobType !== "Modalidade") {
-        filtered = filtered.filter(job => job.type === selectedJobType)
-      }
-
-      if (selectedJobLevel !== "Nível") {
-        filtered = filtered.filter(job => job.level === selectedJobLevel)
-      }
-
-      if (selectedLocation !== "Localização") {
-        filtered = filtered.filter(job => job.location === selectedLocation)
-      }
-
-      setFilteredJobs(filtered)
+    if (!isInitialLoad.current && !isUpdatingFromUrl.current) {
+      updateCompanyUrlParams({
+        search: searchTerm,
+        location: selectedLocation,
+        industry: selectedIndustry,
+        size: selectedSize,
+        page: currentPage > 1 ? currentPage.toString() : null
+      })
     }
-  }, [searchTerm, selectedJobType, selectedJobLevel, selectedLocation, jobs, activeTab])
+  }, [searchTerm, selectedLocation, selectedIndustry, selectedSize, currentPage, updateCompanyUrlParams])
 
-  const clearAllFilters = () => {
+  // Effect para buscar empresas com debounce
+  useEffect(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current)
+    }
+
+    const delay = isInitialLoad.current ? 0 : 500
+
+    debounceTimeoutRef.current = setTimeout(() => {
+      const abortController = new AbortController()
+      abortControllerRef.current = abortController
+
+      fetchCompanies(abortController.signal)
+
+      if (isInitialLoad.current) {
+        isInitialLoad.current = false
+        isUpdatingFromUrl.current = false
+      }
+    }, delay)
+
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
+  }, [fetchCompanies])
+
+  // Effect para sincronizar página da URL
+  useEffect(() => {
+    const pageFromUrl = parseInt(getUrlParam('page', '1'))
+    if (pageFromUrl !== currentPage && pageFromUrl > 0) {
+      setCurrentPage(pageFromUrl)
+    }
+  }, [getUrlParam])
+
+  // Cleanup quando component desmonta
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  // Paginação
+  const indexOfLastCompany = currentPage * companiesPerPage
+  const indexOfFirstCompany = indexOfLastCompany - companiesPerPage
+  const paginatedCompanies = companies.slice(indexOfFirstCompany, indexOfLastCompany)
+  const totalPages = Math.ceil(companies.length / companiesPerPage)
+
+  // Funções de atualização dos filtros
+  const handleSetSearchTerm = useCallback((value: string) => {
+    setSearchTerm(value)
+    setCurrentPage(1)
+  }, [])
+
+  const handleSetSelectedLocation = useCallback((value: string) => {
+    setSelectedLocation(value)
+    setCurrentPage(1)
+  }, [])
+
+  const handleSetSelectedIndustry = useCallback((value: string) => {
+    setSelectedIndustry(value)
+    setCurrentPage(1)
+  }, [])
+
+  const handleSetSelectedSize = useCallback((value: string) => {
+    setSelectedSize(value)
+    setCurrentPage(1)
+  }, [])
+
+  const clearAllFilters = useCallback(() => {
     setSearchTerm("")
+    setSelectedLocation("Localização")
     setSelectedIndustry("Setores")
     setSelectedSize("Porte")
-    setSelectedLocation("Localização")
-    setSelectedJobType("Modalidade")
-    setSelectedJobLevel("Nível")
-  }
+    setCurrentPage(1)
+
+    updateCompanyUrlParams({
+      search: null,
+      location: null,
+      industry: null,
+      size: null,
+      page: null
+    })
+  }, [updateCompanyUrlParams])
 
   return {
-    companies,
-    jobs,
-    filteredCompanies,
-    filteredJobs,
+    companies: paginatedCompanies,
+    error,
+    totalCount: companies.length,
+    totalPages,
+    currentPage,
     searchTerm,
-    selectedIndustry,
-    selectedSize,
-    selectedLocation,
-    selectedJobType,
-    selectedJobLevel,
-    activeTab,
-    totalItems: filteredJobs.length,
-    setSearchTerm,
-    setSelectedIndustry,
-    setSelectedSize,
-    setSelectedLocation,
-    setSelectedJobType,
-    setSelectedJobLevel,
-    setActiveTab,
-    clearAllFilters
+    selectedLocation: selectedLocation,
+    selectedIndustry: selectedIndustry,
+    selectedSize: selectedSize,
+    setSearchTerm: handleSetSearchTerm,
+    setSelectedLocation: handleSetSelectedLocation,
+    setSelectedIndustry: handleSetSelectedIndustry,
+    setSelectedSize: handleSetSelectedSize,
+    setCurrentPage,
+    clearAllFilters,
   }
 }

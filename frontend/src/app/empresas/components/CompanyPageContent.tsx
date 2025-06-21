@@ -16,37 +16,27 @@ import { useCompanyFilters } from '@/hooks/useCompanyFilters'
 export default function EmpresasPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [activeTab, setActiveTab] = useState<'companies' | 'jobs'>('companies')
   const itemsPerPage = 6
 
   // Custom hook para filtros
   const {
     companies,
-    jobs,
-    filteredCompanies,
-    filteredJobs,
+    error,
+    totalCount,
+    totalPages,
+    currentPage,
     searchTerm,
+    selectedLocation,
     selectedIndustry,
     selectedSize,
-    selectedLocation,
-    selectedJobType,
-    selectedJobLevel,
-    activeTab,
-    totalItems,
     setSearchTerm,
+    setSelectedLocation,
     setSelectedIndustry,
     setSelectedSize,
-    setSelectedLocation,
-    setSelectedJobType,
-    setSelectedJobLevel,
-    setActiveTab,
-    clearAllFilters
+    setCurrentPage,
+    clearAllFilters,
   } = useCompanyFilters()
-
-  // Reset página quando filtros mudarem
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [filteredCompanies, filteredJobs, activeTab])
 
   // Event listeners para comunicação entre componentes
   useEffect(() => {
@@ -55,8 +45,8 @@ export default function EmpresasPage() {
     const handleIndustryChange    = (e: CustomEvent) => { setSelectedIndustry(e.detail) }
     const handleSizeChange        = (e: CustomEvent) => { setSelectedSize(e.detail) }
     const handleLocationChange    = (e: CustomEvent) => { setSelectedLocation(e.detail) }
-    const handleJobTypeChange     = (e: CustomEvent) => { setSelectedJobType(e.detail) }
-    const handleJobLevelChange    = (e: CustomEvent) => { setSelectedJobLevel(e.detail) }
+    // const handleJobTypeChange     = (e: CustomEvent) => { setSelectedJobType(e.detail) }
+    // const handleJobLevelChange    = (e: CustomEvent) => { setSelectedJobLevel(e.detail) }
     const handleViewModeChange    = (e: CustomEvent) => { setViewMode(e.detail) }
     const handleToggleFilters     = () => { setShowFilters(!showFilters) }
     const handlePageChange        = (e: CustomEvent) => { setCurrentPage(e.detail) }
@@ -68,8 +58,8 @@ export default function EmpresasPage() {
     window.addEventListener('companyIndustryChange', handleIndustryChange as EventListener)
     window.addEventListener('companySizeChange', handleSizeChange as EventListener)
     window.addEventListener('companyLocationChange', handleLocationChange as EventListener)
-    window.addEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
-    window.addEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
+    // window.addEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
+    // window.addEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
     window.addEventListener('companyViewModeChange', handleViewModeChange as EventListener)
     window.addEventListener('companyToggleFilters', handleToggleFilters)
     window.addEventListener('pageChange', handlePageChange as EventListener)
@@ -82,21 +72,14 @@ export default function EmpresasPage() {
       window.removeEventListener('companyIndustryChange', handleIndustryChange as EventListener)
       window.removeEventListener('companySizeChange', handleSizeChange as EventListener)
       window.removeEventListener('companyLocationChange', handleLocationChange as EventListener)
-      window.removeEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
-      window.removeEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
+      // window.removeEventListener('companyJobTypeChange', handleJobTypeChange as EventListener)
+      // window.removeEventListener('companyJobLevelChange', handleJobLevelChange as EventListener)
       window.removeEventListener('companyViewModeChange', handleViewModeChange as EventListener)
       window.removeEventListener('companyToggleFilters', handleToggleFilters)
       window.removeEventListener('pageChange', handlePageChange as EventListener)
       window.removeEventListener('companyClearFilters', handleClearFilters)
     }
-  })
-
-  // Paginação
-  const currentItems = activeTab === 'companies' ? filteredCompanies : filteredJobs
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentPageItems = currentItems.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(currentItems.length / itemsPerPage)
+  }, [setSearchTerm, setSelectedIndustry, setSelectedSize, setSelectedLocation, setCurrentPage, clearAllFilters])
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -111,8 +94,6 @@ export default function EmpresasPage() {
         {/* Tabs */}
         <CompanyTabs
           activeTab={activeTab}
-          totalCompanies={companies.length}
-          totalJobs={jobs.length}
         />
 
         {/* Filters and Controls */}
@@ -121,17 +102,17 @@ export default function EmpresasPage() {
           selectedIndustry={selectedIndustry}
           selectedSize={selectedSize}
           selectedLocation={selectedLocation}
-          selectedJobType={selectedJobType}
-          selectedJobLevel={selectedJobLevel}
+          //selectedJobType={selectedJobType}
+          //selectedJobLevel={selectedJobLevel}
           viewMode={viewMode}
           showFilters={showFilters}
-          filteredCount={currentItems.length}
+          filteredCount={totalCount}
         />
 
         {/* Content */}
         <section id="company-content" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {currentItems.length > 0 ? (
+            {companies.length > 0 ? (
               <>
                 {activeTab === 'companies' ? (
                   <motion.div
@@ -144,37 +125,40 @@ export default function EmpresasPage() {
                     transition={{ duration: 0.6 }}
                     key={`companies-${currentPage}-${viewMode}`}
                   >
-                    {currentPageItems.map((company) => (
+                    {companies.map((company, index) => (
                       <CompanyCard
-                        key={company.id}
+                        key={index}
+                        index={index}
                         company={company as any}
                         viewMode={viewMode}
                       />
                     ))}
                   </motion.div>
                 ) : (
-                  <motion.div
-                    className="space-y-6"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    key={`jobs-${currentPage}`}
-                  >
-                    {currentPageItems.map((job) => (
-                      <JobCard
-                        key={job.id}
-                        job={job as any}
-                      />
-                    ))}
-                  </motion.div>
+                  // <motion.div
+                  //   className="space-y-6"
+                  //   initial={{ opacity: 0, y: 30 }}
+                  //   animate={{ opacity: 1, y: 0 }}
+                  //   transition={{ duration: 0.6 }}
+                  //   key={`jobs-${currentPage}`}
+                  // >
+                  //   {currentPageItems.map((job) => (
+                  //     <JobCard
+                  //       key={job.id}
+                  //       job={job as any}
+                  //     />
+                  //   ))}
+                  // </motion.div>
+                  <>
+                  </>
                 )}
 
                 {/* Pagination */}
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  totalItems={totalItems}
-                  itemsPerPage={6}
+                  totalItems={totalCount}
+                  itemsPerPage={itemsPerPage}
                   scrollTargetId="company-content"
                 />
               </>
