@@ -5,7 +5,7 @@ import { Play, Star, Code2, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function Hero() {
+export default function Hero({ numStudents }) {
   const [isClient, setIsClient] = useState(false)
   const router = useRouter()
 
@@ -71,7 +71,7 @@ export default function Hero() {
                   <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <span className="text-gray-400">Escolhido por 50.000+ desenvolvedores</span>
+              <span className="text-gray-400">Escolhido por {numStudents}+ desenvolvedores</span>
             </div>
 
             {/* Main Heading */}
