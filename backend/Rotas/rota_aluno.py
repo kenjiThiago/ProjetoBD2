@@ -46,10 +46,10 @@ def criar_aluno():
     cpf = data.get("cpf")
     nome = data.get("nome")
     email = data.get("email")
-    senha = data.get("senha")
-    data_nascimento = data.get("data_nascimento")  # Formato: 'YYYY-MM-DD'
+    senha = data.get("password")
+    data_nascimento = data.get("birthDate")  # Formato: 'YYYY-MM-DD'
     plano = data.get("plano")  # Deve ser 'Pago' ou 'Grátis'
-    forma_pagamento = data.get("forma_pagamento")  # Débito, Crédito ou Pix
+    forma_pagamento = data.get("paymentMethod")  # Débito, Crédito ou Pix
 
     if plano not in ["Pago", "Grátis"]:
         return jsonify({"erro": "Plano inválido"}), 400
@@ -62,6 +62,14 @@ def criar_aluno():
     )
 
     if sucesso:
-        return jsonify({"mensagem": "Aluno criado com sucesso"}), 201
+        return jsonify({
+            "mensagem": "Login bem-sucedido",
+            "aluno": {
+                "cpf": cpf,
+                "nome": nome,
+                "email": email,
+                "plano": plano
+            }
+        }), 201
     else:
         return jsonify({"erro": "Erro ao inserir aluno"}), 500

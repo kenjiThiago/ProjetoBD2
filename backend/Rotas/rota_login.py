@@ -8,7 +8,8 @@ def login_aluno():
     data = request.get_json()
 
     email = data.get("email")
-    senha = data.get("senha")
+    senha = data.get("password")
+    print(data)
 
     if not email or not senha:
         return jsonify({"erro": "Email e senha são obrigatórios"}), 400
