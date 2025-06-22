@@ -101,7 +101,7 @@ const UserMenuItems = ({ onItemClick, onLogout, isMobile = false }: {
   isMobile?: boolean
 }) => {
   const menuItems = [
-    { label: "Meu Dashboard", href: "/dashboard", icon: BarChart3, description: "Visão geral dos seus estudos" },
+    { label: "Meu Dashboard", href: "/dashboard?tab=overview", icon: BarChart3, description: "Visão geral dos seus estudos" },
     { label: "Meus Cursos", href: "/dashboard?tab=courses", icon: BookOpen, description: "Cursos em andamento e concluídos" },
     { label: "Configurações", href: "/settings", icon: Settings, description: "Preferências da conta" }
   ]
@@ -244,9 +244,6 @@ export default function Header() {
   const handleUserMenuClick = (href: string) => {
     setShowUserMenu(false)
     router.push(href)
-    if (pathname === '/dashboard' && href.includes('/dashboard')) {
-      window.location.href = href
-    }
   }
 
   const handleLogout = () => {
