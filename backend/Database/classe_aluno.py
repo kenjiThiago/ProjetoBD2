@@ -178,3 +178,19 @@ class Aluno():
         result = self.db.execute_select_one(query)
         return result["total"]
 
+    def inserir_aluno(self, cpf, nome, email, senha, data_nascimento, plano, forma_pagamento):
+        query = """
+        INSERT INTO aluno (cpf, nome, email, senha, data_nascimento, plano, forma_pagamento)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        try:
+            self.db.cursor.execute(query, (
+                cpf, nome, email, senha, data_nascimento, plano, forma_pagamento
+            ))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Erro ao inserir aluno:", e)
+            self.db.conn.rollback()
+            return False
+

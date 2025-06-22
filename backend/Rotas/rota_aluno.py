@@ -38,3 +38,30 @@ def get_alunos():
 
     return jsonify({"alunos": alunos, "total_cursos": total_cursos}), 200
 
+
+@aluno_blueprint.route("/alunos", methods=["POST"])
+def criar_aluno():
+    data = request.get_json()
+
+    cpf = data.get("cpf")
+    nome = data.get("nome")
+    email = data.get("email")
+    senha = data.get("senha")
+    data_nascimento = data.get("data_nascimento")  # Formato: 'YYYY-MM-DD'
+    plano = data.get("plano")  # Deve ser 'Pago' ou 'Grátis'
+    forma_pagamento = data.get("forma_pagamento")  # Débito, Crédito ou Pix
+
+    if plano not in ["Pago", "Grátis"]:
+        return jsonify({"erro": "Plano inválido"}), 400
+    if forma_pagamento not in ["Débito", "Crédito", "Pix"]:
+        return jsonify({"erro": "Forma de pagamento inválida"}), 400
+
+    aluno_model = Aluno()
+    sucesso = aluno_model.inserir_aluno(
+        cpf, nome, email, senha, data_nascimento, plano, forma_pagamento
+    )
+
+    if sucesso:
+        return jsonify({"mensagem": "Aluno criado com sucesso"}), 201
+    else:
+        return jsonify({"erro": "Erro ao inserir aluno"}), 500
