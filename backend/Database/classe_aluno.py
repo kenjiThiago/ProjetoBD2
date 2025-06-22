@@ -194,3 +194,15 @@ class Aluno():
             self.db.conn.rollback()
             return False
 
+
+    def buscar_por_email(self, email):
+        query = "SELECT * FROM aluno WHERE email = %s"
+        self.db.cursor.execute(query, (email,))
+        result = self.db.cursor.fetchone()
+
+        if result:
+            columns = [desc[0] for desc in self.db.cursor.description]
+            return dict(zip(columns, result))
+        return None
+
+
