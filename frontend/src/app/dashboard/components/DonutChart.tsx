@@ -190,13 +190,9 @@ export default function DonutChart({
   const metaInfo = getMetaInfo()
 
   return (
-    <motion.div
-      className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl p-6 border border-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300 hover:scale-[1.02] relative overflow-hidden group h-full"
-      whileHover={{ y: -2 }}
+    <div
+      className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl p-6 border border-emerald-500/30 transition-all duration-300 relative overflow-hidden group h-full"
     >
-      {/* Efeito de brilho animado */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-400/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-
       {/* Header melhorado */}
       <div className="flex items-center justify-between mb-6 relative z-10">
         <div className="flex items-center gap-3">
@@ -317,9 +313,6 @@ export default function DonutChart({
           </div>
         </div>
       </div>
-
-      {/* Indicador de hover na parte inferior */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-    </motion.div>
+    </div>
   )
 }

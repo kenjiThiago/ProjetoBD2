@@ -81,7 +81,7 @@ export default function CourseCard({
 
   if (layout === 'list') {
     return (
-      <div className="card card-glow p-6 group hover:-translate-y-1 transition-transform duration-300">
+      <div className="card p-6 group hover:-translate-y-1 transition-transform duration-300">
         <div className="flex space-x-4 items-center">
           <Thumbnail
             course={course}
@@ -149,7 +149,7 @@ export default function CourseCard({
   }
 
   return (
-    <div className={`card card-glow cursor-pointer group p-4 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
+    <div className={`card cursor-pointer group p-4 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300`}>
       {/* Badges */}
       <div className="absolute top-3 right-3 z-10 flex items-center gap-1">
         {renderBadges("grid")}

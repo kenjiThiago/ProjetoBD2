@@ -27,7 +27,7 @@ export default function CourseCard({ course, index }: CourseCardProps) {
   const progress = (course.aulas_concluidas / course.total_aulas) * 100
 
   return (
-    <div className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+    <div className="card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
       <div className="relative">
         <Thumbnail
           course={course}

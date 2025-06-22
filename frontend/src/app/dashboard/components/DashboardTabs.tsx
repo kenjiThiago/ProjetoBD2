@@ -25,7 +25,7 @@ export default function DashboardTabs({
       detail: tabId
     }))
     const href = "dashboard?tab=" + tabId
-    router.push(href)
+    router.push(href, { scroll: false })
   }
 
   return (

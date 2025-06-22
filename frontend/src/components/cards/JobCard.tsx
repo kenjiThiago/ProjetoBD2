@@ -38,7 +38,7 @@ export default function JobCard({ job, variants }: JobCardProps) {
   const requisitos = job.requisitos.split(", ")
 
   return (
-    <div className="card-glow card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+    <div className="card p-6 group cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Job Thumbnail */}
         <JobThumbnail

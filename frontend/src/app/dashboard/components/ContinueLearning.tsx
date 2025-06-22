@@ -16,7 +16,7 @@ export default function ContinueLearning({
           {coursesInProgress.slice(0, 3).map((course: InProgressCourse, index) => (
             <div
               key={index}
-              className="card-glow card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
+              className="card p-6 group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
             >
               <div className="flex items-start space-x-4">
                 <Thumbnail

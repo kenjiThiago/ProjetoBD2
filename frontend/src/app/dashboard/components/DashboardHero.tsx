@@ -61,9 +61,8 @@ const StatCard = ({
   hasAnimation?: boolean
   onClick?: () => void
 }) => (
-  <motion.div
+  <div
     className={`flex flex-col items-center bg-gradient-to-br ${bgGradient} rounded-xl p-5 border ${borderColor} h-full relative overflow-hidden group transition-all duration-300 hover:scale-105 ${onClick ? 'cursor-pointer' : ''}`}
-    whileHover={{ y: -2 }}
     onClick={onClick}
   >
     {/* Efeito de brilho animado */}
@@ -90,7 +89,7 @@ const StatCard = ({
 
     {/* Indicador de hover */}
     <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-  </motion.div>
+  </div>
 )
 
 export default function DashboardHero({
