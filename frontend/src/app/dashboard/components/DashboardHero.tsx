@@ -96,7 +96,7 @@ export default function DashboardHero({
   user,
   totalCoursesGlobal
 }: DashboardHeroProps) {
-  const planInfo = getPlanDisplayInfo(user.planStatus || 'gratuito')
+  const planInfo = getPlanDisplayInfo(user.planStatus || 'Grátis')
 
   // Calcular algumas métricas adicionais
   const completionRate = user.totalCourses > 0 ? Math.round((user.completedCourses / user.totalCourses) * 100) : 0

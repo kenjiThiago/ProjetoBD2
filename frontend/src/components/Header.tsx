@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Search, ChevronDown, Settings, LogOut, BarChart3, BookOpen } from 'lucide-react'
+import { Menu, X, Search, ChevronDown, Settings, LogOut, BarChart3, BookOpen, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { useSearch } from '@/hooks/useSearch'
+import { useAuth } from '@/hooks/useAuth'
 
 // Componente para itens de navegação (duplicado em mobile/desktop)
 const NavigationLinks = ({ pathname, onItemClick, isMobile = false }: {
@@ -174,6 +175,39 @@ const UserMenuItems = ({ onItemClick, onLogout, isMobile = false }: {
   )
 }
 
+// Componente para botões de autenticação (quando não logado)
+const AuthButtons = ({ onLoginClick, onRegisterClick }: {
+  onLoginClick: () => void
+  onRegisterClick: () => void
+}) => (
+  <div className="flex items-center space-x-4">
+    <button
+      onClick={onLoginClick}
+      className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+    >
+      Entrar
+    </button>
+    <button
+      onClick={onRegisterClick}
+      className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-medium"
+    >
+      Cadastrar
+    </button>
+  </div>
+)
+
+// Função para gerar avatar com iniciais
+const generateAvatarInitials = (name: string): string => {
+  if (!name) return 'U'
+
+  const words = name.trim().split(' ')
+  if (words.length === 1) {
+    return words[0].slice(0, 2).toUpperCase()
+  }
+
+  return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -186,6 +220,9 @@ export default function Header() {
   const pathname = usePathname()
   const { setGlobalSearchTerm } = useSearch()
 
+  // Hook de autenticação
+  const { aluno, loading, isAuthenticated, logout } = useAuth()
+
   // Dados centralizados
   const searchSuggestions = useMemo(() => [
     'JavaScript', 'React', 'Python', 'Node.js', 'TypeScript', 'Next.js',
@@ -193,10 +230,20 @@ export default function Header() {
     'UI/UX Design', 'DevOps', 'MongoDB', 'PostgreSQL'
   ], [])
 
-  const user = useMemo(() => ({
-    name: "kenjiThiago",
-    avatar: "KT",
-  }), [])
+  // Dados do usuário baseados no estado de autenticação
+  const user = useMemo(() => {
+    if (!isAuthenticated || !aluno) {
+      return null
+    }
+
+    return {
+      name: aluno.nome,
+      email: aluno.email,
+      avatar: generateAvatarInitials(aluno.nome),
+      plano: aluno.plano,
+      cpf: aluno.cpf
+    }
+  }, [isAuthenticated, aluno])
 
   const filteredSuggestions = useMemo(() =>
     searchSuggestions.filter(suggestion =>
@@ -248,7 +295,15 @@ export default function Header() {
 
   const handleLogout = () => {
     setShowUserMenu(false)
-    console.log('Logout')
+    logout() // Chama o logout do hook useAuth
+  }
+
+  const handleLoginClick = () => {
+    router.push('/auth?mode=login')
+  }
+
+  const handleRegisterClick = () => {
+    router.push('/planos') // ou '/register' se tiver uma rota de registro direta
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -339,118 +394,138 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Search Bar - Desktop */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-8 relative search-container">
-            <SearchInput
-              value={localSearchTerm}
-              onChange={handleInputChange}
-              onSubmit={handleSubmit}
-              onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
-              onKeyDown={handleKeyDown}
-              onClear={clearSearch}
-            />
+          {/* Search Bar - Desktop (só mostra se autenticado) */}
+          {isAuthenticated && (
+            <div className="hidden lg:flex flex-1 max-w-md mx-8 relative search-container">
+              <SearchInput
+                value={localSearchTerm}
+                onChange={handleInputChange}
+                onSubmit={handleSubmit}
+                onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
+                onKeyDown={handleKeyDown}
+                onClear={clearSearch}
+              />
 
-            {/* Search Suggestions */}
-            <AnimatePresence>
-              {(showSearchSuggestions || filteredSuggestions.length > 0) && (
-                <motion.div
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 5 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50"
-                >
-                  {filteredSuggestions.map((suggestion, index) => (
-                    <button
-                      key={suggestion}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 ${
-                        selectedSuggestionIndex === index
-                          ? 'bg-orange-500/20 text-orange-300 border-l-2 border-orange-500'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                      }`}
-                    >
-                      <Search className="w-4 h-4 text-gray-500" />
-                      <span>{suggestion}</span>
-                    </button>
-                  ))}
-
-                  {localSearchTerm && (
-                    <button
-                      onClick={() => handleSearch(localSearchTerm)}
-                      className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 border-t border-gray-700 ${
-                        selectedSuggestionIndex === filteredSuggestions.length
-                          ? 'bg-orange-500/20 text-orange-300 border-l-2 border-l-orange-500'
-                          : 'text-orange-400 hover:bg-gray-700 hover:text-orange-300'
-                      }`}
-                    >
-                      <Search className="w-4 h-4" />
-                      <span>Buscar por "{localSearchTerm}"</span>
-                    </button>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Navigation - Desktop */}
-          <nav className="hidden lg:block mr-12">
-            <div className="flex items-center space-x-12">
-              <NavigationLinks pathname={pathname} />
-            </div>
-          </nav>
-
-          {/* User Actions - Desktop */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <div className="relative user-menu-container">
-              <button
-                className="flex items-center space-x-3 cursor-pointer group"
-                onClick={() => setShowUserMenu(!showUserMenu)}
-              >
-                <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">{user.avatar}</span>
-                </div>
-                <div className="hidden xl:block text-left">
-                  <div className="text-gray-300 text-sm font-medium">{user.name}</div>
-                </div>
-                <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-white transition-all duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* User Dropdown Menu */}
+              {/* Search Suggestions */}
               <AnimatePresence>
-                {showUserMenu && (
+                {(showSearchSuggestions || filteredSuggestions.length > 0) && (
                   <motion.div
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-2 w-80 bg-gray-800 border border-gray-700 rounded-xl shadow-xl overflow-hidden z-50"
+                    className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50"
                   >
-                    {/* User Info Header */}
-                    <div className="bg-gradient-to-r from-orange-500 to-red-500 p-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                          <span className="text-lg font-bold text-white">{user.avatar}</span>
-                        </div>
-                        <div>
-                          <div className="text-white font-semibold">{user.name}</div>
-                        </div>
-                      </div>
-                    </div>
+                    {filteredSuggestions.map((suggestion, index) => (
+                      <button
+                        key={suggestion}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 ${
+                          selectedSuggestionIndex === index
+                            ? 'bg-orange-500/20 text-orange-300 border-l-2 border-orange-500'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                        }`}
+                      >
+                        <Search className="w-4 h-4 text-gray-500" />
+                        <span>{suggestion}</span>
+                      </button>
+                    ))}
 
-                    {/* Menu Items */}
-                    <div>
-                      <UserMenuItems
-                        onItemClick={handleUserMenuClick}
-                        onLogout={handleLogout}
-                      />
-                    </div>
-
-                    {/* Logout já incluído no UserMenuItems */}
+                    {localSearchTerm && (
+                      <button
+                        onClick={() => handleSearch(localSearchTerm)}
+                        className={`w-full text-left px-4 py-3 transition-colors flex items-center space-x-2 border-t border-gray-700 ${
+                          selectedSuggestionIndex === filteredSuggestions.length
+                            ? 'bg-orange-500/20 text-orange-300 border-l-2 border-l-orange-500'
+                            : 'text-orange-400 hover:bg-gray-700 hover:text-orange-300'
+                        }`}
+                      >
+                        <Search className="w-4 h-4" />
+                        <span>Buscar por "{localSearchTerm}"</span>
+                      </button>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+          )}
+
+          {/* Navigation - Desktop (só mostra se autenticado) */}
+          {isAuthenticated && (
+            <nav className="hidden lg:block mr-12">
+              <div className="flex items-center space-x-12">
+                <NavigationLinks pathname={pathname} />
+              </div>
+            </nav>
+          )}
+
+          {/* User Actions ou Auth Buttons - Desktop */}
+          <div className="hidden lg:flex items-center space-x-6">
+            {loading ? (
+              // Loading state
+              <div className="animate-pulse flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gray-700 rounded-full"></div>
+                <div className="hidden xl:block">
+                  <div className="w-20 h-4 bg-gray-700 rounded"></div>
+                </div>
+              </div>
+            ) : isAuthenticated && user ? (
+              // User menu quando autenticado
+              <div className="relative user-menu-container">
+                <button
+                  className="flex items-center space-x-3 cursor-pointer group"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                >
+                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold text-white">{user.avatar}</span>
+                  </div>
+                  <div className="hidden xl:block text-left">
+                    <div className="text-gray-300 text-sm font-medium">{user.name}</div>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-white transition-all duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* User Dropdown Menu */}
+                <AnimatePresence>
+                  {showUserMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-2 w-80 bg-gray-800 border border-gray-700 rounded-xl shadow-xl overflow-hidden z-50"
+                    >
+                      {/* User Info Header */}
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 p-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                            <span className="text-lg font-bold text-white">{user.avatar}</span>
+                          </div>
+                          <div>
+                            <div className="text-white font-semibold">{user.name}</div>
+                            <div className="text-white/80 text-sm">{user.email}</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Menu Items */}
+                      <div>
+                        <UserMenuItems
+                          onItemClick={handleUserMenuClick}
+                          onLogout={handleLogout}
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              // Botões de login/register quando não autenticado
+              <AuthButtons
+                onLoginClick={handleLoginClick}
+                onRegisterClick={handleRegisterClick}
+              />
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -495,53 +570,80 @@ export default function Header() {
               className="lg:hidden border-t border-gray-700/50 mt-2"
             >
               <div className="px-2 pt-4 pb-3 space-y-1 bg-gray-900/50 rounded-lg mt-2">
-                {/* Navigation Links */}
-                <NavigationLinks
-                  pathname={pathname}
-                  onItemClick={() => setIsMenuOpen(false)}
-                  isMobile={true}
-                />
-
-                {/* User Menu Mobile */}
-                <div className="pt-4 border-t border-gray-700/50">
-                  <div className="flex items-center space-x-3 px-3 py-2 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-bold text-white">{user.avatar}</span>
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">{user.name}</div>
-                    </div>
-                  </div>
-
-                  <UserMenuItems
-                    onItemClick={(href) => {
-                      handleUserMenuClick(href)
-                      setIsMenuOpen(false)
-                    }}
-                    onLogout={() => {
-                      handleLogout()
-                      setIsMenuOpen(false)
-                    }}
-                    isMobile={true}
-                  />
-                </div>
-
-                {/* Mobile Search */}
-                <div className="pt-4 border-t border-gray-700/50">
-                  <div className="px-3 py-2">
-                    <SearchInput
-                      value={localSearchTerm}
-                      onChange={handleInputChange}
-                      onSubmit={(e) => {
-                        handleSubmit(e)
-                        setIsMenuOpen(false)
-                      }}
-                      onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
-                      onClear={clearSearch}
+                {isAuthenticated && user ? (
+                  <>
+                    {/* Navigation Links */}
+                    <NavigationLinks
+                      pathname={pathname}
+                      onItemClick={() => setIsMenuOpen(false)}
                       isMobile={true}
                     />
+
+                    {/* User Menu Mobile */}
+                    <div className="pt-4 border-t border-gray-700/50">
+                      <div className="flex items-center space-x-3 px-3 py-2 mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                          <span className="text-sm font-bold text-white">{user.avatar}</span>
+                        </div>
+                        <div>
+                          <div className="text-white font-medium">{user.name}</div>
+                          <div className="text-gray-400 text-sm">{user.plano}</div>
+                        </div>
+                      </div>
+
+                      <UserMenuItems
+                        onItemClick={(href) => {
+                          handleUserMenuClick(href)
+                          setIsMenuOpen(false)
+                        }}
+                        onLogout={() => {
+                          handleLogout()
+                          setIsMenuOpen(false)
+                        }}
+                        isMobile={true}
+                      />
+                    </div>
+
+                    {/* Mobile Search */}
+                    <div className="pt-4 border-t border-gray-700/50">
+                      <div className="px-3 py-2">
+                        <SearchInput
+                          value={localSearchTerm}
+                          onChange={handleInputChange}
+                          onSubmit={(e) => {
+                            handleSubmit(e)
+                            setIsMenuOpen(false)
+                          }}
+                          onFocus={() => setShowSearchSuggestions(localSearchTerm.length > 0)}
+                          onClear={clearSearch}
+                          isMobile={true}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  // Mobile auth buttons quando não autenticado
+                  <div className="space-y-3 px-3 py-4">
+                    <button
+                      onClick={() => {
+                        handleLoginClick()
+                        setIsMenuOpen(false)
+                      }}
+                      className="w-full px-4 py-3 text-gray-300 hover:text-white transition-colors text-left"
+                    >
+                      Entrar
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleRegisterClick()
+                        setIsMenuOpen(false)
+                      }}
+                      className="w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-medium text-center"
+                    >
+                      Cadastrar
+                    </button>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           )}

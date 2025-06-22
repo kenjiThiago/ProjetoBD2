@@ -10,7 +10,8 @@ import {
   Legend,
   ChartOptions
 } from 'chart.js'
-import { BarChart3, Target, Sparkles } from 'lucide-react'
+import { BarChart3, Target, Sparkles, BookOpen, ArrowRight, TrendingUp } from 'lucide-react'
+import Link from 'next/link'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -20,12 +21,66 @@ interface DonutChartProps {
   totalCourses: number
 }
 
+// Componente para estado sem cursos
+const NoCourseState = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl p-6 border border-emerald-500/30 h-full flex flex-col justify-center items-center text-center"
+    >
+      {/* Ícone principal */}
+      <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-full flex items-center justify-center mb-4">
+        <TrendingUp className="w-8 h-8 text-emerald-400" />
+      </div>
+
+      {/* Título e descrição */}
+      <h3 className="text-lg font-semibold text-white mb-2">
+        Comece a Aprender
+      </h3>
+      <p className="text-gray-400 text-sm mb-6 max-w-xs">
+        Escolha um curso e comece a construir seu progresso acadêmico
+      </p>
+
+      {/* Call to action */}
+      <Link href="/cursos">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-2.5 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 flex items-center gap-2 text-sm"
+        >
+          <BookOpen className="w-4 h-4" />
+          Ver Cursos
+          <ArrowRight className="w-3 h-3" />
+        </motion.button>
+      </Link>
+
+      {/* Motivação */}
+      <div className="mt-4 pt-4 border-t border-emerald-500/20 w-full">
+        <div className="flex items-center justify-center gap-2 text-xs text-emerald-400">
+          <Sparkles className="w-3 h-3" />
+          <span>Seus primeiros cursos aparecerão aqui</span>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function DonutChart({
   completedCourses,
   inProgressCourses,
   totalCourses
 }: DonutChartProps) {
   const notStartedCourses = totalCourses - completedCourses - inProgressCourses
+
+  // Verificar se o usuário tem algum curso
+  const hasAnyCourse = completedCourses > 0 || inProgressCourses > 0
+
+  // Se não tem nenhum curso, mostrar estado especial
+  if (!hasAnyCourse) {
+    return <NoCourseState />
+  }
 
   // Estado para controlar visibilidade dos segmentos
   const [segmentVisibility, setSegmentVisibility] = useState({

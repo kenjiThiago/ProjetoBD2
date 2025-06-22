@@ -33,10 +33,10 @@ export default function PlanosContent() {
   const handlePlanoClick = (planoId: string) => {
     if (planoId === 'free') {
       // Redirecionar para página de cadastro com plano gratuito
-      router.push('/auth?plan=free')
+      router.push('/auth?plan=Grátis')
     } else {
       // Redirecionar para página de cadastro com plano pro
-      router.push('/auth?plan=pro')
+      router.push('/auth?plan=Pago')
     }
   }
 

@@ -71,3 +71,29 @@ export interface User {
   appliedJobs: number
   totalCourses: number
 }
+export interface Aluno {
+  cpf: string
+  email: string
+  nome: string
+  plano: string
+}
+
+export interface LoginResponse {
+  aluno: Aluno
+  mensagem: string
+  token?: string // caso você adicione token depois
+}
+
+export interface RegisterResponse {
+  aluno: Aluno
+  mensagem: string
+  token?: string
+}
+
+export interface AuthContextType {
+  aluno: Aluno | null
+  loading: boolean
+  isAuthenticated: boolean
+  logout: () => void
+  updateAluno: (alunoData: Partial<Aluno>) => void
+}
