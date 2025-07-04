@@ -1,55 +1,57 @@
-# Como rodar o Frontend
+# Projeto BD2
 
-## Ir para o diretório
+## Como rodar o Frontend
+
+### Ir para o diretório
 ```$
 cd frontend
 ```
 
-## Instalar as dependências
+### Instalar as dependências
 ```$
 npm install
 ```
 
-## Buildar os arquivos
+### Buildar os arquivos
 ```$
 npm run build
 ```
 
-## Iniciar o servidor frontend
+### Iniciar o servidor frontend
 ```$
 npm run start
 ```
 
-# Como rodar o Backend
+## Como rodar o Backend
 
-## Ir para o diretório
+### Ir para o diretório
 ```$
 cd backend
 ```
 
-## Criar ambiente virtual do pyhon
+### Criar ambiente virtual do pyhon
 ```$
 python -m venv .venv
 ```
 
-## Iniciar o ambiente virtual do python
+### Iniciar o ambiente virtual do python
 
-### Linux/Mac
+#### Linux/Mac
 ```$
 source .venv/bin/activate
 ```
 
-### Windows
+#### Windows
 ```$
 .\.venv\Scripts\Activate
 ```
 
-## Instalar as dependências
+### Instalar as dependências
 ```$
 pip install -r requirements.txt
 ```
 
-## Iniciar o servidor backend
+### Iniciar o servidor backend
 ```$
 python main.py
 ```
