@@ -21,7 +21,7 @@ export interface DashboardCourse {
   categoria: string
   habilidades: string[]
   total_aulas: number
-  nome_professor: string
+  professor: string
 }
 
 export interface InProgressCourse {

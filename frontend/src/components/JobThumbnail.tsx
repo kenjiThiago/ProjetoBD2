@@ -16,6 +16,17 @@ export default function JobThumbnail({
     grid: "h-32 overflow-hidden mb-4"
   }
 
+  const generateAvatarInitials = (name: string): string => {
+    if (!name) return 'U'
+
+    const words = name.trim().split(' ')
+    if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase()
+    }
+
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+  }
+
   const cardType = typeClass[type]
 
   // Função para obter gradiente baseado no ID da vaga
@@ -49,7 +60,7 @@ export default function JobThumbnail({
     <div className={`bg-gradient-to-br ${getJobGradient(job.id)} rounded-lg relative flex items-center justify-center ${cardType} ${className}`}>
       {/* Ícone baseado no título/tecnologias */}
       <div className="text-white text-2xl font-bold opacity-90 group-hover:opacity-100 transition-opacity">
-        {"A"}
+        {generateAvatarInitials(job.vaga_nome)}
       </div>
 
       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors rounded-lg" />

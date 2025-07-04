@@ -13,6 +13,17 @@ import { useDashboardInfo } from '@/hooks/useDashboardInfo'
 import { User } from '@/data/mockData'
 
 export default function DashboardPage({ cpf }) {
+  const generateAvatarInitials = (name: string): string => {
+    if (!name) return 'U'
+
+    const words = name.trim().split(' ')
+    if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase()
+    }
+
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+  }
+
   const {
     courses,
     error,
@@ -116,7 +127,7 @@ export default function DashboardPage({ cpf }) {
 
   const user: User  = {
     name: name,
-    avatar: "A",
+    avatar: generateAvatarInitials(name),
     completedCourses: totalCourses - inProgressCoursesCount,
     inProgressCourses: inProgressCoursesCount,
     certificates: certificateCount,

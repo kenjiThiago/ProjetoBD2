@@ -16,6 +16,17 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({ course, index }: CourseCardProps) {
+  const generateAvatarInitials = (name: string): string => {
+    if (!name) return 'U'
+
+    const words = name.trim().split(' ')
+    if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase()
+    }
+
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+  }
+
   const getLevelColor = (level: string) => {
     switch (level) {
       case 'Iniciante': return 'bg-green-500/20 text-green-400 border-green-500/30'
@@ -63,9 +74,9 @@ export default function CourseCard({ course, index }: CourseCardProps) {
 
         <div className="flex items-center text-gray-400 text-sm">
           <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full mr-2 flex items-center justify-center text-xs text-white font-bold">
-            {"A"}
+            {generateAvatarInitials(course.professor)}
           </div>
-          <span>Por {course.nome_professor}</span>
+          <span>{course.professor}</span>
         </div>
 
         <div className="flex items-center text-sm text-gray-400">
