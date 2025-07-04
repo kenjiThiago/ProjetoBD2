@@ -154,7 +154,7 @@ export default function DashboardHero({
                 <StatCard
                   icon={Clock}
                   label="Tempo de Estudo"
-                  value={user.studyTime}
+                  value={`${Math.floor(user.studyTime / 60)}h`}
                   color="text-blue-400"
                   bgGradient="from-blue-500/10 to-cyan-500/10"
                   borderColor="border-blue-500/30"
