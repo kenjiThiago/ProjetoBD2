@@ -77,11 +77,6 @@ export default function DonutChart({
   // Verificar se o usuário tem algum curso
   const hasAnyCourse = completedCourses > 0 || inProgressCourses > 0
 
-  // Se não tem nenhum curso, mostrar estado especial
-  if (!hasAnyCourse) {
-    return <NoCourseState />
-  }
-
   // Estado para controlar visibilidade dos segmentos
   const [segmentVisibility, setSegmentVisibility] = useState({
     completed: true,
@@ -98,6 +93,11 @@ export default function DonutChart({
       setScope("Usuário")
     }
   }, [segmentVisibility.notStarted])
+
+  // Se não tem nenhum curso, mostrar estado especial
+  if (!hasAnyCourse) {
+    return <NoCourseState />
+  }
 
   // Função para alternar visibilidade de um segmento
   const toggleSegment = (segment: 'completed' | 'inProgress' | 'notStarted') => {
