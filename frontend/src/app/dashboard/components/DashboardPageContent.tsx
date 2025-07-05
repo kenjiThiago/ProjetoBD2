@@ -27,6 +27,7 @@ export default function DashboardPage({ cpf }) {
   const {
     courses,
     error,
+    totalSearchCourses,
     totalPages,
     currentPage,
     searchTerm,
@@ -174,7 +175,7 @@ export default function DashboardPage({ cpf }) {
                 selectedStatus={selectedStatus}
                 selectedLevel={selectedLevel}
                 selectedCategory={selectedCategory}
-                totalItems={totalCourses}
+                totalItems={totalSearchCourses}
               />
             )}
           </div>
