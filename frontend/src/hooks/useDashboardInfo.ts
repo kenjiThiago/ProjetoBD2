@@ -113,7 +113,7 @@ export function useDashboardInfo(coursesPerPage: number = 6, cpf: string) {
       clearTimeout(debounceTimeoutRef.current)
     }
 
-    const delay = isInitialLoad.current ? 0 : 500
+    const delay = isInitialLoad.current ? 0 : 100
 
     debounceTimeoutRef.current = setTimeout(() => {
       const abortController = new AbortController()

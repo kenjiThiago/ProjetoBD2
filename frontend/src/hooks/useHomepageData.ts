@@ -46,7 +46,7 @@ export function useHomepageData() {
       clearTimeout(debounceTimeoutRef.current)
     }
 
-    const delay = isInitialLoad.current ? 0 : 500
+    const delay = isInitialLoad.current ? 0 : 100
 
     debounceTimeoutRef.current = setTimeout(() => {
       const abortController = new AbortController()
