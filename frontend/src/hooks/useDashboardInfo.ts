@@ -202,6 +202,7 @@ export function useDashboardInfo(coursesPerPage: number = 6, cpf: string) {
 
   return {
     courses: paginatedCourses,
+    totalSearchCourses: dashboardCourses.length,
     error,
     totalCoursesGlobal,
     totalPages,
